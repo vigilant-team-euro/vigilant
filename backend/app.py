@@ -4,7 +4,7 @@ from flask import Flask, jsonify
 app = Flask(__name__)
 
 # Define a route that returns a JSON response
-@app.route('/api/data', methods=['GET'])
+@app.route('/data', methods=['GET'])
 def get_data():
     data = {
         'message': 'Hello from the Flask backend!',
