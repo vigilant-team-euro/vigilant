@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
 function App() {
   const [data, setData] = useState([]);
@@ -17,10 +18,13 @@ function App() {
       })
       
   }, []);
+
   return (
-    <div>
+    <Router>
+      <div>
       
-    </div>
+      </div>
+    </Router>
     
   )
 }
