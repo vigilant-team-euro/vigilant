@@ -5,6 +5,7 @@ import Login from './pages/Login.js';
 import ClientPage from './pages/ClientPage.js';
 import NotFoundPage from './pages/NotFound.js';
 import SignIn from './pages/SignIn.js';
+import Navbar from './components/Navbar.js';
 
 function App() {
   const [data, setData] = useState([]);
@@ -13,6 +14,8 @@ function App() {
 
   return (
     <Router>
+      <Navbar/>
+
       <Routes>
         <Route index element={<Home/>}></Route>
         <Route path='/home' element={<Home/>}></Route>
