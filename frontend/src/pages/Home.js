@@ -10,10 +10,7 @@ export default function Home(){
         <div>
 
             <div>
-                <img
-              src={market}
-              
-            />
+             
             </div>
 
             <div>
