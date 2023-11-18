@@ -4,7 +4,7 @@ import Home from './pages/Home.js';
 import Login from './pages/Login.js';
 import ClientPage from './pages/ClientPage.js';
 import NotFoundPage from './pages/NotFound.js';
-import SignIn from './pages/SignIn.js';
+import SignUp from './pages/SignUp.js';
 import Navbar from './components/Navbar.js';
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
         <Route path='/home' element={<Home/>}></Route>
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/clientPage' element={<ClientPage/>}></Route>
-        <Route path='/signin' element={<SignIn/>}></Route>
+        <Route path='/signup' element={<SignUp/>}></Route>
 
         <Route path='*' element={<NotFoundPage/>}></Route>
 

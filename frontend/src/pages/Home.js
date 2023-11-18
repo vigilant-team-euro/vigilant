@@ -1,32 +1,26 @@
-import Documents from '../components/Documents.js';
 import Header from '../components/Header.js';
+import { useState } from "react";
+import { auth, googleAuth } from "../config/firebase";
+import {  signOut } from "firebase/auth"
+import { Link } from 'react-router-dom';
+import Documents from '../components/Documents.js'
 import TeamMembers from '../components/TeamMembers.js';
-import logo from '../images/logo.png';
-import market from '../images/market.png';
 
-
-export default function Home(){
-    return(
+export default function Home() {
+    return (
         <div>
-
-            <div>
-             
-            </div>
-
             <div>
                 Documents
                 <Documents/>
             </div>
 
             <div>
-            Team Members
-
+                Team Members
                 <TeamMembers/>
             </div>
 
-            <div>
-                Footer
-            </div>
+
+            
         </div>
-    )
-}
+    );
+};
