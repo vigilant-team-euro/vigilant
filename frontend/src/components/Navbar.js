@@ -3,12 +3,12 @@ import './navbar.css'
 
 const Navbar = () => {
   return (
-    <nav className="navbar">
-      <div className="container">
+    <nav className="navbar ">
+      <div className="container-fluid px-5">
         <div className="logo">
           VIGILANT
         </div>
-        <div className="nav-elements">
+        <div className="nav-elements pt-2">
           <ul>
             <li>
               <NavLink to="/">Home</NavLink>

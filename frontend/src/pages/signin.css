@@ -1,20 +1,22 @@
 .App {
-    height: 93vh;
+    height: 100vh;
     display: flex;
     color: white;
+    
   }
 
   
   .appAside {
-    width: 70%;
-
-    background-color: #6b5b95;
+    width: 60%;
+    background: linear-gradient(to right, rgba(107, 91, 149, 0), #6b5b95), url("../images/shopView.jpeg");
+    background-size: cover;
   }
   
   .appForm {
-    width: 50%;
+    width: 40%;
     background-color: #12130f;
     padding: 25px 40px;
+    
     overflow: auto;
   }
   

@@ -14,7 +14,7 @@ function TeamMembers() {
         referrerpolicy="no-referrer"
       />
 
-      <section class="team-section py-5">
+      <section class="team-section py-1">
         <div class="container">
           <div class="row justify-content-center">
             <TeamMember

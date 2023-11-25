@@ -1,17 +1,18 @@
-import React from 'react'
-import "./card.css";
+import React from 'react';
 
+function Card({ text }) {
+  const cardStyle = {
+    backgroundColor: 'white',
+    padding: '10px', // Add padding for better visual appearance
+    border: '1px solid #ccc', // Add border for better visibility
+    display: 'inline-block', // Make the card inline
+  };
 
-function Card() {
-    return (
-    <div className="component">
-      <p className="text-wrapper">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat.
-      </p>
-      <img className="image" alt="Image" src="market.png" />
+  return (
+    <div style={cardStyle}>
+      {text}
     </div>
   );
-};
-export default Card
+}
+
+export default Card;

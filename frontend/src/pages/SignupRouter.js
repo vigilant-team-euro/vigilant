@@ -9,8 +9,6 @@ function SignUpRouter() {
     <div className="App">
       <div className="appAside" />
       <div className="appForm">
-        
-
         <div className="formTitle">
           <NavLink
             to="/login"
@@ -30,7 +28,8 @@ function SignUpRouter() {
           </NavLink>
         </div>
 
-        <SignUp/>
+        <SignUp />
+        
       </div>
     </div>
   );

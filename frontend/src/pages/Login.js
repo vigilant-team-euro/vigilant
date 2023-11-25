@@ -85,8 +85,8 @@ export default function Login() {
               </Link>
             </div>
 
-            <div className="socialMediaButtons">
-              <div className="facebookButton">
+            <div className="socialMediaButtons pt-5">
+              <div className="facebookButton pb-2">
                 <GoogleLoginButton onClick={SignInGoogle} />
               </div>
 
