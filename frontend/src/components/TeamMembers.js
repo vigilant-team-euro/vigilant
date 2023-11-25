@@ -2,7 +2,7 @@ import React from "react";
 import "./TeamMembers.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import TeamMember from "./TeamMember";
-import team from '../images/team.jpg';
+import team from "../images/team.jpg";
 function TeamMembers() {
   return (
     <div>
@@ -16,9 +16,9 @@ function TeamMembers() {
 
       <section class="team-section py-1">
         <div class="container-fluid">
-          <div class="row justify-content-end px-2">
-         
-          <TeamMember
+          <div class="row justify-content-center p-4">
+          
+            <TeamMember
               name="Onur Asım İlhan"
               image="https://omerfaikanli.files.wordpress.com/2017/12/celal-sengor-2466-400x400.png"
               role="Kedicik"
@@ -42,8 +42,6 @@ function TeamMembers() {
               role="Kedicik"
               description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
             />
-            
-            
           </div>
         </div>
       </section>

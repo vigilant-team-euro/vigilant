@@ -27,6 +27,7 @@ function App() {
         <Route path='*' element={<NotFoundPage/>}></Route>
         
       </Routes>
+      
     </Router>
     
   )
