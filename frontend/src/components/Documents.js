@@ -1,20 +1,37 @@
+// Documents.js
 import React from "react";
-import Document from "./Document.js";
-import DocsImage from "../images/docsImage.jpeg";
+import OrderCard from "./Document";
+import "./documents.css";
 
 function Documents() {
   return (
-    <div>
-      <section class="team-section py-2">
-        <div class="container">
-          <div class="row justify-content-center">
-            <Document title="Project Specifaction Report" imageUrl={DocsImage} deadline="31.62.2069" />
-            <Document title="Project Specifaction Report" imageUrl={DocsImage} deadline="31.62.2069" />
-            <Document title="Project Specifaction Report" imageUrl={DocsImage} deadline="31.62.2069" />
-            <Document title="Project Specifaction Report" imageUrl={DocsImage} deadline="31.62.2069" />
-          </div>
-        </div>
-      </section>
+    <div className="container-fluid">
+      <div className="row justify-content-around p-1">
+        <OrderCard
+          bgClass="bg-c-blue"
+          title="Project Specification Report"
+          deadline={"21.09.2001"}
+        />
+        <OrderCard
+          bgClass="bg-c-green"
+          title="Analysis and Requirements Report"
+          deadline={"21.09.2001"}
+        />
+
+        <OrderCard
+          bgClass="bg-c-pink"
+          title="Detailed Design Report"
+          deadline={"21.09.2001"}
+        />
+
+        <OrderCard
+          bgClass="bg-c-purple"
+          title="Final Report"
+          deadline={"21.09.2001"}
+        />
+
+        
+      </div>
     </div>
   );
 }

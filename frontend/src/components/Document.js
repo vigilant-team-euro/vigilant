@@ -1,21 +1,19 @@
+// OrderCard.js
 import React from "react";
+import imageSrc from '../images/docs.png';
 
-function Document({ title, imageUrl, deadline }) {
+function Document({ bgClass, title, deadline }) {
   return (
-    <div class="col-8 col-md-4 col-lg-3">
-      <div class="card border-0 shadow-lg my-5 position-relative">
-        <div class="card-body ">
-          <div class="card-text pt-1">
-            <h5 class="member-name mb-0 text-center text-primary font-weight-bold">
-              {title}
-            </h5>
-            <div class="member-profile w-100 text-center">
-              <img class="mx-auto d-inline-block" src={imageUrl} alt="" />
-            </div>
-          </div>
-        </div>
-        <div class="card-footer theme-bg-primary border-0 text-center">
-          Deadline: {deadline}
+    <div className={`col-md-4 col-xl-3 h-100`}>
+      <div className={`card ${bgClass} order-card`}>
+        <div className="card-block">
+          <h6 className="text-center m-b-20">{title}</h6>
+          <h2 className="text-center">
+            <img className="card-img-top mx-auto w-50 h-50" src={imageSrc} alt="Document" />
+          </h2>
+          <p className="m-b-0 text-center pt-2">
+            Deadline: {deadline}
+          </p>
         </div>
       </div>
     </div>

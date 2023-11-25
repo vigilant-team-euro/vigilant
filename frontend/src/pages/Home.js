@@ -1,5 +1,5 @@
 import Header from "../components/Header.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { auth, googleAuth } from "../config/firebase";
 import { signOut } from "firebase/auth";
 import { Link } from "react-router-dom";
@@ -9,22 +9,50 @@ import "./home.css";
 import Card from "../components/Card.js";
 import Features from "../components/Features.js";
 import image from "../images/mainPage.jpeg";
-
 export default function Home() {
-  return (
-    <div class="back">
-      <img src={image} className="img-fluid " alt="Your Image Alt Text" />
-
-      <div>
-        <Features />
+    const [imageOpacity, setImageOpacity] = useState(1);
+    const [featuresOpacity, setFeaturesOpacity] = useState(1);
+  
+    useEffect(() => {
+      const handleScroll = () => {
+        const scroll = window.scrollY;
+  
+        // Adjust these values based on your preference
+        const newImageOpacity = 1 - scroll / 700;
+        const newFeaturesOpacity = 1 - scroll / 4000;
+  
+        setImageOpacity(newImageOpacity > 0 ? newImageOpacity : 0);
+        setFeaturesOpacity(newFeaturesOpacity > 0 ? newFeaturesOpacity : 0);
+      };
+  
+      window.addEventListener("scroll", handleScroll);
+  
+      // Cleanup the event listener when the component unmounts
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }, []);
+  
+    return (
+      <div className="back">
+        <img
+          src={image}
+          className="img-fluid"
+          alt="Your Image Alt Text"
+          style={{ opacity: imageOpacity }}
+        />
+  
+        <div style={{ opacity: featuresOpacity }}>
+          <Features />
+        </div>
+        <div class="pt-2">
+          <Documents />
+        </div>
+  
+        <div>
+          <TeamMembers />
+        </div>
+        
       </div>
-      <div>
-        <Documents />
-      </div>
-
-      <div>
-        <TeamMembers />
-      </div>
-    </div>
-  );
-}
+    );
+  }

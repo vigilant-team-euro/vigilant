@@ -2,7 +2,7 @@ import React from "react";
 import "./TeamMembers.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import TeamMember from "./TeamMember";
-
+import team from '../images/team.jpg';
 function TeamMembers() {
   return (
     <div>
@@ -15,8 +15,21 @@ function TeamMembers() {
       />
 
       <section class="team-section py-1">
-        <div class="container">
-          <div class="row justify-content-center">
+        <div class="container-fluid">
+          <div class="row justify-content-end px-2">
+         
+          <TeamMember
+              name="Onur Asım İlhan"
+              image="https://omerfaikanli.files.wordpress.com/2017/12/celal-sengor-2466-400x400.png"
+              role="Kedicik"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            />
+            <TeamMember
+              name="Efe Erkan"
+              image="https://omerfaikanli.files.wordpress.com/2017/12/celal-sengor-2466-400x400.png"
+              role="Kedicik"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            />
             <TeamMember
               name="Recep Uysal"
               image="https://omerfaikanli.files.wordpress.com/2017/12/celal-sengor-2466-400x400.png"
@@ -29,18 +42,8 @@ function TeamMembers() {
               role="Kedicik"
               description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
             />
-            <TeamMember
-              name="Efe Erkan"
-              image="https://omerfaikanli.files.wordpress.com/2017/12/celal-sengor-2466-400x400.png"
-              role="Kedicik"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            />
-            <TeamMember
-              name="Onur Asım İlhan"
-              image="https://omerfaikanli.files.wordpress.com/2017/12/celal-sengor-2466-400x400.png"
-              role="Kedicik"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            />
+            
+            
           </div>
         </div>
       </section>

@@ -1,16 +1,15 @@
-import React from 'react';
+// Card.js
+import React from "react";
 
-function Card({ text }) {
-  const cardStyle = {
-    backgroundColor: 'white',
-    padding: '10px', // Add padding for better visual appearance
-    border: '1px solid #ccc', // Add border for better visibility
-    display: 'inline-block', // Make the card inline
-  };
-
+function Card({ title, text, imageSrc }) {
   return (
-    <div style={cardStyle}>
-      {text}
+    <div className="card m-3 p-0" style={{ borderRadius: "10px" }}>
+      <img className="card-img-top p-1" style={{ borderRadius: "10px", height: "300px", objectFit: "cover" }} src={imageSrc} alt="Card image cap" />
+      <div className="card-body">
+        <h5 className="card-title text-center">{title}</h5>
+        <p className="card-text text-center">{text}</p>
+        
+      </div>
     </div>
   );
 }
