@@ -4,6 +4,12 @@ import { googleAuth, auth } from "../config/firebase";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { Link } from 'react-router-dom';
 import { func } from 'prop-types';
+import {
+    FacebookLoginButton,
+    GoogleLoginButton,
+    InstagramLoginButton,
+  } from "react-social-login-buttons";
+  import "./signin.css";
 
 export default function SignUp() {
     const [email, setEmail] = useState("");
@@ -29,26 +35,70 @@ export default function SignUp() {
 
 
     return (
-        <div>
-            
-            <div> 
-                <input placeholder="email" 
-                onChange={(e) => setEmail(e.target.value)}
-                />
+        <div className="formCenter">
+  <form className="formFields">
+    <div className="formField">
+      <label className="formFieldLabel" htmlFor="email">
+        E-Mail Address
+      </label>
+      <input
+        type="email"
+        id="email"
+        className="formFieldInput"
+        placeholder="Enter your email"
+        name="email"
+        onChange={(e) => setEmail(e.target.value)}
+      />
+    </div>
 
-                <input placeholder="password"
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-                />
+    <div className="formField">
+      <label className="formFieldLabel" htmlFor="password">
+        Password
+      </label>
+      <input
+        type="password"
+        id="password"
+        className="formFieldInput"
+        placeholder="Enter your password"
+        name="password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+    </div>
 
-                < button>  <Link onClick={Register} to="/clientPage"> Register</Link> </button>
-            </div>
+    <div className="formField">
+      <label className="formFieldCheckboxLabel">
+        <input
+          className="formFieldCheckbox"
+          type="checkbox"
+          name="hasAgreed"
+          
+         
+        />{" "}
+        I agree all statements in{" "}
+        <a href="null" className="formFieldTermsLink">
+          terms of service
+        </a>
+      </label>
+    </div>
 
-            <div> 
-                <button> <Link onClick={RegisterWithGoogle} to="/clientPage"> Register with Google</Link></button>
-            </div>
-        
-            
-        </div>
+    <div className="formField">
+      <button 
+      onClick={Register}
+      to="/clientPage"
+      className="formFieldButton">Sign Up</button>{" "}
+      <Link to="/login" className="formFieldLink">
+        I'm already member
+      </Link>
+    </div>
+
+    <div className="socialMediaButtons">
+      <div className="facebookButton">
+        <GoogleLoginButton onClick={RegisterWithGoogle} />
+      </div>
+
+    </div>
+  </form>
+</div>
+
     );
 };

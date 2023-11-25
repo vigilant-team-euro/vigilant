@@ -19,14 +19,19 @@ body {
 
 .navbar {
   height: 60px;
-  background-color: #fef7e5;
+  background-color: #1d1d1d;
   position: relative;
 }
 
 .logo {
+  color:white;
+  font-weight: bold;
+  font-size: 20px;
+
 }
 
 .nav-elements {
+  
 }
 
 .nav-elements ul {
@@ -40,14 +45,15 @@ body {
 }
 
 .nav-elements ul a {
+  color:white;
+
   font-size: 16px;
   font-weight: 400;
-  color: #2f234f;
   text-decoration: none;
 }
 
 .nav-elements ul a.active {
-  color: #574c4c;
+  color:white;
   font-weight: 500;
   position: relative;
 }
@@ -59,5 +65,5 @@ body {
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #574c4c;
+  background-color: #dad3d3;
 }

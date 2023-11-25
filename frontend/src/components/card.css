@@ -1,0 +1,29 @@
+.component {
+    background-color: #ffffff;
+    height: 263px;
+    position: relative;
+    width: 683px;
+  }
+  
+  .component .text-wrapper {
+    color: #000000;
+    font-family: "Inria Sans-LightItalic", Helvetica;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 300;
+    left: 220px;
+    letter-spacing: 0;
+    line-height: 30px;
+    position: absolute;
+    top: 38px;
+    width: 425px;
+  }
+  
+  .component .image {
+    height: 188px;
+    left: 38px;
+    object-fit: cover;
+    position: absolute;
+    top: 39px;
+    width: 150px;
+  }
