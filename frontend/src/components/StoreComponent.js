@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const StoreComponent = ({ title, type, data, options, height }) => {
   const cardStyle = {
@@ -22,6 +23,8 @@ const StoreComponent = ({ title, type, data, options, height }) => {
   return (
     <div style={cardStyle}>
       <div style={titleStyle}>{title || "Default Title"}</div>
+
+      
     </div>
   );
 };

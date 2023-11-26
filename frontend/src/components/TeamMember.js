@@ -8,7 +8,7 @@ function TeamMember(props) {
   return (
     <div className="col-6 col-md-3 col-lg-2">
       <div className="card border-0 shadow-lg pt-5 my-5 position-relative ">
-        <div className="card-body p-4 ">
+        <div className="p-4 ">
           <div className="member-profile position-absolute w-100 text-center">
             <img
               className="rounded-circle mx-auto d-inline-block shadow-sm"
