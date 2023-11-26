@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../AuthContext.js";
 import { googleAuth, auth } from "../config/firebase";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FacebookLoginButton, GoogleLoginButton } from "react-social-login-buttons";
 import "./signin.css";
 
@@ -10,6 +10,7 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { isLoggedIn, login, logout} = useContext(AuthContext)
+  const navigate = useNavigate()
 
   console.log(auth?.currentUser?.email);
 
@@ -17,8 +18,10 @@ export default function SignUp() {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       login()
+      navigate("/clientPage")
     } catch (err) {
-      console.log(err);
+      alert(err);
+      navigate("/signup")
     }
 
   };
@@ -27,8 +30,10 @@ export default function SignUp() {
     try {
       await signInWithPopup(auth, googleAuth);
       login()
+      navigate("/clientPage")
     } catch (err) {
       console.log(err);
+      navigate("/login")
     }
   };
 
@@ -79,7 +84,6 @@ export default function SignUp() {
 
         <div className="formField">
           <NavLink
-            to="/clientPage"
             onClick={Register}
             className="formFieldButton"
           >

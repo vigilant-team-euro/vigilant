@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {BrowserRouter as Router, Route, Routes, Switch} from 'react-router-dom'
+import {BrowserRouter, Route, Routes, Switch} from 'react-router-dom'
 import Home from './pages/Home.js';
 import LoginRouter from './pages/LoginRouter.js';
 import ClientPage from './pages/ClientPage.js';
@@ -7,23 +7,12 @@ import NotFoundPage from './pages/NotFound.js';
 import SignUpRouter from './pages/SignupRouter.js';
 import Navbar from './components/Navbar.js';
 import { auth, googleAuth } from "./config/firebase";
+import { AuthContext } from './AuthContext.js';
+import { useContext } from 'react';
 
 function App() {
   const [user, setUser] = useState(null);
-  useEffect(() => {
-    
-      const unsubscribe = auth.onAuthStateChanged(async (userAuth) => {
-        if (userAuth) {
-          // User logged in
-          setUser(userAuth);
-        } else {
-          // User logged out
-          setUser(null);
-        }
-      });
-
-      return unsubscribe;
-    }, []);
+  const { isLoggedIn, login, logout} = useContext(AuthContext)
 
 
   const wrapperStyle = {
@@ -32,7 +21,7 @@ function App() {
   };
 
   return (
-    <Router>
+    <BrowserRouter>
       <div style={wrapperStyle}>
         <Navbar />
 
@@ -41,12 +30,12 @@ function App() {
             <Route path="home" element={<Home />} />
             <Route path="login" element={<LoginRouter />} />
             <Route path="signup" element={<SignUpRouter />} />
-            <Route path="clientPage" element={<ClientPage />} />
+            <Route path="clientPage" element={<ClientPage />}/>
             <Route path="*" element={<NotFoundPage />} />
           <Route />
         </Routes>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 
