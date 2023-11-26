@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 import ChartCard from "../components/ChartCard";
 import "./home.css";
 import StoreComponent from "../components/StoreComponent.js";
+import StoresList from "../components/StoresList.js";
+
+
 export default function ClientPage() {
   const chartData = {
     labels: ["Label 1", "Label 2", "Label 3", "Label 4", "Label 5"],
@@ -56,10 +59,19 @@ export default function ClientPage() {
 
       {/* 2nd Column - Single Rectangle */}
       <div className="col-lg-6">
-     
-        <StoreComponent
-          title="Customer Demographics"
+        <StoresList
+          title="My Stores"
           type="line"
+          height="17.7vh"
+          data={chartData}
+          options={chartOptions}
+        />
+
+        <StoreComponent
+          title="Details and Settings"
+          type="line"
+          height="70vh"
+
           data={chartData}
           options={chartOptions}
         />

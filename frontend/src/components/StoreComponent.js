@@ -1,6 +1,6 @@
 import React from "react";
 
-const StoreComponent = ({ title, type, data, options }) => {
+const StoreComponent = ({ title, type, data, options, height }) => {
   const cardStyle = {
     border: "1px solid #ddd",
     borderRadius: "8px",
@@ -8,7 +8,7 @@ const StoreComponent = ({ title, type, data, options }) => {
     margin: "8px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     backgroundColor: "#262134", // Set the background color
-    height: "88.8vh",
+    height: height,
   };
 
   const titleStyle = {
@@ -19,7 +19,11 @@ const StoreComponent = ({ title, type, data, options }) => {
     textAlign: "center", // Center the title
   };
 
-  return <div style={cardStyle}></div>;
+  return (
+    <div style={cardStyle}>
+      <div style={titleStyle}>{title || "Default Title"}</div>
+    </div>
+  );
 };
 
 export default StoreComponent;
