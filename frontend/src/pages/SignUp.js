@@ -1,33 +1,32 @@
-import Header from "../components/Header.js";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../AuthContext.js";
 import { googleAuth, auth } from "../config/firebase";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { Link } from "react-router-dom";
-import { func } from "prop-types";
-import {
-  FacebookLoginButton,
-  GoogleLoginButton,
-  InstagramLoginButton,
-} from "react-social-login-buttons";
+import { Link, NavLink } from "react-router-dom";
+import { FacebookLoginButton, GoogleLoginButton } from "react-social-login-buttons";
 import "./signin.css";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { isLoggedIn, login, logout} = useContext(AuthContext)
 
   console.log(auth?.currentUser?.email);
 
   const Register = async () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      login()
     } catch (err) {
       console.log(err);
     }
+
   };
 
   const RegisterWithGoogle = async () => {
     try {
       await signInWithPopup(auth, googleAuth);
+      login()
     } catch (err) {
       console.log(err);
     }
@@ -79,13 +78,13 @@ export default function SignUp() {
         </div>
 
         <div className="formField">
-          <button
-            onClick={Register}
+          <NavLink
             to="/clientPage"
+            onClick={Register}
             className="formFieldButton"
           >
             Sign Up
-          </button>{" "}
+          </NavLink>{" "}
           <Link to="/login" className="formFieldLink">
             I'm already member
           </Link>

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AuthContext } from "../AuthContext";
 import { NavLink } from "react-router-dom";
 import "./navbar.css";
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-
+  const { isLoggedIn, login, logout} = useContext(AuthContext)
   // Function to handle logout
   const handleLogout = () => {
-    // Perform logout actions
-    setIsLoggedIn(false);
+    logout()
+    
   };
 
   return (

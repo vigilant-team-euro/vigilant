@@ -6,9 +6,25 @@ import ClientPage from './pages/ClientPage.js';
 import NotFoundPage from './pages/NotFound.js';
 import SignUpRouter from './pages/SignupRouter.js';
 import Navbar from './components/Navbar.js';
+import { auth, googleAuth } from "./config/firebase";
 
 function App() {
-  const [data, setData] = useState([]);
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    
+      const unsubscribe = auth.onAuthStateChanged(async (userAuth) => {
+        if (userAuth) {
+          // User logged in
+          setUser(userAuth);
+        } else {
+          // User logged out
+          setUser(null);
+        }
+      });
+
+      return unsubscribe;
+    }, []);
+
 
   const wrapperStyle = {
     backgroundColor: '#efebfa', // Set your desired background color
@@ -22,11 +38,12 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/login" element={<LoginRouter />} />
-          <Route path="/signup" element={<SignUpRouter />} />
-          <Route path="/clientPage" element={<ClientPage />} />
-          <Route path="*" element={<NotFoundPage />} />
+            <Route path="home" element={<Home />} />
+            <Route path="login" element={<LoginRouter />} />
+            <Route path="signup" element={<SignUpRouter />} />
+            <Route path="clientPage" element={<ClientPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          <Route />
         </Routes>
       </div>
     </Router>
