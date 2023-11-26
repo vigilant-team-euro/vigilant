@@ -1,35 +1,39 @@
-import Header from "../components/Header.js";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../AuthContext.js";
 import { googleAuth, auth } from "../config/firebase";
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { Link } from "react-router-dom";
-import { func } from "prop-types";
-import {
-  FacebookLoginButton,
-  GoogleLoginButton,
-  InstagramLoginButton,
-} from "react-social-login-buttons";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { FacebookLoginButton, GoogleLoginButton } from "react-social-login-buttons";
 import "./signin.css";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { isLoggedIn, login, logout} = useContext(AuthContext)
+  const navigate = useNavigate()
 
   console.log(auth?.currentUser?.email);
 
   const Register = async () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      login()
+      navigate("/clientPage")
     } catch (err) {
-      console.log(err);
+      alert(err);
+      navigate("/signup")
     }
+
   };
 
   const RegisterWithGoogle = async () => {
     try {
       await signInWithPopup(auth, googleAuth);
+      login()
+      navigate("/clientPage")
     } catch (err) {
       console.log(err);
+      navigate("/login")
     }
   };
 
@@ -79,13 +83,12 @@ export default function SignUp() {
         </div>
 
         <div className="formField">
-          <button
+          <NavLink
             onClick={Register}
-            to="/clientPage"
             className="formFieldButton"
           >
             Sign Up
-          </button>{" "}
+          </NavLink>{" "}
           <Link to="/login" className="formFieldLink">
             I'm already member
           </Link>

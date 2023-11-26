@@ -1,40 +1,41 @@
 import Header from "../components/Header.js";
-
-import { useState } from "react";
+import { AuthContext } from "../AuthContext.js";
+import { useState, useContext } from "react";
 import { auth, googleAuth } from "../config/firebase";
-import {
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-  signInWithRedirect,
-} from "firebase/auth";
-import { NavLink, Link } from "react-router-dom";
+import { FacebookLoginButton, GoogleLoginButton, InstagramLoginButton } from "react-social-login-buttons";
+import { NavLink, Link, redirect, label } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword, signInWithPopup, useSignInWithEmailAndPassword } from "firebase/auth";
 import "./signin.css";
-
-import {
-  FacebookLoginButton,
-  GoogleLoginButton,
-  InstagramLoginButton,
-} from "react-social-login-buttons";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { isLoggedIn, login, logout} = useContext(AuthContext)
+  const navigate = useNavigate()
 
   console.log(auth?.currentUser?.email);
 
   const SignIn = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password).then((user) =>
+      {
+        login()
+        navigate("/clientPage")
+      })
     } catch (err) {
-      console.log(err);
+      navigate("/login")
+      alert(err)
     }
   };
 
   const SignInGoogle = async () => {
     try {
       await signInWithPopup(auth, googleAuth);
+      login()
+      navigate("/clientPage")
     } catch (err) {
+      navigate("/login")
       console.log(err);
     }
   };
@@ -67,19 +68,18 @@ export default function Login() {
                 id="password"
                 className="formFieldInput"
                 placeholder="Enter your password"
-                name="password"
+                
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
             <div className="formField">
-              <button
+              <Link
                 onClick={SignIn}
-                to="/clientPage"
                 className="formFieldButton"
               >
                 Sign In
-              </button>{" "}
+              </Link>
               <Link to="/signup" className="formFieldLink">
                 Create an account
               </Link>
