@@ -23,6 +23,7 @@ const Title = ({ title, boxSize }) => {
     borderRadius: '5px', // Optional: Add rounded corners
     color: 'white', // Optional: Set text color
     fontSize: '16px', // Optional: Set font size
+    fontWeight: 'bold', // Make the title bold
     width: boxSize,
     display: 'flex',
     alignItems: 'center',

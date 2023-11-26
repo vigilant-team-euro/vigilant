@@ -10,27 +10,27 @@ import Navbar from './components/Navbar.js';
 function App() {
   const [data, setData] = useState([]);
 
-  
+  const wrapperStyle = {
+    backgroundColor: '#efebfa', // Set your desired background color
+    minHeight: '100vh', // Ensure the background color covers the entire viewport height
+  };
 
   return (
     <Router>
-      <Navbar/>
+      <div style={wrapperStyle}>
+        <Navbar />
 
-      <Routes>
-        <Route index element={<Home/>}></Route>
-        <Route path='/home' element={<Home/>}></Route>
-        <Route path='/login' element={<LoginRouter/>}></Route>
-        <Route path='/signup' element={<SignUpRouter/>}></Route>
-
-        <Route path='/clientPage' element={<ClientPage/>}></Route>
-
-        <Route path='*' element={<NotFoundPage/>}></Route>
-        
-      </Routes>
-      
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<LoginRouter />} />
+          <Route path="/signup" element={<SignUpRouter />} />
+          <Route path="/clientPage" element={<ClientPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </div>
     </Router>
-    
-  )
+  );
 }
 
 export default App

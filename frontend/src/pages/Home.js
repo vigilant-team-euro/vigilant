@@ -44,17 +44,17 @@ export default function Home() {
       />
 
       <div class="pt-4" style={{ opacity: featuresOpacity }}>
-        <Title title="<Features />" color="blue" boxSize="300px" />
+        <Title title="Features" color="blue" boxSize="300px" />
 
         <Features />
       </div>
       <div class="pt-5">
-        <Title title="<Documents />" color="blue" boxSize="300px" />
+        <Title title="Documents" color="blue" boxSize="300px" />
         <Documents />
       </div>
 
       <div class="pt-5">
-        <Title title="<Team Members />" color="blue" boxSize="300px" />
+        <Title title="Team Members" color="blue" boxSize="300px" />
         <TeamMembers />
       </div>
       
