@@ -32,7 +32,7 @@ const VideoComponent = ({ title, type, height, width }) => {
       formData.append('video', selectedFile);
   
       try {
-        const response = await fetch('http://your-flask-backend/api/upload', {
+        const response = await fetch('http://localhost:3000/api/upload', {
           method: 'POST',
           body: formData,
         });
