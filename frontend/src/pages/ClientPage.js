@@ -1,5 +1,5 @@
 import Header from "../components/Header.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { auth, googleAuth } from "../config/firebase";
 import { signOut } from "firebase/auth";
 import { Link } from "react-router-dom";
@@ -7,9 +7,12 @@ import ChartCard from "../components/ChartCard";
 import "./home.css";
 import StoreComponent from "../components/StoreComponent.js";
 import StoresList from "../components/StoresList.js";
-
+import { db } from "../config/firebase";
+import { collection, onSnapshot } from "firebase/firestore";
 
 export default function ClientPage() {
+  const collectionRef = collection(db, 'branches')
+  const [stores, setStores] = useState([]);
   const chartData = {
     labels: ["Label 1", "Label 2", "Label 3", "Label 4", "Label 5"],
     datasets: [
@@ -30,6 +33,23 @@ export default function ClientPage() {
       },
     },
   };
+
+  useEffect(() => {
+    const getBranchesFromFirebase = [];
+    const branches = onSnapshot(collectionRef, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          getBranchesFromFirebase.push({
+            ...doc.data(), //spread operator
+            key: doc.id, // `id` given to us by Firebase
+          });
+        });
+        setStores(getBranchesFromFirebase);
+      });
+
+    // return cleanup function
+    return () => branches();
+  }); // empty dependencies array => useEffect only called once
+
 
   return (
     <div className="row g-3 mx-2 mt-1">
@@ -63,7 +83,7 @@ export default function ClientPage() {
           title="My Stores"
           type="line"
           height="17.7vh"
-          data={chartData}
+          data={stores}
           options={chartOptions}
         />
 

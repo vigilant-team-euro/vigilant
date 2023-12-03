@@ -7,7 +7,6 @@ const cardStyle = {
   margin: "8px",
   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
   backgroundColor: "#262134",
-  height: height,
 };
 
 const titleStyle = {
@@ -29,7 +28,7 @@ const VideoComponent = ({ title, type, height, width }) => {
   const handleVideoUpload = async () => {
     if (selectedVideo) {
       const formData = new FormData();
-      formData.append('video', selectedFile);
+      formData.append('video', selectedVideo);
   
       try {
         const response = await fetch('http://localhost:3000/api/upload', {
