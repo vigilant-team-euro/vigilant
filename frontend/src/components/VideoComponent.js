@@ -31,7 +31,7 @@ const VideoComponent = ({ title, type, height, width }) => {
       formData.append('video', selectedVideo);
   
       try {
-        const response = await fetch('http://localhost:3000/api/upload', {
+        const response = await fetch('http://localhost:5000/api/video', {
           method: 'POST',
           body: formData,
         });

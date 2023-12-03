@@ -1,4 +1,6 @@
 from flask import Flask, request, jsonify
+from deep_face_algorithm import deep_face
+import os
 
 # Create a Flask application
 app = Flask(__name__)
@@ -16,7 +18,14 @@ def get_data():
 def process_video():
     if 'video' in request.files:
         video_file = request.files['video']
-        # Do something with the video here
+
+        video_path = 'videos/' + video_file.filename
+        video_file.save(video_path)
+
+        deep_face(video_path, 30)
+
+        os.remove(video_path)
+
         return {'message': 'Video uploaded successfully'}, 200
     else:
         return {'error': 'No video file provided'}, 400
