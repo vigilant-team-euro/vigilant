@@ -9,7 +9,7 @@ const Card2 = ({ cardTitle, cardContent, opacity, type, to }) => {
     border: "1px solid #ddd",
     borderRadius: "8px",
     padding: "16px",
-    margin: "20px",
+    margin: "16px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     backgroundColor: "#2d404f",
     opacity: opacity || 1,
@@ -24,7 +24,7 @@ const Card2 = ({ cardTitle, cardContent, opacity, type, to }) => {
   };
 
   const contentStyle = {
-    fontSize: "14px",
+    fontSize: "12px",
     color: "#fff",
   };
 
@@ -63,8 +63,7 @@ const StoreComponent = ({ title, type, height, width }) => {
     margin: "8px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     backgroundColor: "#262134",
-    height: height,
-    width:width,
+    
   };
 
   const titleStyle = {

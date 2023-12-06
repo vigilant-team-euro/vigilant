@@ -1,3 +1,4 @@
+// ClientPage.js
 import Header from "../components/Header.js";
 import { useState } from "react";
 import { auth, googleAuth } from "../config/firebase";
@@ -8,7 +9,6 @@ import "./home.css";
 import StoreComponent from "../components/StoreComponent.js";
 import StoresList from "../components/StoresList.js";
 
-
 export default function ClientPage() {
   const chartData = {
     labels: ["Label 1", "Label 2", "Label 3", "Label 4", "Label 5"],
@@ -16,8 +16,20 @@ export default function ClientPage() {
       {
         label: "Dataset 1",
         data: [10, 20, 30, 15, 25],
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: [
+          'rgba(75, 192, 192, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 205, 86, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(153, 102, 255, 1)',
+        ],
+        borderColor: [
+          'rgba(75, 192, 192, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 205, 86, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(153, 102, 255, 1)',
+        ],
         borderWidth: 1,
       },
     ],
@@ -32,9 +44,9 @@ export default function ClientPage() {
   };
 
   return (
-    <div className="row g-3 mx-2 mt-1">
+    <div className="row g-3 mx-2 mt-1 d-flex align-items-stretch">
       {/* 1st Column */}
-      <div className="col-lg-3">
+      <div className="col-lg-3 d-flex flex-column">
         <ChartCard
           title="Monthly Customers"
           type="bar"
@@ -44,25 +56,17 @@ export default function ClientPage() {
 
         <ChartCard
           title="Customer Satisfaction"
-          type="line"
-          data={chartData}
-          options={chartOptions}
-        />
-
-        <ChartCard
-          title="Customer Demographics"
-          type="line"
+          type="doughnut"
           data={chartData}
           options={chartOptions}
         />
       </div>
 
       {/* 2nd Column - Single Rectangle */}
-      <div className="col-lg-6">
+      <div className="col-lg-6 d-flex flex-column">
         <StoresList
           title="My Stores"
           type="line"
-          height="17.7vh"
           data={chartData}
           options={chartOptions}
         />
@@ -70,30 +74,22 @@ export default function ClientPage() {
         <StoreComponent
           title="Details and Settings"
           type="line"
-          height="70vh"
-
           data={chartData}
           options={chartOptions}
         />
       </div>
 
       {/* 3rd Column - Same as 1st Column */}
-      <div className="col-lg-3">
+      <div className="col-lg-3 d-flex flex-column">
         <ChartCard
           title="Customer Satisfaction"
-          type="line"
+          type="polarArea"
           data={chartData}
           options={chartOptions}
         />
         <ChartCard
           title="Customer Demographics"
           type="line"
-          data={chartData}
-          options={chartOptions}
-        />
-        <ChartCard
-          title="Monthly Customers"
-          type="bar"
           data={chartData}
           options={chartOptions}
         />

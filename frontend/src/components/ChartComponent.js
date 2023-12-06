@@ -42,7 +42,7 @@ const ChartComponent = ({ type, data, options }) => {
             },
           },
           animation: {
-            duration: 1000, // Adjust animation duration as needed
+            duration: 2000, // Adjust animation duration as needed
             easing: 'easeInOutQuart', // Adjust easing function as needed
           },
         },

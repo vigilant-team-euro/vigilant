@@ -20,27 +20,19 @@ function TeamMembers() {
           
             <TeamMember
               name="Onur Asım İlhan"
-              image="https://omerfaikanli.files.wordpress.com/2017/12/celal-sengor-2466-400x400.png"
-              role="Kedicik"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+              image="https://media.licdn.com/dms/image/C5603AQHw_cCLgYggCA/profile-displayphoto-shrink_800_800/0/1659453623119?e=1707350400&v=beta&t=c0ALUq420HDxe2UQaOC0Wm9OWJktEbJjJi73Q8FUIQ0"
             />
             <TeamMember
               name="Efe Erkan"
-              image="https://omerfaikanli.files.wordpress.com/2017/12/celal-sengor-2466-400x400.png"
-              role="Kedicik"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+              image="https://media.licdn.com/dms/image/C4D03AQGcl6Irh9xwTQ/profile-displayphoto-shrink_100_100/0/1651777364038?e=1707350400&v=beta&t=2njRSwGxCC31cK-LtRvBAPYl2R8z9JrrUmhflFU1CL4"
             />
             <TeamMember
               name="Recep Uysal"
-              image="https://omerfaikanli.files.wordpress.com/2017/12/celal-sengor-2466-400x400.png"
-              role="Adnan Oktar"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+              image="https://ideacdn.net/idea/ft/16/myassets/blogs/blog-33.jpeg?revision=1678278416"
             />
             <TeamMember
               name="Uygar Onat"
-              image="https://omerfaikanli.files.wordpress.com/2017/12/celal-sengor-2466-400x400.png"
-              role="Kedicik"
-              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+              image="https://media.licdn.com/dms/image/C4E03AQGu_xlquvcsTw/profile-displayphoto-shrink_400_400/0/1647302699268?e=1707350400&v=beta&t=iBkyPJP1TMF-lCJiO5BQsj12XwRAY_VPFcHfeZRgn1A"
             />
           </div>
         </div>
