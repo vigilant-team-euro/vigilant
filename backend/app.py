@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from deep_face_algorithm import deep_face
+from heatmap import generate_heatmap, send_heatmap
 import os
 
 # Create a Flask application
@@ -22,9 +23,12 @@ def process_video():
         video_path = 'videos/' + video_file.filename
         video_file.save(video_path)
 
-        deep_face(video_path, 30)
+        # deep_face(video_path, 30)
 
-        os.remove(video_path)
+        # os.remove(video_path)
+
+        heatmap = generate_heatmap(video_path, 1)
+        send_heatmap(heatmap)
 
         return {'message': 'Video uploaded successfully'}, 200
     else:

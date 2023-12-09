@@ -1,12 +1,12 @@
 import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
+from firebase_admin import credentials, firestore, storage
 import datetime
 
 # Use a service account.
 cred = credentials.Certificate("config\DbFirebaseConfig.json")
-app = firebase_admin.initialize_app(cred)
+app = firebase_admin.initialize_app(cred, {'storageBucket': 'vigilant-36758.appspot.com'})
 db = firestore.client()
+bucket = storage.bucket()
 
 
 # users_ref = db.collection("branches")

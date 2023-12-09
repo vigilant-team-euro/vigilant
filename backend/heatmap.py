@@ -2,9 +2,11 @@ import supervision as sv
 from ultralytics import YOLO
 import cv2
 import numpy as np
-import cv2
-from firebase import firebase
 import matplotlib.pyplot as plt
+from PIL import Image
+
+import os
+from firebase import bucket
 
 
 def generate_heatmap(video_path:str, interval_seconds:int):
@@ -14,8 +16,8 @@ def generate_heatmap(video_path:str, interval_seconds:int):
 
    heat_map_annotator = sv.HeatMapAnnotator()
 
-   video_info = sv.VideoInfo.from_video_path(video_path='store.mp4')
-   frames_generator = sv.get_video_frames_generator(source_path='store.mp4', stride=interval_seconds * fps)
+   video_info = sv.VideoInfo.from_video_path(video_path=video_path)
+   frames_generator = sv.get_video_frames_generator(source_path=video_path, stride=interval_seconds * fps)
 
    annotated_frame = None
 
@@ -29,12 +31,12 @@ def generate_heatmap(video_path:str, interval_seconds:int):
    return annotated_frame
 
 def send_heatmap(annotated_frame):
-   # Convert the 2D numpy array to an image
-   image = np.uint8(annotated_frame)
-   cv2.imwrite('heatmap.jpg', image)
+   img = Image.fromarray(annotated_frame, 'RGB')
+   img.save('images/heatmap.png')
 
-   # Send the image to Firebase
-   firebase = firebase.FirebaseApplication('https://your-firebase-url.firebaseio.com/', None)
-   result = firebase.put('/images', 'heatmap', 'heatmap.jpg')
+   # Send the image to the database
+   blob = bucket.blob('images/heatmap.png')
+   blob.upload_from_filename('images/heatmap.png')
 
-   return result
+   # Remove the image from the local storage
+   os.remove('images/heatmap.png')
