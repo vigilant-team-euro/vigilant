@@ -1,9 +1,11 @@
 import firebase_admin
 from firebase_admin import credentials, firestore, storage
 import datetime
+import os
+from pathlib import Path
 
 # Use a service account.
-cred = credentials.Certificate('C:/Vigilant/vigilant/backend/config/firebaseConfig.json')
+cred = credentials.Certificate("config\\firebaseConfig.json")
 app = firebase_admin.initialize_app(cred, {'storageBucket': 'vigilant-36758.appspot.com'})
 db = firestore.client()
 bucket = storage.bucket()

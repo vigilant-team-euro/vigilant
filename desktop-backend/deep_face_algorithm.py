@@ -6,7 +6,7 @@ import json
 
 video_path = "videos\store.mp4" # Change this
 output_folder = "output_folder"
-f = open("c:/Vigilant/vigilant/desktop-backend/config/appConfig.json")
+f = open("config\\appConfig.json")
 appConf = json.load(f)
 branch_name = appConf["branch_name"]
 interval_seconds = 10

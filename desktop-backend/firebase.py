@@ -4,7 +4,7 @@ from firebase_admin import firestore
 import datetime
 
 # Use a service account.
-cred = credentials.Certificate('c:/Vigilant/vigilant/desktop-backend/config/firebaseConfig.json')
+cred = credentials.Certificate('config\\firebaseConfig.json')
 app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 
