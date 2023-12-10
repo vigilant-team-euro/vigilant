@@ -1,7 +1,13 @@
 import React from "react";
 import StoreCard from "./StoreCard";
+import { db } from "../config/firebase";
+import { collection, getData, getDocs } from "firebase/firestore";
+import { useState } from "react";
 
 const StoresList = ({ title, type, data, options, height }) => {
+  const collectionRef = collection(db, 'branches')
+  const [stores, setStores] = useState([]);
+  const [loading, setLoading] = useState(false);
   const cardStyle = {
     border: "1px solid #ddd",
     borderRadius: "8px",
@@ -26,17 +32,19 @@ const StoresList = ({ title, type, data, options, height }) => {
     justifyContent: "center", // Center the content horizontally
     alignItems: "center", // Center the content vertically
   };
-
  
   return (
     <div style={cardStyle}>
       <div style={titleStyle}>{title || "My Stores"}</div>
       <div style={scrollableContainerStyle}>
         <div className="d-flex flex-row ">
+          while (fetchDataFromFirestore) {
+            
+          }
           <StoreCard text="General" />
-          <StoreCard text="Store 1" />
-          <StoreCard text="Store 2" />
-          <StoreCard text="Store 3" />
+          <StoreCard text="branch1" />
+          <StoreCard text="store2" />
+          <StoreCard text="branches" />
           <StoreCard text="Store 4" />
 
           {/* Add more StoreCard components as needed */}

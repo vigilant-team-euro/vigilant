@@ -6,10 +6,10 @@ import json
 
 video_path = "videos\store.mp4" # Change this
 output_folder = "output_folder"
-f = open("config\\appConfig.json")
+f = open("c:/Vigilant/vigilant/desktop-backend/config/appConfig.json")
 appConf = json.load(f)
 branch_name = appConf["branch_name"]
-interval_seconds = 5
+interval_seconds = 10
 
 cap = cv2.VideoCapture(video_path)
 fps = int(cap.get(cv2.CAP_PROP_FPS))

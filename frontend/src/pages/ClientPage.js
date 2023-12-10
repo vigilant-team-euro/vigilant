@@ -8,17 +8,78 @@ import "./home.css";
 import StoreComponent from "../components/StoreComponent.js";
 import StoresList from "../components/StoresList.js";
 import { db } from "../config/firebase";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
+import axios from "axios";
 
 export default function ClientPage() {
-  const collectionRef = collection(db, 'branches')
-  const [stores, setStores] = useState([]);
-  const chartData = {
-    labels: ["Label 1", "Label 2", "Label 3", "Label 4", "Label 5"],
+  const collectionRef = collection(db, "store2")
+  
+  const [ages, setAges] = useState([]);
+  const [genders, setGenders] = useState([]);
+  const [emotions, setEmotions] = useState([]);
+
+  useEffect(() => {
+    var myParams = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 'branch_name': 'store2' })
+  };
+    fetch('http://localhost:5000/getEmotions', myParams)
+      .then((response) => {return response.json()})
+      .then((data) => {
+        const items = [data["happy"], data["sad"],data["neutral"],data["surprise"],data["fear"]];
+        setEmotions(items)
+      })
+  },[])
+
+  const chartDataEmotion = {
+    labels: ["happy", "sad", "neutral", "surprise", "fear"],
     datasets: [
       {
-        label: "Dataset 1",
-        data: [10, 20, 30, 15, 25],
+        label: "Customer Satisfaction",
+        data: emotions,
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  useEffect(() => {
+    var myParams = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 'branch_name': 'store2' })
+  };
+    fetch('http://localhost:5000/getGenders', myParams)
+      .then((response) => {return response.json()})
+      .then((data) => {
+        console.log(data)
+        const items = [data["male"], data["female"]];
+        
+        setGenders(items)
+      })
+  },[])
+
+  const chartDataGender = {
+    labels: ["male", "female"],
+    datasets: [
+      {
+        label: "Customer Demographics",
+        data: genders,
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const chartData = {
+    labels: ["feb", "mar","apr","may"],
+    datasets: [
+      {
+        label: "Customer Demographics",
+        data: [150, 562, 423, 235],
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
@@ -34,45 +95,28 @@ export default function ClientPage() {
     },
   };
 
-  useEffect(() => {
-    const getBranchesFromFirebase = [];
-    const branches = onSnapshot(collectionRef, (querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          getBranchesFromFirebase.push({
-            ...doc.data(), //spread operator
-            key: doc.id, // `id` given to us by Firebase
-          });
-        });
-        setStores(getBranchesFromFirebase);
-      });
-
-    // return cleanup function
-    return () => branches();
-  }); // empty dependencies array => useEffect only called once
-
-
   return (
     <div className="row g-3 mx-2 mt-1">
       {/* 1st Column */}
       <div className="col-lg-3">
         <ChartCard
           title="Monthly Customers"
-          type="bar"
+          type="line"
           data={chartData}
           options={chartOptions}
         />
 
         <ChartCard
           title="Customer Satisfaction"
-          type="line"
-          data={chartData}
+          type="bar"
+          data={chartDataEmotion}
           options={chartOptions}
         />
 
         <ChartCard
           title="Customer Demographics"
-          type="line"
-          data={chartData}
+          type="bar"
+          data={chartDataGender}
           options={chartOptions}
         />
       </div>
@@ -83,7 +127,7 @@ export default function ClientPage() {
           title="My Stores"
           type="line"
           height="17.7vh"
-          data={stores}
+          data={chartData}
           options={chartOptions}
         />
 
@@ -101,19 +145,19 @@ export default function ClientPage() {
       <div className="col-lg-3">
         <ChartCard
           title="Customer Satisfaction"
-          type="line"
-          data={chartData}
+          type="bar"
+          data={chartDataEmotion}
           options={chartOptions}
         />
         <ChartCard
           title="Customer Demographics"
-          type="line"
-          data={chartData}
+          type="bar"
+          data={chartDataGender}
           options={chartOptions}
         />
         <ChartCard
           title="Monthly Customers"
-          type="bar"
+          type="line"
           data={chartData}
           options={chartOptions}
         />

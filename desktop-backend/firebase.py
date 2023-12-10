@@ -4,7 +4,7 @@ from firebase_admin import firestore
 import datetime
 
 # Use a service account.
-cred = credentials.Certificate("config\DbFirebaseConfig.json")
+cred = credentials.Certificate('c:/Vigilant/vigilant/desktop-backend/config/firebaseConfig.json')
 app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 
@@ -27,12 +27,12 @@ def sendData(branch_name:str, result:list):
     frame_name = f"frame_{now_str}"
     person_count = 1
 
-    db.collection("branches").document(branch_name).collection(frame_name).document("datetime").set({"datetime": now_str})
+    #db.collection(branch_name).document(frame_name).set({"datetime": now_str})
     
     for person in result:
         person_name = f"person{person_count}"
-        data = {"emotion": person["dominant_emotion"], "gender": person["dominant_gender"], "age": person["age"]}
+        data = {"name":person_name, "emotion": person["dominant_emotion"], "gender": person["dominant_gender"], "age": person["age"], "date_time":now}
 
         print(frame_name, person_name)
-        db.collection("branches").document(branch_name).collection(frame_name).document(person_name).set(data)
+        db.collection(branch_name).document(frame_name).set(data)
         person_count += 1
