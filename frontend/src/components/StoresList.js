@@ -5,14 +5,14 @@ const StoresList = ({ title, type, data, options, height }) => {
   const cardStyle = {
     border: "1px solid #ddd",
     borderRadius: "8px",
-    padding: "16px",
+    padding: "12px",
     margin: "8px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     backgroundColor: "#262134",
   };
 
   const titleStyle = {
-    fontSize: "18px",
+    fontSize: "16px",
     fontWeight: "bold",
     marginBottom: "6px",
     color: "white",

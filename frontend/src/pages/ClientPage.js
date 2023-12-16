@@ -44,7 +44,7 @@ export default function ClientPage() {
   };
 
   return (
-    <div className="row g-3 mx-2 mt-1 d-flex align-items-stretch">
+    <div className="row g-3 mx-2 mt-1 d-flex align-items-center">
       {/* 1st Column */}
       <div className="col-lg-3 d-flex flex-column">
         <ChartCard

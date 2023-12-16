@@ -10,6 +10,7 @@ import Card from "../components/Card.js";
 import Features from "../components/Features.js";
 import image from "../images/mainPage.jpeg";
 import Title from "../components/Title.js";
+
 export default function Home() {
   const [imageOpacity, setImageOpacity] = useState(1);
   const [featuresOpacity, setFeaturesOpacity] = useState(1);

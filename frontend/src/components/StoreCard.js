@@ -7,7 +7,7 @@ const StoreCard = ({ type, text }) => {
     background: "linear-gradient(45deg, #2d404f, #2d404f)",
     borderRadius: "8px",
     padding: "16px",
-    margin: "8px",
+    margin: "2px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
   };
 

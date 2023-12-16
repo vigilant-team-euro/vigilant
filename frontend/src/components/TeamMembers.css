@@ -64,3 +64,25 @@ body{margin-top:20px;}
 .shadow-sm {
     box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 8%) !important;
 }
+
+.bg-c-blue {
+    background: linear-gradient(45deg,#2e39d8,#6971da);
+
+}
+
+.bg-c-green {
+    background: linear-gradient(45deg,#4099ff,#81b9f9);
+
+}
+
+.bg-c-yellow {
+    background: linear-gradient(45deg,#FFB64D,#ffcb80);
+}
+
+.bg-c-purple {
+    background: linear-gradient(45deg, #8e44ad, #c39bd3);
+}
+
+.bg-c-pink {
+    background: linear-gradient(45deg,#FF5370,#ff869a);
+}
