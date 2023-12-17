@@ -12,7 +12,7 @@ export default function SignUp() {
   const { isLoggedIn, login, logout} = useContext(AuthContext)
   const navigate = useNavigate()
 
-  console.log(auth?.currentUser?.email);
+  //console.log(auth?.currentUser?.email);
 
   const Register = async () => {
     try {

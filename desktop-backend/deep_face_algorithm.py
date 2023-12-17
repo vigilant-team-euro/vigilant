@@ -4,7 +4,7 @@ from deepface import DeepFace
 from firebase import sendData
 import json
 
-video_path = "videos\sample.mp4" # Change this
+video_path = "videos\store.mp4" # Change this
 output_folder = "output_folder"
 f = open("config\\appConfig.json")
 appConf = json.load(f)

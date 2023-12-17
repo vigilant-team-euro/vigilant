@@ -1,5 +1,8 @@
 import React from "react";
 import "./storeCard.css";
+import { db } from "../config/firebase";
+import { collection, getData, getDocs, listCollections, doc } from "firebase/firestore";
+import { useState } from "react";
 
 const StoreCard = ({ type, text }) => {
 
