@@ -217,7 +217,7 @@ export default function ClientPage() {
       {/* 2nd Column - Single Rectangle */}
       <div className="col-lg-6 d-flex flex-column">
         <StoresList
-          title="My Stores"
+          title={"My Stores (" + selectedStore + ")"}
           type="line"
 
           height="17.7vh"
