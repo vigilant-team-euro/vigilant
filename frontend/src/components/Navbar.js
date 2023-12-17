@@ -20,7 +20,7 @@ const Navbar = () => {
             {isLoggedIn ? (
               <>
                 <li>
-                  <NavLink to="/">My Stores</NavLink>
+                  <NavLink to="/clientPage">My Stores</NavLink>
                 </li>
                 <li>
                   <NavLink to="/">Demographics</NavLink>

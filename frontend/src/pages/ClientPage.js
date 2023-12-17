@@ -21,7 +21,7 @@ export default function ClientPage() {
     const today = new Date()
     var a = 4
     while (a >= 0){
-      dates.push((today.getDate() - a) +"/"+today.getMonth())
+      dates.push((today.getDate() - a) +"/"+ (today.getMonth() +1))
       a = a - 1;
     }
 
