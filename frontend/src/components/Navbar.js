@@ -19,6 +19,9 @@ const Navbar = () => {
           <ul>
             {isLoggedIn ? (
               <>
+               <li>
+                  <NavLink to="/clientPage">Client</NavLink> 
+                </li>
                 <li>
                   <NavLink to="/clientPage">My Stores</NavLink>
                 </li>
@@ -37,9 +40,6 @@ const Navbar = () => {
               </>
             ) : (
               <>
-                <li>
-                  <NavLink to="/clientPage">Client</NavLink>
-                </li>
                 <li>
                   <NavLink to="/">Home</NavLink>
                 </li>
