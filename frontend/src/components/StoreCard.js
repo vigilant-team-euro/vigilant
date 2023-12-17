@@ -4,7 +4,7 @@ import { db } from "../config/firebase";
 import { collection, getData, getDocs, listCollections, doc } from "firebase/firestore";
 import { useState } from "react";
 
-const StoreCard = ({ type, text }) => {
+const StoreCard = (props) => {
 
   const cardStyle = {
     background: "linear-gradient(45deg, #2d404f, #2d404f)",
@@ -21,7 +21,7 @@ const StoreCard = ({ type, text }) => {
 
   return (
     <div className="card card-body" style={cardStyle}>
-      <button className={`store-button ${type}`} style={buttonStyle}>{text}</button>
+      <button className={`store-button ${props.type}`} style={buttonStyle} onClick={() => props.clickStore(props.text)}>{props.text}</button>
     </div>
   );
 };

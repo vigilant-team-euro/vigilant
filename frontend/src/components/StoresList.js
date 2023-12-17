@@ -4,7 +4,7 @@ import { db } from "../config/firebase";
 import { collection, getData, getDocs } from "firebase/firestore";
 import { useState, useEffect } from "react";
 
-const StoresList = ({ title, type, data, options, height }) => {
+const StoresList = (props) => {
 
   const [stores, setStores] = useState([]);
 
@@ -33,6 +33,10 @@ const StoresList = ({ title, type, data, options, height }) => {
     alignItems: "center", // Center the content vertically
   };
 
+  const chooseStore = (storeName) => {
+    props.getStoreName(storeName);
+  }
+
   useEffect(() => {
     var myParams = {
       method: 'GET',
@@ -48,14 +52,14 @@ const StoresList = ({ title, type, data, options, height }) => {
  
   return (
     <div style={cardStyle}>
-      <div style={titleStyle}>{title || "My Stores"}</div>
+      <div style={titleStyle}>{props.title || "My Stores"}</div>
       <div style={scrollableContainerStyle}>
         <div className="d-flex flex-row ">
 
-          <StoreCard text="General" />
-          <StoreCard text={stores[2]} />
-          <StoreCard text={stores[1]} />
-          <StoreCard text={stores[0]} />
+          <StoreCard text="General" clickStore={chooseStore}/>
+          <StoreCard text={stores[2]} clickStore={chooseStore}/>
+          <StoreCard text={stores[1]} clickStore={chooseStore}/>
+          <StoreCard text={stores[0]} clickStore={chooseStore}/>
 
           {/* Add more StoreCard components as needed */}
         </div>

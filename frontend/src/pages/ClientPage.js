@@ -14,6 +14,7 @@ export default function ClientPage() {
   const [genders, setGenders] = useState([]);
   const [emotions, setEmotions] = useState([]);
   const [ages, setAges] = useState([]);
+  const [selectedStore, setSelectedStore] = useState('store2');
   
 
   function getDates(){
@@ -28,11 +29,15 @@ export default function ClientPage() {
     return dates;
   }
 
+  const changeStoreName = (storeName) => {
+    setSelectedStore(storeName)
+  }
+
   useEffect(() => {
     var myParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 'branch_name': 'store2' })
+      body: JSON.stringify({ 'branch_name': selectedStore })
   };
     fetch('http://localhost:5000/getEmotions', myParams)
       .then((response) => {return response.json()})
@@ -40,7 +45,7 @@ export default function ClientPage() {
         const items = [data["happy"], data["sad"],data["neutral"],data["surprise"],data["fear"],data["angry"]];
         setEmotions(items)
       })
-  },[])
+  },[selectedStore])
 
   const chartDataEmotion = {
     labels: ["happy", "sad", "neutral", "surprise", "fear", "angry"],
@@ -76,7 +81,7 @@ export default function ClientPage() {
     var myParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 'branch_name': 'store2' })
+      body: JSON.stringify({ 'branch_name': selectedStore })
   };
     fetch('http://localhost:5000/getGenders', myParams)
       .then((response) => {return response.json()})
@@ -85,7 +90,7 @@ export default function ClientPage() {
         
         setGenders(items)
       })
-  },[])
+  },[selectedStore])
 
   const chartDataGender = {
     labels: ["male", "female"],
@@ -110,7 +115,7 @@ export default function ClientPage() {
     var myParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 'branch_name': 'store2' })
+      body: JSON.stringify({ 'branch_name': selectedStore })
   };
     fetch('http://localhost:5000/getCustomerDaily', myParams)
       .then((response) => {return response.json()})
@@ -118,7 +123,7 @@ export default function ClientPage() {
         const items = data;
         setCount(items)
       })
-  },[])
+  },[selectedStore])
 
 
   const chartDataDaily = {
@@ -138,7 +143,7 @@ export default function ClientPage() {
     var myParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 'branch_name': 'store2' })
+      body: JSON.stringify({ 'branch_name': selectedStore })
   };
     fetch('http://localhost:5000/getAges', myParams)
       .then((response) => {return response.json()})
@@ -147,7 +152,7 @@ export default function ClientPage() {
         
         setAges(items)
       })
-  },[])
+  },[selectedStore])
   
   const chartDataAge = {
     labels: ["0-20", "20-30","30-40","40-50", "50-60", "60+"],
@@ -218,6 +223,7 @@ export default function ClientPage() {
           height="17.7vh"
           data={chartDataDaily}
           options={chartOptions}
+          getStoreName={changeStoreName}
         />
 
         <StoreComponent
