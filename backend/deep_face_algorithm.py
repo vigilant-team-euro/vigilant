@@ -10,7 +10,6 @@ def deep_face(video_path:str, interval_seconds:int):
    f = open("config\\appConfig.json")
    appConf = json.load(f)
    branch_name = appConf["branch_name"]
-   # interval_seconds = 5
 
    cap = cv2.VideoCapture(video_path)
    fps = int(cap.get(cv2.CAP_PROP_FPS))

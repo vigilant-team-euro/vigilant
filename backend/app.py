@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from deep_face_algorithm import deep_face
 from heatmap import generate_heatmap, send_heatmap
-from firebase import emotion, gender
+from firebase import emotion, gender, storeNames, customerDaily, age
 import os
 
 # Create a Flask application
@@ -26,12 +26,12 @@ def process_video():
         video_path = 'videos/' + video_file.filename
         video_file.save(video_path)
 
-        # deep_face(video_path, 30)
+        deep_face(video_path, 60)
 
         # os.remove(video_path)
 
-        heatmap = generate_heatmap(video_path, 1)
-        send_heatmap(heatmap)
+        #heatmap = generate_heatmap(video_path, 1)
+        #send_heatmap(heatmap)
 
         return {'message': 'Video uploaded successfully'}, 200
     else:
@@ -40,12 +40,23 @@ def process_video():
 @app.route('/getEmotions', methods=['POST'])
 def getEmotions():
     if "branch_name" in request.get_json():
-        return jsonify(emotion("store2"))
+        return jsonify(emotion(request.get_json()["branch_name"]))
     
 @app.route('/getGenders', methods=['POST'])
 def getGenders():
     if "branch_name" in request.get_json():
-        return jsonify(gender("store2"))
+        return jsonify(gender(request.get_json()["branch_name"]))
 
+@app.route('/getStoreNames', methods=['GET'])
+def getStoreNames():
+    return storeNames()
+
+@app.route('/getCustomerDaily', methods=['POST'])
+def getCustomerDaily():
+    return customerDaily((request.get_json()["branch_name"]))
+
+@app.route('/getAges', methods=['POST'])
+def getAges():
+    return age((request.get_json()["branch_name"]))
 if __name__ == '__main__':
     app.run(debug=True)

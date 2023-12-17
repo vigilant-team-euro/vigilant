@@ -2,12 +2,12 @@ import React from "react";
 import StoreCard from "./StoreCard";
 import { db } from "../config/firebase";
 import { collection, getData, getDocs } from "firebase/firestore";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const StoresList = ({ title, type, data, options, height }) => {
-  const collectionRef = collection(db, 'branches')
-  const [stores, setStores] = useState([]);
-  const [loading, setLoading] = useState(false);
+
+  const [stores, setStores] = useState(["aa"]);
+
   const cardStyle = {
     border: "1px solid #ddd",
     borderRadius: "8px",
@@ -32,17 +32,28 @@ const StoresList = ({ title, type, data, options, height }) => {
     justifyContent: "center", // Center the content horizontally
     alignItems: "center", // Center the content vertically
   };
+
+  useEffect(() => {
+    var myParams = {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+  };
+    fetch('http://localhost:5000/getStoreNames', myParams)
+      .then((response) => {return response.json()})
+      .then((data) => {
+        const items = data;
+        setStores(items)
+      })
+  },[])
  
   return (
     <div style={cardStyle}>
       <div style={titleStyle}>{title || "My Stores"}</div>
       <div style={scrollableContainerStyle}>
         <div className="d-flex flex-row ">
-          while (fetchDataFromFirestore) {
-            
-          }
+
           <StoreCard text="General" />
-          <StoreCard text="branch1" />
+          <StoreCard text="gulpa_nut" />
           <StoreCard text="store2" />
           <StoreCard text="branches" />
           <StoreCard text="Store 4" />

@@ -25,6 +25,8 @@ bucket = storage.bucket()
 
 def sendData(branch_name:str, result:list):
     now = datetime.datetime.now()
+    add = datetime.timedelta(days=4)
+    now = now
     now_str = now.strftime('%Y-%m-%d_%H:%M:%S')
     frame_name = f"frame_{now_str}"
     person_count = 1
@@ -33,11 +35,19 @@ def sendData(branch_name:str, result:list):
     
     for person in result:
         person_name = f"person{person_count}"
-        data = {"emotion": person["dominant_emotion"], "gender": person["dominant_gender"], "age": person["age"]}
+        data = {"emotion": person["dominant_emotion"], "gender": person["dominant_gender"], "age": person["age"], "datetime": now}
 
         db.collection(branch_name).document(frame_name).set(data)
         #db.collection("branches").document(branch_name).collection(frame_name).document(person_name).set(data)
         person_count += 1
+
+def storeNames():
+    arr = db.collection("stores").stream()
+    ls = []
+    for a in arr:
+        data = a.to_dict()["name"]
+        ls.append(data)
+    return ls
 
 def emotion(branch_name:str):
     happy = 0
@@ -45,6 +55,7 @@ def emotion(branch_name:str):
     fear = 0
     neutral = 0
     surprise = 0
+    angry = 0
     arr = db.collection(branch_name).stream()
     for a in arr:
         data = a.to_dict()["emotion"]
@@ -58,7 +69,9 @@ def emotion(branch_name:str):
             neutral += 1
         if data == "surprise":
             surprise += 1
-    return {"happy":happy, "sad":sad, "fear":fear, "neutral":neutral, "surprise":surprise}
+        if data == "angry":
+            angry += 1
+    return {"happy":happy, "sad":sad, "fear":fear, "neutral":neutral, "surprise":surprise, "angry": angry}
 
 def gender(branch_name:str):
     male = 0
@@ -71,4 +84,42 @@ def gender(branch_name:str):
         else:
             female += 1
     return {"male":male, "female":female}
+
+def customerDaily(branch_name:str):
+    now = datetime.date.today()
+    arr = db.collection(branch_name).stream()
+    ls = [0,0,0,0,0]
+    for a in arr:
+        data = a.to_dict()["datetime"].date()
+        if data == now:
+            ls[4] += 1
+        if data == now - datetime.timedelta(days=1):
+            ls[3] += 1
+        if data == now - datetime.timedelta(days=2):
+            ls[2] += 1
+        if data == now - datetime.timedelta(days=3):
+            ls[1] += 1
+        if data == now - datetime.timedelta(days=4):
+            ls[0] += 1
+    return ls
+
+def age(branch_name:str):
+    ls = [0,0,0,0,0,0]
+    arr = db.collection(branch_name).stream()
+    for a in arr:
+        data = a.to_dict()["age"]
+        if 0 < data <= 20:
+            ls[0] += 1
+        elif 20 < data <= 30:
+            ls[1] += 1
+        elif 30 < data <= 40:
+            ls[2] += 1
+        elif 40 < data <= 50:
+            ls[3] += 1
+        elif 50 < data <= 60:
+            ls[4] += 1
+        else:
+            ls[5] += 1
+        
+    return ls
     

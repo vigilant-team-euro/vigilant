@@ -12,28 +12,27 @@ import { collection, getDocs } from "firebase/firestore";
 import axios from "axios";
 
 export default function ClientPage() {
-  const collectionRef = collection(db, "store2")
-  
-  const [ages, setAges] = useState([]);
+  const [count, setCount] = useState([]);
   const [genders, setGenders] = useState([]);
   const [emotions, setEmotions] = useState([]);
+  const [ages, setAges] = useState([]);
 
   useEffect(() => {
     var myParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 'branch_name': 'store2' })
+      body: JSON.stringify({ 'branch_name': 'gulpa_nut' })
   };
     fetch('http://localhost:5000/getEmotions', myParams)
       .then((response) => {return response.json()})
       .then((data) => {
-        const items = [data["happy"], data["sad"],data["neutral"],data["surprise"],data["fear"]];
+        const items = [data["happy"], data["sad"],data["neutral"],data["surprise"],data["fear"],data["angry"]];
         setEmotions(items)
       })
   },[])
 
   const chartDataEmotion = {
-    labels: ["happy", "sad", "neutral", "surprise", "fear"],
+    labels: ["happy", "sad", "neutral", "surprise", "fear", "angry"],
     datasets: [
       {
         label: "Customer Satisfaction",
@@ -49,12 +48,11 @@ export default function ClientPage() {
     var myParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 'branch_name': 'store2' })
+      body: JSON.stringify({ 'branch_name': 'gulpa_nut' })
   };
     fetch('http://localhost:5000/getGenders', myParams)
       .then((response) => {return response.json()})
       .then((data) => {
-        console.log(data)
         const items = [data["male"], data["female"]];
         
         setGenders(items)
@@ -74,12 +72,55 @@ export default function ClientPage() {
     ],
   };
 
-  const chartData = {
-    labels: ["feb", "mar","apr","may"],
+  useEffect(() => {
+    var myParams = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 'branch_name': 'gulpa_nut' })
+  };
+    fetch('http://localhost:5000/getCustomerDaily', myParams)
+      .then((response) => {return response.json()})
+      .then((data) => {
+        const items = data;
+        
+        setCount(items)
+      })
+  },[])
+  
+  const chartDataDaily = {
+    labels: ["feb", "mar","apr","may", "jun"],
     datasets: [
       {
         label: "Customer Demographics",
-        data: [150, 562, 423, 235],
+        data: count,
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  useEffect(() => {
+    var myParams = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 'branch_name': 'gulpa_nut' })
+  };
+    fetch('http://localhost:5000/getCustomerDaily', myParams)
+      .then((response) => {return response.json()})
+      .then((data) => {
+        const items = data;
+        
+        setCount(items)
+      })
+  },[])
+  
+  const chartDataAge = {
+    labels: ["0-20", "20-30","30-40","40-50", "50-60", "60+"],
+    datasets: [
+      {
+        label: "Customer Demographics",
+        data: count,
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
@@ -100,9 +141,9 @@ export default function ClientPage() {
       {/* 1st Column */}
       <div className="col-lg-3">
         <ChartCard
-          title="Monthly Customers"
+          title="Daily Customers"
           type="line"
-          data={chartData}
+          data={chartDataDaily}
           options={chartOptions}
         />
 
@@ -127,7 +168,7 @@ export default function ClientPage() {
           title="My Stores"
           type="line"
           height="17.7vh"
-          data={chartData}
+          data={chartDataDaily}
           options={chartOptions}
         />
 
@@ -136,7 +177,7 @@ export default function ClientPage() {
           type="line"
           height="70vh"
 
-          data={chartData}
+          data={chartDataDaily}
           options={chartOptions}
         />
       </div>
@@ -150,15 +191,15 @@ export default function ClientPage() {
           options={chartOptions}
         />
         <ChartCard
-          title="Customer Demographics"
+          title="Customer Ages"
           type="bar"
-          data={chartDataGender}
+          data={chartDataAge}
           options={chartOptions}
         />
         <ChartCard
           title="Monthly Customers"
           type="line"
-          data={chartData}
+          data={chartDataDaily}
           options={chartOptions}
         />
       </div>
