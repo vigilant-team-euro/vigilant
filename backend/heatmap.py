@@ -8,6 +8,7 @@ from PIL import Image
 import os
 from firebase import bucket
 
+HEATMAP_DEFAULT_PATH = 'images/heatmap.png'
 
 def generate_heatmap(video_path:str, interval_seconds:int):
    model = YOLO('yolov8x.pt')
@@ -28,11 +29,12 @@ def generate_heatmap(video_path:str, interval_seconds:int):
          scene=frame.copy(),            
          detections=detections)
          
-   return annotated_frame
+   cv2.imwrite(HEATMAP_DEFAULT_PATH, annotated_frame)
+   #return annotated_frame
 
-def send_heatmap(annotated_frame):
-   img = Image.fromarray(annotated_frame, 'RGB')
-   img.save('images/heatmap.png')
+def send_heatmap():
+   # img = Image.fromarray(annotated_frame, 'RGB')
+   # img.save('images/heatmap.png')
 
    # Send the image to the database
    blob = bucket.blob('images/heatmap.png')

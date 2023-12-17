@@ -26,12 +26,12 @@ def process_video():
         video_path = 'videos/' + video_file.filename
         video_file.save(video_path)
 
-        deep_face(video_path, 60)
+        # deep_face(video_path, 180)
 
         # os.remove(video_path)
 
-        #heatmap = generate_heatmap(video_path, 1)
-        #send_heatmap(heatmap)
+        generate_heatmap(video_path, 1)
+        send_heatmap()
 
         return {'message': 'Video uploaded successfully'}, 200
     else:
