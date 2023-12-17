@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 
 const StoresList = ({ title, type, data, options, height }) => {
 
-  const [stores, setStores] = useState(["aa"]);
+  const [stores, setStores] = useState([]);
 
   const cardStyle = {
     border: "1px solid #ddd",
@@ -53,9 +53,9 @@ const StoresList = ({ title, type, data, options, height }) => {
         <div className="d-flex flex-row ">
 
           <StoreCard text="General" />
-          <StoreCard text="gulpa_nut" />
-          <StoreCard text="store2" />
-          <StoreCard text="Store 4" />
+          <StoreCard text={stores[2]} />
+          <StoreCard text={stores[1]} />
+          <StoreCard text={stores[0]} />
 
           {/* Add more StoreCard components as needed */}
         </div>

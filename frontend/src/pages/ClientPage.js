@@ -14,6 +14,19 @@ export default function ClientPage() {
   const [genders, setGenders] = useState([]);
   const [emotions, setEmotions] = useState([]);
   const [ages, setAges] = useState([]);
+  
+
+  function getDates(){
+    var dates = []
+    const today = new Date()
+    var a = 4
+    while (a >= 0){
+      dates.push((today.getDate() - a) +"/"+today.getMonth())
+      a = a - 1;
+    }
+
+    return dates;
+  }
 
   useEffect(() => {
     var myParams = {
@@ -103,13 +116,13 @@ export default function ClientPage() {
       .then((response) => {return response.json()})
       .then((data) => {
         const items = data;
-        console.log(items)
         setCount(items)
       })
   },[])
-  
+
+
   const chartDataDaily = {
-    labels: ["feb", "mar","apr","may", "jun"],
+    labels: getDates(),
     datasets: [
       {
         label: "Customer Demographics",
