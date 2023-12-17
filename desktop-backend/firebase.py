@@ -31,7 +31,7 @@ def sendData(branch_name:str, result:list):
     
     for person in result:
         person_name = f"person{person_count}"
-        data = {"name":person_name, "emotion": person["dominant_emotion"], "gender": person["dominant_gender"], "age": person["age"], "date_time":now}
+        data = {"name":person_name, "emotion": person["dominant_emotion"], "gender": person["dominant_gender"], "age": person["age"], "datetime":now}
 
         print(frame_name, person_name)
         db.collection(branch_name).document(frame_name).set(data)

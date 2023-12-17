@@ -19,7 +19,7 @@ export default function ClientPage() {
     var myParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 'branch_name': 'gulpa_nut' })
+      body: JSON.stringify({ 'branch_name': 'store2' })
   };
     fetch('http://localhost:5000/getEmotions', myParams)
       .then((response) => {return response.json()})
@@ -35,13 +35,13 @@ export default function ClientPage() {
       {
 
         label: "Dataset 1",
-        data: [10, 20, 30, 15, 25],
         backgroundColor: [
           'rgba(75, 192, 192, 1)',
           'rgba(255, 99, 132, 1)',
           'rgba(255, 205, 86, 1)',
           'rgba(54, 162, 235, 1)',
           'rgba(153, 102, 255, 1)',
+          'rgba(58, 77, 255, 1)',
         ],
         borderColor: [
           'rgba(75, 192, 192, 1)',
@@ -49,12 +49,11 @@ export default function ClientPage() {
           'rgba(255, 205, 86, 1)',
           'rgba(54, 162, 235, 1)',
           'rgba(153, 102, 255, 1)',
+          'rgba(58, 77, 255, 1)',
         ],
 
         label: "Customer Satisfaction",
         data: emotions,
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
       },
     ],
@@ -64,7 +63,7 @@ export default function ClientPage() {
     var myParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 'branch_name': 'gulpa_nut' })
+      body: JSON.stringify({ 'branch_name': 'store2' })
   };
     fetch('http://localhost:5000/getGenders', myParams)
       .then((response) => {return response.json()})
@@ -81,8 +80,14 @@ export default function ClientPage() {
       {
         label: "Customer Demographics",
         data: genders,
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: [
+          'rgba(58, 77, 255, 1)',
+          'rgba(255, 99, 132, 1)',
+        ],
+        borderColor: [
+          'rgba(58, 77, 255, 1)',
+          'rgba(255, 99, 132, 1)',
+        ],
         borderWidth: 1,
       },
     ],
@@ -92,13 +97,13 @@ export default function ClientPage() {
     var myParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 'branch_name': 'gulpa_nut' })
+      body: JSON.stringify({ 'branch_name': 'store2' })
   };
     fetch('http://localhost:5000/getCustomerDaily', myParams)
       .then((response) => {return response.json()})
       .then((data) => {
         const items = data;
-        
+        console.log(items)
         setCount(items)
       })
   },[])
@@ -120,14 +125,14 @@ export default function ClientPage() {
     var myParams = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ 'branch_name': 'gulpa_nut' })
+      body: JSON.stringify({ 'branch_name': 'store2' })
   };
-    fetch('http://localhost:5000/getCustomerDaily', myParams)
+    fetch('http://localhost:5000/getAges', myParams)
       .then((response) => {return response.json()})
       .then((data) => {
         const items = data;
         
-        setCount(items)
+        setAges(items)
       })
   },[])
   
@@ -136,9 +141,21 @@ export default function ClientPage() {
     datasets: [
       {
         label: "Customer Demographics",
-        data: count,
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        borderColor: "rgba(75, 192, 192, 1)",
+        data: ages,
+        backgroundColor: [
+          'rgba(75, 192, 192, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 205, 86, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(153, 102, 255, 1)',
+        ],
+        borderColor: [
+          'rgba(75, 192, 192, 1)',
+          'rgba(255, 99, 132, 1)',
+          'rgba(255, 205, 86, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(153, 102, 255, 1)',
+        ],
         borderWidth: 1,
       },
     ],
@@ -163,17 +180,17 @@ export default function ClientPage() {
           options={chartOptions}
         />
 
-        <ChartCard
+        {/* <ChartCard
           title="Customer Satisfaction"
 
           type="bar"
           data={chartDataEmotion}
           options={chartOptions}
-        />
+        /> */}
 
         <ChartCard
           title="Customer Demographics"
-          type="bar"
+          type="pie"
           data={chartDataGender}
           options={chartOptions}
         />
@@ -202,25 +219,25 @@ export default function ClientPage() {
 
       {/* 3rd Column - Same as 1st Column */}
       <div className="col-lg-3 d-flex flex-column">
-        <ChartCard
-          title="Customer Satisfaction"
-
-          type="bar"
-          data={chartDataEmotion}
-          options={chartOptions}
-        />
-        <ChartCard
+      <ChartCard
           title="Customer Ages"
           type="bar"
           data={chartDataAge}
           options={chartOptions}
         />
         <ChartCard
+          title="Customer Satisfaction"
+
+          type="doughnut"
+          data={chartDataEmotion}
+          options={chartOptions}
+        />
+        {/* <ChartCard
           title="Monthly Customers"
           type="line"
           data={chartDataDaily}
           options={chartOptions}
-        />
+        /> */}
       </div>
     </div>
   );

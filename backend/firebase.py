@@ -25,8 +25,8 @@ bucket = storage.bucket()
 
 def sendData(branch_name:str, result:list):
     now = datetime.datetime.now()
-    add = datetime.timedelta(days=4)
-    now = now
+    add = datetime.timedelta(days=1)
+    now = now - add
     now_str = now.strftime('%Y-%m-%d_%H:%M:%S')
     frame_name = f"frame_{now_str}"
     person_count = 1
@@ -86,11 +86,14 @@ def gender(branch_name:str):
     return {"male":male, "female":female}
 
 def customerDaily(branch_name:str):
-    now = datetime.date.today()
+    now = datetime.datetime.today()
+    add = datetime.timedelta(days=5)
+    now = now.date()
     arr = db.collection(branch_name).stream()
     ls = [0,0,0,0,0]
     for a in arr:
-        data = a.to_dict()["datetime"].date()
+        data = a.to_dict()["datetime"]
+        data = data.date()
         if data == now:
             ls[4] += 1
         if data == now - datetime.timedelta(days=1):

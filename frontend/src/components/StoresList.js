@@ -55,7 +55,6 @@ const StoresList = ({ title, type, data, options, height }) => {
           <StoreCard text="General" />
           <StoreCard text="gulpa_nut" />
           <StoreCard text="store2" />
-          <StoreCard text="branches" />
           <StoreCard text="Store 4" />
 
           {/* Add more StoreCard components as needed */}
