@@ -74,7 +74,7 @@ const VideoComponent = ({ title, type, height, width }) => {
                   className="form-check-label text-white"
                   htmlFor="defaultCheck1"
                 >
-                  Checkbox 1
+                  Heatmap
                 </label>
               </div>
             </div>
@@ -91,7 +91,7 @@ const VideoComponent = ({ title, type, height, width }) => {
                   className="form-check-label text-white"
                   htmlFor="defaultCheck2"
                 >
-                  Checkbox 2
+                  Demographics
                 </label>
               </div>
             </div>
@@ -108,7 +108,7 @@ const VideoComponent = ({ title, type, height, width }) => {
                   className="form-check-label text-white"
                   htmlFor="defaultCheck3"
                 >
-                  Checkbox 3
+                  Satisfaction
                 </label>
               </div>
             </div>
@@ -127,7 +127,7 @@ const VideoComponent = ({ title, type, height, width }) => {
                   className="form-check-label text-white"
                   htmlFor="defaultCheck2"
                 >
-                  Checkbox 2
+                   Ages
                 </label>
               </div>
             </div>
@@ -143,7 +143,7 @@ const VideoComponent = ({ title, type, height, width }) => {
                   className="form-check-label text-white"
                   htmlFor="defaultCheck2"
                 >
-                  Checkbox 2
+                  Employee Exclude
                 </label>
               </div>
             </div>
@@ -160,7 +160,7 @@ const VideoComponent = ({ title, type, height, width }) => {
                   className="form-check-label text-white"
                   htmlFor="defaultCheck3"
                 >
-                  Checkbox 3
+                  Payment Records
                 </label>
               </div>
             </div>

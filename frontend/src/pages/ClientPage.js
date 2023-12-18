@@ -237,20 +237,22 @@ export default function ClientPage() {
       </div>
 
       {/* 3rd Column - Same as 1st Column */}
+      
       <div className="col-lg-3 d-flex flex-column">
       <ChartCard
-          title="Customer Ages"
-          type="bar"
-          data={chartDataAge}
-          options={chartOptions}
-        />
-        <ChartCard
           title="Customer Satisfaction"
 
           type="doughnut"
           data={chartDataEmotion}
           options={chartOptions}
         />
+      <ChartCard
+          title="Customer Ages"
+          type="bar"
+          data={chartDataAge}
+          options={chartOptions}
+        />
+        
         {/* <ChartCard
           title="Monthly Customers"
           type="line"

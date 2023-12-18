@@ -25,11 +25,7 @@ const CameraComponent = ({ title, type, height, width }) => {
       
       <div className="container text-white">
         <div className="row flex-nowrap overflow-auto">
-          <div className="col-md-4">123123</div>
-          <div className="col-md-4">123123</div>
-          <div className="col-md-4">123123</div>
-          <div className="col-md-4">123123</div>
-          <div className="col-md-4">123123</div>
+          
 
         </div>
       </div>
