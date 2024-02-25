@@ -23,13 +23,13 @@ const Navbar = () => {
                   <NavLink to="/clientPage">Client</NavLink> 
                 </li>
                 <li>
-                  <NavLink to="/clientPage">My Stores</NavLink>
+                  <NavLink to="/storesPage">My Stores</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/">Demographics</NavLink>
+                  <NavLink to="/demographicsPage">Demographics</NavLink>
                 </li>
                 <li>
-                  <NavLink to="/">Forecasting</NavLink>
+                  <NavLink to="/forecastingPage">Forecasting</NavLink>
                 </li>
                 <li>
                   <NavLink onClick={handleLogout} to="/">

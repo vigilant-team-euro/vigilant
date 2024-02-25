@@ -3,6 +3,10 @@ import {BrowserRouter, Route, Routes, Switch} from 'react-router-dom'
 import Home from './pages/Home.js';
 import LoginRouter from './pages/LoginRouter.js';
 import ClientPage from './pages/ClientPage.js';
+import Demographics from './pages/Demographics.js';
+import ForecastingPage from './pages/ForecastingPage.js';
+import StoresPage from './pages/StoresPage.js';
+
 import NotFoundPage from './pages/NotFound.js';
 import SignUpRouter from './pages/SignupRouter.js';
 import Navbar from './components/Navbar.js';
@@ -39,8 +43,10 @@ function App() {
             <Route path="cameraPage" element={<CameraPage />}/>
             <Route path="employeePage" element={<EmployeePage />}/>
             <Route path="heatmapPage" element={<Heatmap />}/>
-
+            <Route path="demographicsPage" element={<Demographics/>}/>
             <Route path="cameraPage" element={<CameraPage />}/>
+            <Route path="storesPage" element={<StoresPage />}/>
+            <Route path="forecastingPage" element={<ForecastingPage />}/>
 
             <Route path="*" element={<NotFoundPage />} />
           <Route />
