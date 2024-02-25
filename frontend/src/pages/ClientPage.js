@@ -16,6 +16,11 @@ export default function ClientPage() {
   const [ages, setAges] = useState([]);
   const [selectedStore, setSelectedStore] = useState('store2');
   
+  const [errorEmotion, setErrorEmotion] = useState(null);
+  const [errorGender, setErrorGender] = useState(null);
+  const [errorDaily, setErrorDaily] = useState(null);
+  const [errorAge, setErrorAge] = useState(null);
+
 
   function getDates(){
     var dates = []
@@ -40,11 +45,15 @@ export default function ClientPage() {
       body: JSON.stringify({ 'branch_name': selectedStore })
   };
     fetch('http://localhost:5000/getEmotions', myParams)
-      .then((response) => {return response.json()})
+      .then((response) => response.json())
       .then((data) => {
-        const items = [data["happy"], data["sad"],data["neutral"],data["surprise"],data["fear"],data["angry"]];
-        setEmotions(items)
+        const items = [data["happy"], data["sad"], data["neutral"], data["surprise"], data["fear"], data["angry"]];
+        setEmotions(items);
+        setErrorEmotion(null);
       })
+      .catch((error) => {
+        setErrorEmotion(error.message);
+      });
   },[selectedStore])
 
   const chartDataEmotion = {
@@ -90,6 +99,9 @@ export default function ClientPage() {
         
         setGenders(items)
       })
+      .catch((error)=>{
+        setErrorGender(error.message);
+      })
   },[selectedStore])
 
   const chartDataGender = {
@@ -123,6 +135,9 @@ export default function ClientPage() {
         const items = data;
         setCount(items)
       })
+      .catch((error)=>{
+        setErrorDaily(error.message);
+      })
   },[selectedStore])
 
 
@@ -151,6 +166,9 @@ export default function ClientPage() {
         const items = data;
         
         setAges(items)
+      })
+      .catch((error)=>{
+        setErrorAge(error.message);
       })
   },[selectedStore])
   
@@ -196,21 +214,14 @@ export default function ClientPage() {
           type="line"
           data={chartDataDaily}
           options={chartOptions}
+          error={errorDaily}
         />
-
-        {/* <ChartCard
-          title="Customer Satisfaction"
-
-          type="bar"
-          data={chartDataEmotion}
-          options={chartOptions}
-        /> */}
-
         <ChartCard
           title="Customer Demographics"
           type="pie"
           data={chartDataGender}
           options={chartOptions}
+          error = {errorGender}
         />
       </div>
 
@@ -237,28 +248,21 @@ export default function ClientPage() {
       </div>
 
       {/* 3rd Column - Same as 1st Column */}
-      
       <div className="col-lg-3 d-flex flex-column">
       <ChartCard
           title="Customer Satisfaction"
-
           type="doughnut"
           data={chartDataEmotion}
           options={chartOptions}
+          error={errorEmotion}
         />
       <ChartCard
           title="Customer Ages"
           type="bar"
           data={chartDataAge}
           options={chartOptions}
+          error={errorAge}
         />
-        
-        {/* <ChartCard
-          title="Monthly Customers"
-          type="line"
-          data={chartDataDaily}
-          options={chartOptions}
-        /> */}
       </div>
     </div>
   );

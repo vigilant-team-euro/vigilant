@@ -7,6 +7,8 @@ import { useState, useEffect } from "react";
 const StoresList = (props) => {
 
   const [stores, setStores] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const cardStyle = {
     border: "1px solid #ddd",
@@ -40,29 +42,39 @@ const StoresList = (props) => {
   useEffect(() => {
     var myParams = {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-  };
+      headers: { 'Content-Type': 'application/json' },
+    };
     fetch('http://localhost:5000/getStoreNames', myParams)
-      .then((response) => {return response.json()})
+      .then((response) => response.json())
       .then((data) => {
-        const items = data;
-        setStores(items)
+        setStores(data);
+        setLoading(false);
+
+        setError(null);
       })
-  },[])
+      .catch((error) => {
+        setLoading(false);
+
+        setError(error.message);
+      });
+  }, []);
  
   return (
     <div style={cardStyle}>
       <div style={titleStyle}>{props.title || "My Stores"}</div>
       <div style={scrollableContainerStyle}>
-        <div className="d-flex flex-row ">
-
-          <StoreCard text="General" clickStore={chooseStore}/>
-          <StoreCard text={stores[2]} clickStore={chooseStore}/>
-          <StoreCard text={stores[1]} clickStore={chooseStore}/>
-          <StoreCard text={stores[0]} clickStore={chooseStore}/>
-
-          {/* Add more StoreCard components as needed */}
-        </div>
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p style={{ color: "red" }}>Error: {error}</p>
+        ) : (
+          <div className="d-flex flex-row ">
+            <StoreCard text="General" clickStore={chooseStore} />
+            {stores.map((store, index) => (
+              <StoreCard key={index} text={store} clickStore={chooseStore} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

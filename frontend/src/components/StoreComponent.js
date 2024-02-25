@@ -78,10 +78,7 @@ const StoreComponent = ({ title, type, height, width }) => {
     <div style={cardStyle}>
       <div style={titleStyle}>{title || "Default Title"}</div>
       <Card2 cardTitle="Heatmap Analysis" cardContent="Detailed analysis of customers walking path, visualized in heatmap" type={faCheck} to="/heatmapPage"/>
-      <Card2 cardTitle="Camera Settings" cardContent="Adding, removing cameras and video footage" type={faDesktop} to="/cameraPage" />
-      <Card2 cardTitle="Employee List" cardContent="Adding, removing employees to system" type={faDesktop} to="/employeePage" />
       <Card2 cardTitle="Forcasting" cardContent="Forecasting the future" type={faLock} opacity={0.5} />
-      <Card2 cardTitle="Payment Records" cardContent="Records of payments obtained from shop" type={faLock} opacity={0.5} />
     </div>
   );
 };

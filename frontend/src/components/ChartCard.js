@@ -1,7 +1,7 @@
 import React from "react";
 import ChartComponent from "./ChartComponent";
 
-const ChartCard = ({ title, type, data, options }) => {
+const ChartCard = ({ title, type, data, options, error }) => {
   const cardStyle = {
     border: "1px solid #ddd",
     borderRadius: "8px",
@@ -22,7 +22,11 @@ const ChartCard = ({ title, type, data, options }) => {
   return (
     <div style={cardStyle}>
       <div style={titleStyle}>{title}</div>
-      <ChartComponent type={type} data={data} options={options} />
+      {error ? (
+        <div style={{ color: "red", textAlign: "center" }}>{error}</div>
+      ) : (
+        <ChartComponent type={type} data={data} options={options} />
+      )}
     </div>
   );
 };

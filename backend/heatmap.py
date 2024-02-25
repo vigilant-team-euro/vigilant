@@ -36,7 +36,7 @@ def send_heatmap():
    # img = Image.fromarray(annotated_frame, 'RGB')
    # img.save('images/heatmap.png')
 
-   # Send the image to the database
+   # Send the image to the database 
    blob = bucket.blob('images/heatmap.png')
    blob.upload_from_filename('images/heatmap.png')
 
