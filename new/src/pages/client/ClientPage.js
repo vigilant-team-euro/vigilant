@@ -1,81 +1,34 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./clientpage.scss";
 import ChartBox from "../../components/chartBox/ChartBox";
 import PieChartBox from "../../components/pieChartBox/PieChartBox";
 import BarChartBox from "../../components/barChart/BarChartBox";
 import { ResponsiveContainer, Treemap, Sankey } from "recharts";
-import { PureComponent } from "react";
-const COLORS = [
-  "#2196F3",
-  "#FFC107",
-  "#2196F3",
-  "#FF5722",
-  "#9C27B0",
-  "#E91E63",
-];
-class CustomizedContent extends PureComponent {
-  render() {
-    const {
-      root,
-      depth,
-      x,
-      y,
-      width,
-      height,
-      index,
-      payload,
-      colors,
-      rank,
-      name,
-    } = this.props;
-
-    return (
-      <g>
-        <rect
-          x={x}
-          y={y}
-          width={width}
-          height={height}
-          style={{
-            fill:
-              depth < 2
-                ? colors[Math.floor((index / root.children.length) * 6)]
-                : "#ffffff00",
-            stroke: "#fff",
-            strokeWidth: 2 / (depth + 1e-10),
-            strokeOpacity: 1 / (depth + 1e-10),
-          }}
-        />
-        {depth === 1 ? (
-          <text
-            x={x + width / 2}
-            y={y + height / 2 + 7}
-            textAnchor="middle"
-            fill="#fff"
-            fontSize={14}
-          >
-            {name}
-          </text>
-        ) : null}
-        {depth === 1 ? (
-          <text
-            x={x + 4}
-            y={y + 18}
-            fill="#fff"
-            fontSize={16}
-            fillOpacity={0.9}
-          >
-            {index + 1}
-          </text>
-        ) : null}
-      </g>
-    );
-  }
-}
+import { fetchAllForUser } from "../../components/fetchData/FetchDataUtils";
+import { AuthContext } from "../../context/AuthContext";
 
 function ClientPage() {
-  // all const data below needs to be fetched from the database
-  const chartBoxCustomer = {
+  const { currentUser } = useContext(AuthContext);
+  const userId = currentUser.uid;
+  const [testdata, setTestData] = useState([]);
+  const dataLocation = `users/${userId}/stores`;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const storesLocation = dataLocation; // Replace with your actual users collection name
+        const result = await fetchAllForUser(storesLocation);
+        setTestData(result);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchData();
+  }, [dataLocation]);
+
+  //instead of static data, use "testData" generated above
+  const totalCustomer = {
     color: "#8884d8",
     icon: "/userIcon.svg",
     title: "Total Customers",
@@ -92,13 +45,19 @@ function ClientPage() {
       { name: "Sat", users: 450 },
     ],
   };
-  const data = [
+  const moodAnalysis = [
     { name: "Mobile", value: 400, color: "#0088FE" },
     { name: "Desktop", value: 300, color: "#00C49F" },
     { name: "Laptop", value: 300, color: "#FFBB28" },
     { name: "Tablet", value: 200, color: "#FF8042" },
   ];
-  const barChartBoxAge = {
+  const genderAnalysis = [
+    { name: "Mobile", value: 400, color: "#0088FE" },
+    { name: "Desktop", value: 300, color: "#00C49F" },
+    { name: "Laptop", value: 300, color: "#FFBB28" },
+    { name: "Tablet", value: 200, color: "#FF8042" },
+  ];
+  const ageAnalysis = {
     title: "Customer Age",
     color: "#FF8042",
     dataKey: "visit",
@@ -133,7 +92,7 @@ function ClientPage() {
       },
     ],
   };
-  const storeData = [
+  const storeRevenues = [
     {
       name: "Store1",
       color: "#1f77b4", // Blue
@@ -168,7 +127,7 @@ function ClientPage() {
       children: [{ name: "Revenue", size: 19000 }],
     },
   ];
-  const data0 = {
+  const customerDistributeAnalysis = {
     nodes: [
       {
         name: "Visit",
@@ -209,16 +168,16 @@ function ClientPage() {
       },
     ],
   };
-  
+
   return (
     <div className="client">
       <div className="box box1">
-        <ChartBox {...chartBoxCustomer} />
+        <ChartBox {...totalCustomer} />
       </div>
       <div className="box box4">
         <ResponsiveContainer width="100%" height={300}>
           <Treemap
-            data={storeData}
+            data={storeRevenues}
             dataKey="size"
             stroke="#ddd"
             fill="#4d5b77"
@@ -226,26 +185,27 @@ function ClientPage() {
         </ResponsiveContainer>
       </div>
       <div className="box box5">
-        <BarChartBox {...barChartBoxAge} />
+        <BarChartBox {...ageAnalysis} />
       </div>
       <div className="box box2">
-        <PieChartBox data={data} title="Mood Analysis" moodOnly="true" />
+        <PieChartBox
+          data={moodAnalysis}
+          title="Mood Analysis"
+          moodOnly="true"
+        />
       </div>
       <div className="box box3">
-        
         <ResponsiveContainer>
           <Sankey
-            data={data0}
-            node={{stroke: "#77c878", strokeWidth: 2}}
+            data={customerDistributeAnalysis}
+            node={{ stroke: "#77c878", strokeWidth: 2 }}
             nodePadding={111}
             link={{ stroke: "#fff" }}
-            
           ></Sankey>
         </ResponsiveContainer>
-        
       </div>
       <div className="box box6">
-        <PieChartBox data={data} title="Gender Analysis" />
+        <PieChartBox data={genderAnalysis} title="Gender Analysis" />
       </div>
     </div>
   );
