@@ -19,6 +19,7 @@ function PieChartBox(props) {
                   outerRadius={"90%"}
                   paddingAngle={5}
                   dataKey="value"
+                  key={Math.random()}
                 >
                   {props.data.map((item) => (
                     <Cell key={item.name} fill={item.color} />
