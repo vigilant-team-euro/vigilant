@@ -6,6 +6,7 @@ import BarChartBox from "../../components/barChart/BarChartBox";
 import { ResponsiveContainer, Treemap, Sankey } from "recharts";
 import { fetchAllForUser } from "../../components/fetchData/FetchDataUtils";
 import { AuthContext } from "../../context/AuthContext";
+import TreeMapBox from "../../components/treeMap/TreeMapBox";
 
 function ClientPage() {
   const { currentUser } = useContext(AuthContext);
@@ -172,26 +173,21 @@ function ClientPage() {
   return (
     <div className="client">
       <div className="box box1">
-        <ChartBox {...totalCustomer} />
+        Time Period Buttons to Add
       </div>
       <div className="box box4">
-        <ResponsiveContainer width="100%" height={300}>
-          <Treemap
-            data={storeRevenues}
-            dataKey="size"
-            stroke="#ddd"
-            fill="#4d5b77"
-          />
-        </ResponsiveContainer>
+        <TreeMapBox storeRevenues={storeRevenues}/>
       </div>
       <div className="box box5">
         <BarChartBox {...ageAnalysis} />
+      </div>
+      <div className="box box7">
+        <ChartBox {...totalCustomer} />
       </div>
       <div className="box box2">
         <PieChartBox
           data={moodAnalysis}
           title="Mood Analysis"
-          moodOnly="true"
         />
       </div>
       <div className="box box3">
