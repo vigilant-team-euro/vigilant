@@ -1,8 +1,9 @@
 import React from 'react'
 import { ResponsiveContainer, Treemap } from "recharts";
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
 function TreeMapBox(props) {
+    
     const navigate = useNavigate();
     const handleClick = (data, index) => {
         navigate(`/storeview/${data.root.name}`);

@@ -3,6 +3,7 @@ import "./storedemographics.scss";
 import PieChartBox from "../../components/pieChartBox/PieChartBox";
 import ChartBox from "../../components/chartBox/ChartBox";
 import BarChartBox from "../../components/barChart/BarChartBox";
+import GraphSettings from "../../components/graphSettings/GraphSettings";
 
 function StoreDemographics(props) {
   const genderAnalysis = [
@@ -71,7 +72,7 @@ function StoreDemographics(props) {
   };
   return (
     <div className="storeview">
-      <div className="box box1">Time Period Buttons to Add</div>
+      <div className="box box1"><GraphSettings id={"Store1"}/></div>
 
       <div className="box box4">Store Name?</div>
       <div className="box box5">

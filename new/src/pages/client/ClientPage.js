@@ -7,6 +7,7 @@ import { ResponsiveContainer, Treemap, Sankey } from "recharts";
 import { fetchAllForUser } from "../../components/fetchData/FetchDataUtils";
 import { AuthContext } from "../../context/AuthContext";
 import TreeMapBox from "../../components/treeMap/TreeMapBox";
+import GraphSettings from "../../components/graphSettings/GraphSettings";
 
 function ClientPage() {
   const { currentUser } = useContext(AuthContext);
@@ -96,8 +97,7 @@ function ClientPage() {
   const storeRevenues = [
     {
       name: "Store1",
-      color: "#1f77b4", // Blue
-      children: [{ name: "Revenue", size: 58000 }],
+      children: [{ name: "Revenue", size: 58000,  }],
     },
     {
       name: "Store2",
@@ -173,7 +173,7 @@ function ClientPage() {
   return (
     <div className="client">
       <div className="box box1">
-        Time Period Buttons to Add
+      <GraphSettings id={"general"}/>
       </div>
       <div className="box box4">
         <TreeMapBox storeRevenues={storeRevenues}/>

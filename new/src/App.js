@@ -18,6 +18,7 @@ import ReportsPage from './pages/reports/ReportsPage';
 import { useContext } from 'react';
 import { AuthContext } from './context/AuthContext';
 import StoreDemographics from './pages/singleDemographics/StoreDemographics';
+import ForecastPage from './pages/forecast/ForecastPage';
 function App() {
   const {currentUser} = useContext(AuthContext)
   const RequireAuth = ({children})=>{
@@ -91,6 +92,12 @@ function App() {
           path: "/storeview/:id",
           element: (
             <StoreDemographics/>
+          )
+        },
+        {
+          path: "/forecast/:id",
+          element: (
+            <ForecastPage/>
           )
         },
       ]
