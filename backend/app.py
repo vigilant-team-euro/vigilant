@@ -3,6 +3,7 @@ from flask_cors import CORS
 from deep_face_algorithm import deep_face
 from heatmap import generate_heatmap, send_heatmap
 from firebase import emotion, gender, storeNames, customerDaily, age
+from forecasting import forecast
 import os
 
 # Create a Flask application
@@ -58,5 +59,10 @@ def getCustomerDaily():
 @app.route('/getAges', methods=['POST'])
 def getAges():
     return age((request.get_json()["branch_name"]))
+
+@app.route('/get_store_data', methods=['GET'])
+def get_store_data():
+    return forecast()
+
 if __name__ == '__main__':
     app.run(debug=True)
