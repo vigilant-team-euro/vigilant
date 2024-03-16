@@ -2,9 +2,10 @@ import pandas as pd
 from firebase_admin import credentials, firestore, initialize_app
 from prophet import Prophet
 import math
+import json
 
-cred = credentials.Certificate("config\\firebaseConfig.json")
-initialize_app(cred)
+#cred = credentials.Certificate("config\\firebaseConfig.json")
+#initialize_app(cred)
 db = firestore.client()
 
 def fetch_data_from_firebase(branch_name: str):
@@ -137,16 +138,24 @@ def forecast():
 
                 # Calculate average age and gender for the store
                 grouped_data = calculate_average_age_and_gender(df)
-
+                
                 forecast_male_count_data = floor_male_female_counts(forecast_male_count(grouped_data))
                 forecast_female_count_data = floor_male_female_counts(forecast_female_count(grouped_data))
                 forecast_age_data = forecast_age(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age'})
                 forecast_male_count_data = forecast_male_count_data.rename(columns={'ds': 'date', 'yhat': 'forecast_male_visitor'})
                 forecast_female_count_data = forecast_female_count_data.rename(columns={'ds': 'date', 'yhat': 'forecast_female_visitor'})
-
+                grouped_data['date'] = grouped_data['date'].astype(str)
+                forecast_age_data['date'] = forecast_age_data['date'].astype(str)
+                forecast_male_count_data['date'] = forecast_male_count_data['date'].astype(str)
+                forecast_female_count_data['date'] = forecast_female_count_data['date'].astype(str)
                 # Store the grouped data and forecast for the store in the dictionary
-                store_data[name] = {'grouped_data': grouped_data, 'forecast_age': forecast_age_data,
-                                     'forecast_male_count': forecast_male_count_data, 'forecast_female_count': forecast_female_count_data}
-
-    return store_data
+                store_data[name] = {
+                    'grouped_data': grouped_data.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
+                    'forecast_age': forecast_age_data.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
+                    'forecast_male_count': forecast_male_count_data.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
+                    'forecast_female_count': forecast_female_count_data.to_dict(orient='records')  # Convert DataFrame to list of dictionaries
+                }
+    
+    store_data_json = json.dumps(store_data)
+    return store_data_json
 
