@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react'
 import "./forecastpage.scss"
 function ForecastPage() {
+  //should run 1 time fetch link data which is forecast
   let  [forecast, setForecast] = useState([])
   useEffect(()=>{
           getData()
