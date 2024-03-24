@@ -8,7 +8,7 @@ const fetchSingleArray = async (dataLocation, documentName) => {
 
     if (docSnapshot.exists()) {
       const data = docSnapshot.data();
-      //console.log("Document data:", data.frames); // Add this line for debugging
+     
       const framesArray = data.frames;
       return framesArray;
     } else {
@@ -57,6 +57,7 @@ const fetchAllForUser = async (storesLocation) => {
       const userFramesData = await fetchAllFromSingleStore(userDataLocation);
         
       allUserData.push({
+        storeId: userDocument.id,
         userDataLocation,
         userFramesData,
       });
@@ -68,5 +69,26 @@ const fetchAllForUser = async (storesLocation) => {
     throw error;
   }
 };
+const fetchUserStores = async (userId) => {
+  try {
+    const storesLocation = `users/${userId}/stores`;
+    const storesCollectionRef = collection(db, storesLocation);
+    const storesQuerySnapshot = await getDocs(storesCollectionRef);
 
-export { fetchSingleArray, fetchAllFromSingleStore, fetchAllForUser };
+    const stores = [];
+
+    for (const storeDocument of storesQuerySnapshot.docs) {
+      stores.push({
+        storeId: storeDocument.id,
+        storeName: storeDocument.data().storeName, // Assuming the store name is stored in a field named "name"
+      });
+    }
+    //console.log(stores);
+    return stores;
+  } catch (error) {
+    console.error("Error fetching stores for user:", error);
+    throw error;
+  }
+};
+
+export { fetchSingleArray, fetchAllFromSingleStore, fetchAllForUser, fetchUserStores };

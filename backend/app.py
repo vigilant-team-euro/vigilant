@@ -1,7 +1,5 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from deep_face_algorithm import deep_face
-from heatmap import generate_heatmap, send_heatmap
 from firebase import emotion, gender, storeNames, customerDaily, age
 from forecasting import forecast
 import os
@@ -16,27 +14,6 @@ CORS(app)
 #     data = {
 #         'message': 'Hello from the Flask backend!',
 #         'data': [1, 2, 3, 4, 5]
-#     }
-#     return jsonify(data)
-
-@app.route('/api/video', methods=['POST'])
-def process_video():
-    if 'video' in request.files:
-        video_file = request.files['video']
-
-        video_path = 'videos/' + video_file.filename
-        video_file.save(video_path)
-
-        # deep_face(video_path, 180)
-
-        # os.remove(video_path)
-
-        generate_heatmap(video_path, 1)
-        send_heatmap()
-
-        return {'message': 'Video uploaded successfully'}, 200
-    else:
-        return {'error': 'No video file provided'}, 400
 
 @app.route('/getEmotions', methods=['POST'])
 def getEmotions():

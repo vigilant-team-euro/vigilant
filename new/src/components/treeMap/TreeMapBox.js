@@ -6,8 +6,8 @@ function TreeMapBox(props) {
     
     const navigate = useNavigate();
     const handleClick = (data, index) => {
-        navigate(`/storeview/${data.root.name}`);
-        console.log('Clicked:', data, index);
+      navigate(`/storeview/${data.storeId}`, { state: { storeName: data.name, storeData:data.storeData } });
+      //console.log('Clicked:', data.name, data);      
       };
     
   return (

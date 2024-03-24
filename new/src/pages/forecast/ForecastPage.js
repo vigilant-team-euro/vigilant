@@ -1,22 +1,25 @@
 import React, { useState, useEffect} from 'react'
 import "./forecastpage.scss"
 function ForecastPage() {
-  //should run 1 time fetch link data which is forecast
   let  [forecast, setForecast] = useState([])
-  useEffect(()=>{
-          getData()
-      }, [forecast])
-      let getData = async ()=>{
-          let response = await  fetch('http://127.0.0.1:5000/get_store_data',{
-              method:'GET',
-              headers:{
-                  'Content-Type':'application/json',
-                
-              }
-          })
-          let data = await response.json()
-          setForecast(data)
-  }
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        let response = await fetch('http://127.0.0.1:5000/get_store_data', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        let data = await response.json();
+        setForecast(data);
+      } catch (error) {
+        console.error('Failed to fetch data:', error);
+      }
+    };
+  
+    getData();
+  }, []);
   console.log(forecast)
   return (
     

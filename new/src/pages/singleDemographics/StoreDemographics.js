@@ -4,19 +4,27 @@ import PieChartBox from "../../components/pieChartBox/PieChartBox";
 import ChartBox from "../../components/chartBox/ChartBox";
 import BarChartBox from "../../components/barChart/BarChartBox";
 import GraphSettings from "../../components/graphSettings/GraphSettings";
+import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 function StoreDemographics(props) {
+  const { id } = useParams();
+  const location = useLocation();
+  const storeName = location.state.storeName;
+  const storeData = location.state.storeData;
+
+  console.log(storeData); // Print storeData to console
+
   const genderAnalysis = [
-    { name: "Mobile", value: 400, color: "#0088FE" },
-    { name: "Desktop", value: 300, color: "#00C49F" },
-    { name: "Laptop", value: 300, color: "#FFBB28" },
-    { name: "Tablet", value: 200, color: "#FF8042" },
+    { name: "Male", value: storeData.male_count, color: "#0088FE" },
+    { name: "Female", value: storeData.female_count, color: "#00C49F" },
   ];
   const moodAnalysis = [
-    { name: "Mobile", value: 400, color: "#0088FE" },
-    { name: "Desktop", value: 300, color: "#00C49F" },
-    { name: "Laptop", value: 300, color: "#FFBB28" },
-    { name: "Tablet", value: 200, color: "#FF8042" },
+    { name: "Happy", value: storeData.happy_count, color: "#0088FE" },
+    { name: "Surprise", value: storeData.surprise_count, color: "#00C49F" },
+    { name: "Sad", value: storeData.sad_count, color: "#FFBB28" },
+    { name: "Fear", value: storeData.fear_count, color: "#FF8042" },
+    { name: "Neutral", value: storeData.neutral_count, color: "#8884d8" },
   ];
   const ageAnalysis = {
     title: "Customer Age",
@@ -57,7 +65,7 @@ function StoreDemographics(props) {
     color: "#8884d8",
     icon: "/userIcon.svg",
     title: "Total Customers",
-    number: "11.238",
+    number: storeData.customer_count.toString(),
     dataKey: "users",
     percentage: 45,
     chartData: [
@@ -72,9 +80,20 @@ function StoreDemographics(props) {
   };
   return (
     <div className="storeview">
-      <div className="box box1"><GraphSettings id={"Store1"}/></div>
+      <div className="box box1">
+        <div className="half">
+          <button>Week</button>
+          <button>Month</button>
+          <button>Year</button>
+          <button>All</button>
+        </div>
+        <div className="half">
+          <GraphSettings id={id}/>
+        </div>
+      </div>
 
-      <div className="box box4">Store Name?</div>
+      <div className="box box4">
+      <h1>Store: {storeName.toUpperCase()}</h1>      </div>
       <div className="box box5">
         <BarChartBox {...ageAnalysis} />
       </div>
@@ -82,7 +101,7 @@ function StoreDemographics(props) {
       <div className="box box7">
         <ChartBox {...totalCustomer} />
       </div>
-      <div className="box box3">Put Heatmap?</div>
+      <div className="box box3">heatmap</div>
       <div className="box box6">
         <PieChartBox data={genderAnalysis} title="Gender Analysis" />
       </div>
