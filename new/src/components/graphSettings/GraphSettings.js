@@ -9,9 +9,9 @@ function GraphSettings(props) {
   };
   return (
 
-      <div className="half">
+      <div onClick={forecastClick} className="half half2">
         <h2>Forecast</h2>
-        <img onClick={forecastClick} alt="logo" src="/logo.svg" />      </div>
+        <img  alt="logo" src="/logo.svg" />      </div>
   );
 }
 

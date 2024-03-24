@@ -9,6 +9,15 @@
   .box1 .half {
     flex: 1;
   }
+
+  .half2{
+    background-color: $soft-bg;
+    padding: 10px;
+    border-radius: 10px;
+    &:hover {
+      background-color: $dark-bg;
+    }
+  }
   .box1 .half:first-child {
     display: grid;
     grid-template-columns: 1fr 1fr;
