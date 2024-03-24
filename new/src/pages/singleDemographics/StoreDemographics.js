@@ -213,7 +213,17 @@ function StoreDemographics(props) {
       <div className="box box7">
         <ChartBox {...totalCustomer} />
       </div>
-      <div className="box box3">heatmap</div>
+      <div className="box box3">
+      <iframe 
+    src="https://www.youtube.com/embed/7dhZZecl8nY" 
+    title="YouTube video player" 
+    frameborder="0" 
+    width="100%" 
+    height="100%" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+  </iframe>
+      </div>
       <div className="box box6">
         <PieChartBox data={genderAnalysis} title="Gender Analysis" />
       </div>

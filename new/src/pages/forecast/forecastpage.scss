@@ -1,51 +1,65 @@
 @import "../../styles/variables.scss";
 @import "../../styles/responsive.scss";
 
-.forecast{
-    display:grid;
-    gap:20px;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-auto-rows: minmax(100px, auto);
-    grid-auto-flow: dense;
-    @include xl{
-        grid-template-columns: repeat(3, 1fr);
-      }
-      @include lg{
-        grid-template-columns: repeat(2, 1fr);
-      }
-      @include md {
-        grid-template-columns: repeat(1, 1fr);
-      }
-      @include sm {
-        grid-auto-rows: minmax(120px, auto);
-      }
-    .box{
-        padding: 20px;
-        border-radius: 10px;
-        border:1px solid $soft-bg;
-    }
+.forecast {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-auto-rows: minmax(100px, auto);
+  grid-auto-flow: dense;
+  @include xl {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @include lg {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include md {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @include sm {
+    grid-auto-rows: minmax(120px, auto);
+  }
+  .box {
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid $soft-bg;
+  }
 
-    .box1{
-        grid-row: span 2;
-        grid-column: span 2;
-    }
-    .box2{
-        grid-row: span 1;
-        grid-column: span 1;
-    }
-   
-    .box3{
-        grid-row: span 4;
-        grid-column: span 2;
-    }
+  .box1 {
+    grid-row: span 2;
+    grid-column: span 2;
+  }
+  .box2 {
+    grid-row: span 1;
+    grid-column: span 1;
+  }
 
-    .box4{
-        grid-row: span 5;
-        grid-column: span 2;
+  .box3 {
+    grid-row: span 4;
+    grid-column: span 2;
+  }
+
+  .box4 {
+    grid-row: span 5;
+    grid-column: span 2;
+  }
+  .box5 {
+    grid-row: span 1;
+    grid-column: span 1;
+    display: flex;
+    justify-content: space-between;
+  }
+  .box5 button {
+    width: 45%; // Adjusted to fit two buttons with space in between
+    padding: 10px;
+    border-radius: 5px;
+    background-color: $soft-bg;
+    color: white;
+    font-size: 1.9em;
+    font-weight: bold;
+    cursor: pointer;
+    &:hover {
+      background-color: $dark-bg;
     }
-    .box5{
-        grid-row: span 1;
-        grid-column: span 1;
-    }
-    
+  }
 }
