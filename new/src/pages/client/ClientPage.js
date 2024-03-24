@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./clientpage.scss";
 import ChartBox from "../../components/chartBox/ChartBox";
 import PieChartBox from "../../components/pieChartBox/PieChartBox";
@@ -18,7 +18,8 @@ function ClientPage() {
   const [testdata, setTestData] = useState([]);
   const dataLocation = `users/${userId}/stores`;
   const [userStores, setUserStores] = useState([]);
- 
+  const [timePeriod, setTimePeriod] = useState("All");
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -41,7 +42,24 @@ function ClientPage() {
 
     fetchData();
   }, [userId]);
+  function isInTimePeriod(timestamp, timePeriod) {
+    const now = Date.now();
+    const frameTime =
+      timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000;
 
+    switch (timePeriod) {
+      case "Week":
+        return now - frameTime <= 7 * 24 * 60 * 60 * 1000;
+      case "Month":
+        return now - frameTime <= 30 * 24 * 60 * 60 * 1000;
+      case "Year":
+        return now - frameTime <= 365 * 24 * 60 * 60 * 1000;
+      case "All":
+        return true;
+      default:
+        return false;
+    }
+  }
   const sumUserFramesData = (framesData) => {
     //console.log('framesData:', framesData); // Add this line
 
@@ -62,15 +80,17 @@ function ClientPage() {
     }
     framesData.forEach((frame) => {
       frame.framesData.forEach((frameData) => {
-        sumData.happy_count += frameData.happy_count || 0;
-        sumData.surprise_count += frameData.surprise_count || 0;
-        sumData.sad_count += frameData.sad_count || 0;
-        sumData.customer_count += frameData.customer_count || 0;
-        sumData.male_count += frameData.male_count || 0;
-        sumData.fear_count += frameData.fear_count || 0;
-        sumData.neutral_count += frameData.neutral_count || 0;
-        sumData.average_age += frameData.average_age || 0;
-        sumData.female_count += frameData.female_count || 0;
+        if (isInTimePeriod(frameData.timestamp, timePeriod)) {
+          sumData.happy_count += frameData.happy_count || 0;
+          sumData.surprise_count += frameData.surprise_count || 0;
+          sumData.sad_count += frameData.sad_count || 0;
+          sumData.customer_count += frameData.customer_count || 0;
+          sumData.male_count += frameData.male_count || 0;
+          sumData.fear_count += frameData.fear_count || 0;
+          sumData.neutral_count += frameData.neutral_count || 0;
+          sumData.average_age += frameData.average_age || 0;
+          sumData.female_count += frameData.female_count || 0;
+        }
       });
     });
     //console.log('sumData:', sumData); // Add this line
@@ -80,7 +100,7 @@ function ClientPage() {
   const storesData = userStores.map((store) => {
     const foundData = testdata.find((data) => data.storeId === store.storeId);
     const storedata = sumUserFramesData(foundData?.userFramesData);
-    //console.log(foundData);
+    console.log(storedata);
     return {
       name: store.storeName,
       storeId: store.storeId,
@@ -103,6 +123,7 @@ function ClientPage() {
 
     storesData.forEach((store) => {
       const storeData = store.storeData;
+
       sumData.happy_count += storeData.happy_count || 0;
       sumData.surprise_count += storeData.surprise_count || 0;
       sumData.sad_count += storeData.sad_count || 0;
@@ -113,7 +134,6 @@ function ClientPage() {
       sumData.average_age += storeData.average_age || 0;
       sumData.female_count += storeData.female_count || 0;
     });
-
     return sumData;
   };
 
@@ -227,13 +247,49 @@ function ClientPage() {
     <div className="client">
       <div className="box box1">
         <div className="half">
-          <button>Week</button>
-          <button>Month</button>
-          <button>Year</button>
-          <button>All</button>
+          <button
+            style={
+              timePeriod === "Week"
+                ? { backgroundColor: "#008CBA", color: "white" }
+                : {}
+            }
+            onClick={() => setTimePeriod("Week")}
+          >
+            Week
+          </button>
+          <button
+            style={
+              timePeriod === "Month"
+                ? { backgroundColor: "#008CBA", color: "white" }
+                : {}
+            }
+            onClick={() => setTimePeriod("Month")}
+          >
+            Month
+          </button>
+          <button
+            style={
+              timePeriod === "Year"
+                ? { backgroundColor: "#008CBA", color: "white" }
+                : {}
+            }
+            onClick={() => setTimePeriod("Year")}
+          >
+            Year
+          </button>
+          <button
+            style={
+              timePeriod === "All"
+                ? { backgroundColor: "#008CBA", color: "white" }
+                : {}
+            }
+            onClick={() => setTimePeriod("All")}
+          >
+            All
+          </button>
         </div>
         <div className="half">
-          <GraphSettings id="general"/>
+          <GraphSettings id="general" />
         </div>
       </div>
       <div className="box box4">
