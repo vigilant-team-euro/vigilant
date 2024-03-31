@@ -7,11 +7,12 @@ function ForecastPage() {
   useEffect(() => {
     const getData = async () => {
       try {
-        let response = await fetch('http://127.0.0.1:5000/get_store_data', {
+        let response = await fetch('http://127.0.0.1:5000/get_store_data/', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
+          
         });
         let data = await response.json();
         setForecast(data);

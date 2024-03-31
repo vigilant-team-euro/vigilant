@@ -1,25 +1,45 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./storedemographics.scss";
 import PieChartBox from "../../components/pieChartBox/PieChartBox";
 import ChartBox from "../../components/chartBox/ChartBox";
 import BarChartBox from "../../components/barChart/BarChartBox";
 import GraphSettings from "../../components/graphSettings/GraphSettings";
-import { useParams } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { fetchAllFromSingleStore } from "../../components/fetchData/FetchDataUtils";
 import { AuthContext } from "../../context/AuthContext";
 
+import ReactSlider from "react-slider";
+import { Canvas } from "react-canvas-js";
+import Heatmap from "../../components/heatmap/Heatmap";
 function StoreDemographics(props) {
   const { currentUser } = useContext(AuthContext);
   const userId = currentUser.uid;
   const { id } = useParams();
   const location = useLocation();
   const storeName = location.state.storeName;
-  
+
   const [timePeriod, setTimePeriod] = useState("All");
 
   const [testdata, setTestData] = useState([]);
   const dataLocation = `users/${userId}/stores/${id}/data`;
+
+  const [sliderValue, setSliderValue] = useState(0);
+  const canvasData = {
+    labels: ["Slider Value"],
+    datasets: [
+      {
+        label: "My First dataset",
+        backgroundColor: "rgba(255,99,132,0.2)",
+        borderColor: "rgba(255,99,132,1)",
+        borderWidth: 1,
+        hoverBackgroundColor: "rgba(255,99,132,0.4)",
+        hoverBorderColor: "rgba(255,99,132,1)",
+        data: [sliderValue],
+      },
+    ],
+  };
+
   function isInTimePeriod(timestamp, timePeriod) {
     const now = Date.now();
     const frameTime =
@@ -54,7 +74,7 @@ function StoreDemographics(props) {
     fetchData();
   }, [dataLocation]);
   const sumUserFramesData = (framesData) => {
-    console.log('framesData:', framesData); // Add this line
+    console.log("framesData:", framesData); // Add this line
 
     let sumData = {
       happy_count: 0,
@@ -86,7 +106,6 @@ function StoreDemographics(props) {
         }
       });
     });
- 
 
     return sumData;
   };
@@ -157,7 +176,7 @@ function StoreDemographics(props) {
   return (
     <div className="storeview">
       <div className="box box1">
-      <div className="half">
+        <div className="half">
           <button
             style={
               timePeriod === "Week"
@@ -200,12 +219,13 @@ function StoreDemographics(props) {
           </button>
         </div>
         <div className="half">
-          <GraphSettings id={id}/>
+          <GraphSettings id={id} />
         </div>
       </div>
 
       <div className="box box4">
-      <h1>Store: {storeName.toUpperCase()}</h1>      </div>
+        <h1>Store: {storeName.toUpperCase()}</h1>{" "}
+      </div>
       <div className="box box5">
         <BarChartBox {...ageAnalysis} />
       </div>
@@ -214,15 +234,7 @@ function StoreDemographics(props) {
         <ChartBox {...totalCustomer} />
       </div>
       <div className="box box3">
-      <iframe 
-    src="https://www.youtube.com/embed/7dhZZecl8nY" 
-    title="YouTube video player" 
-    frameborder="0" 
-    width="100%" 
-    height="100%" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-    allowfullscreen>
-  </iframe>
+        <Heatmap/>
       </div>
       <div className="box box6">
         <PieChartBox data={genderAnalysis} title="Gender Analysis" />

@@ -3,7 +3,7 @@ import "./clientpage.scss";
 import ChartBox from "../../components/chartBox/ChartBox";
 import PieChartBox from "../../components/pieChartBox/PieChartBox";
 import BarChartBox from "../../components/barChart/BarChartBox";
-import { ResponsiveContainer, Treemap, Sankey } from "recharts";
+import { ResponsiveContainer,LineChart, Treemap, Sankey, Line, Tooltip } from "recharts";
 import {
   fetchAllForUser,
   fetchUserStores,
@@ -305,14 +305,22 @@ function ClientPage() {
         <PieChartBox data={moodAnalysis} title="Mood Analysis" />
       </div>
       <div className="box box3">
-        <ResponsiveContainer>
-          <Sankey
-            data={customerDistributeAnalysis}
-            node={{ stroke: "#77c878", strokeWidth: 2 }}
-            nodePadding={111}
-            link={{ stroke: "#fff" }}
-          ></Sankey>
-        </ResponsiveContainer>
+      <ResponsiveContainer width="99%" height="100%">
+                <LineChart data={totalCustomer.chartData}>
+                  <Tooltip
+                    contentStyle={{ background: "transparent", border: "none" }}
+                    labelStyle={{ display: "none" }}
+                    position={{ x: 10, y: 30 }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey={totalCustomer.dataKey}
+                    stroke={totalCustomer.color}
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
       </div>
       <div className="box box6">
         <PieChartBox data={genderAnalysis} title="Gender Analysis" />
