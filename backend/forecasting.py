@@ -26,41 +26,28 @@ def fetch_data_from_firebase(user_id: str, store_id: str):
     df = pd.DataFrame(frames_data)
     
     return df
-
-def fetch_names_from_firebase(user_id: str):
-    names = []  # Array to store store names
-    
-    try:
-        docs = db.collection('users').document(user_id).collection('stores').stream()
-        print(user_id)
-        for doc in docs:
-            store_name = doc.id  # Using document ID as store name
-            names.append(store_name)
-    except Exception as e:
-        print("Error fetching documents:", e)
-    
-    return names  # Return array of store names
-
 def preprocess_data(df):
-    # Convert 'datetime' to datetime object
-    df['datetime'] = pd.to_datetime(df['timestamp'])
+    # Convert 'start_date' to datetime object
+    df['start_date'] = pd.to_datetime(df['start_date'])
 
-    # Group age into 10-year age groups
-    #avarage
-    df['age_group'] = pd.cut(df['average_age'], bins=range(0, 101, 10), right=False)
-    
-    # Extract date from datetime
-    df['date'] = df['datetime'].dt.date
+    # Extract date from start_date
+    df['date'] = df['start_date'].dt.date
     
     return df
 
 def calculate_average_age_and_gender(df):
     # Group by date and calculate average age
-    grouped_data = df.groupby('date', as_index=False)['age'].mean()
-    
+    grouped_data = df.groupby('date', as_index=False)['0-15_age_count'].mean()
+    age_fifteen = df.groupby('date', as_index=False)['15-30_age_count'].mean()
+    age_thirty = df.groupby('date', as_index=False)['30-45_age_count'].mean()
+    age_fourtyfive = df.groupby('date', as_index=False)['45-60_age_count'].mean()
+    grouped_data = grouped_data.merge(age_fifteen, on='date', how='left')
+    grouped_data = grouped_data.merge(age_thirty, on='date', how='left')
+    grouped_data = grouped_data.merge(age_fourtyfive, on='date', how='left')
+
     # Calculate male and female counts separately
-    male_counts = df[df['gender'] == 'Man'].groupby('date').size().reset_index(name='male_count')
-    female_counts = df[df['gender'] == 'Woman'].groupby('date').size().reset_index(name='female_count')
+    male_counts = df.groupby('date', as_index=False)['male_count'].mean()
+    female_counts = df.groupby('date', as_index=False)['female_count'].mean()
     
     # Merge male and female counts with the grouped data
     grouped_data = grouped_data.merge(male_counts, on='date', how='left')
@@ -110,12 +97,12 @@ def forecast_female_count(df):
     # Return only the forecasted female count for the next 7 days
     return forecast[['ds', 'yhat']][-7:]
 
-def forecast_age(df):
+def forecast_age_zero(df):
     # Create a Prophet model
     model = Prophet(seasonality_mode='additive', weekly_seasonality=False, yearly_seasonality=False)
     
     # Rename columns as required by Prophet
-    df = df.rename(columns={'date': 'ds', 'age': 'y'})
+    df = df.rename(columns={'date': 'ds', '0-15_age_count': 'y'})
     
     # Fit the model
     model.fit(df[['ds', 'y']])
@@ -128,47 +115,384 @@ def forecast_age(df):
     
     # Return only the forecasted age for the next 7 days
     return forecast[['ds', 'yhat']][-7:]
+def forecast_age_fifteen(df):
+    # Create a Prophet model
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=False, yearly_seasonality=False)
+    
+    # Rename columns as required by Prophet
+    df = df.rename(columns={'date': 'ds', '15-30_age_count': 'y'})
+    
+    # Fit the model
+    model.fit(df[['ds', 'y']])
+    
+    # Make future dataframe for next 7 days
+    future = model.make_future_dataframe(periods=7)
+    
+    # Make predictions
+    forecast = model.predict(future)
+    
+    # Return only the forecasted age for the next 7 days
+    return forecast[['ds', 'yhat']][-7:]
+def forecast_age_thirty(df):
+    # Create a Prophet model
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=False, yearly_seasonality=False)
+    
+    # Rename columns as required by Prophet
+    df = df.rename(columns={'date': 'ds', '30-45_age_count': 'y'})
+    
+    # Fit the model
+    model.fit(df[['ds', 'y']])
+    
+    # Make future dataframe for next 7 days
+    future = model.make_future_dataframe(periods=7)
+    
+    # Make predictions
+    forecast = model.predict(future)
+    
+    # Return only the forecasted age for the next 7 days
+    return forecast[['ds', 'yhat']][-7:]
+def forecast_age_fourtyfive(df):
+    # Create a Prophet model
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=False, yearly_seasonality=False)
+    
+    # Rename columns as required by Prophet
+    df = df.rename(columns={'date': 'ds', '30-45_age_count': 'y'})
+    
+    # Fit the model
+    model.fit(df[['ds', 'y']])
+    
+    # Make future dataframe for next 7 days
+    future = model.make_future_dataframe(periods=7)
+    
+    # Make predictions
+    forecast = model.predict(future)
+    
+    # Return only the forecasted age for the next 7 days
+    return forecast[['ds', 'yhat']][-7:]
+def forecast_male_count_thirty_day(df):
+    # Create a Prophet model
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=False)
+    
+    # Rename columns as required by Prophet
+    df = df.rename(columns={'date': 'ds', 'male_count': 'y'})
+    
+    # Fit the model
+    model.fit(df[['ds', 'y']])
+    
+    # Make future dataframe for next 30 days
+    future = model.make_future_dataframe(periods=30)
+    
+    # Make predictions
+    forecast = model.predict(future)
+    
+    # Return only the forecasted male count for the next 30 days
+    return forecast[['ds', 'yhat']][-30:]
+
+def forecast_female_count_thirty_day(df):
+    # Create a Prophet model
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=False)
+    
+    # Rename columns as required by Prophet
+    df = df.rename(columns={'date': 'ds', 'female_count': 'y'})
+    
+    # Fit the model
+    model.fit(df[['ds', 'y']])
+    
+    # Make future dataframe for next 30 days
+    future = model.make_future_dataframe(periods=30)
+    
+    # Make predictions
+    forecast = model.predict(future)
+    
+    # Return only the forecasted female count for the next 30 days
+    return forecast[['ds', 'yhat']][-30:]
+
+def forecast_age_zero_thirty_day(df):
+    # Create a Prophet model
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=False)
+    
+    # Rename columns as required by Prophet
+    df = df.rename(columns={'date': 'ds', '0-15_age_count': 'y'})
+    
+    # Fit the model
+    model.fit(df[['ds', 'y']])
+    
+    # Make future dataframe for next 30 days
+    future = model.make_future_dataframe(periods=30)
+    
+    # Make predictions
+    forecast = model.predict(future)
+    
+    # Return only the forecasted age for the next 30 days
+    return forecast[['ds', 'yhat']][-30:]
+
+def forecast_age_fifteen_thirty_day(df):
+    # Create a Prophet model
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=False)
+    
+    # Rename columns as required by Prophet
+    df = df.rename(columns={'date': 'ds', '15-30_age_count': 'y'})
+    
+    # Fit the model
+    model.fit(df[['ds', 'y']])
+    
+    # Make future dataframe for next 30 days
+    future = model.make_future_dataframe(periods=30)
+    
+    # Make predictions
+    forecast = model.predict(future)
+    
+    # Return only the forecasted age for the next 30 days
+    return forecast[['ds', 'yhat']][-30:]
+
+def forecast_age_thirty_thirty_day(df):
+    # Create a Prophet model
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=False)
+    
+    # Rename columns as required by Prophet
+    df = df.rename(columns={'date': 'ds', '30-45_age_count': 'y'})
+    
+    # Fit the model
+    model.fit(df[['ds', 'y']])
+    
+    # Make future dataframe for next 30 days
+    future = model.make_future_dataframe(periods=30)
+    
+    # Make predictions
+    forecast = model.predict(future)
+    
+    # Return only the forecasted age for the next 30 days
+    return forecast[['ds', 'yhat']][-30:]
+
+def forecast_age_fourtyfive_thirty_day(df):
+    # Create a Prophet model
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=False)
+    
+    # Rename columns as required by Prophet
+    df = df.rename(columns={'date': 'ds', '30-45_age_count': 'y'})
+    
+    # Fit the model
+    model.fit(df[['ds', 'y']])
+    
+    # Make future dataframe for next 30 days
+    future = model.make_future_dataframe(periods=30)
+    
+    # Make predictions
+    forecast = model.predict(future)
+    
+    # Return only the forecasted age for the next 30 days
+    return forecast[['ds', 'yhat']][-30:]
+def forecast_male_count_yearly(df):
+    # Create a Prophet model
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=True)
+    
+    # Rename columns as required by Prophet
+    df = df.rename(columns={'date': 'ds', 'male_count': 'y'})
+    
+    # Fit the model
+    model.fit(df[['ds', 'y']])
+    
+    # Make future dataframe for next 365 days
+    future = model.make_future_dataframe(periods=365)
+    
+    # Make predictions
+    forecast = model.predict(future)
+    
+    # Return only the forecasted male count for the next 365 days
+    return forecast[['ds', 'yhat']][-365:]
+
+def forecast_female_count_yearly(df):
+    # Create a Prophet model
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=True)
+    
+    # Rename columns as required by Prophet
+    df = df.rename(columns={'date': 'ds', 'female_count': 'y'})
+    
+    # Fit the model
+    model.fit(df[['ds', 'y']])
+    
+    # Make future dataframe for next 365 days
+    future = model.make_future_dataframe(periods=365)
+    
+    # Make predictions
+    forecast = model.predict(future)
+    
+    # Return only the forecasted female count for the next 365 days
+    return forecast[['ds', 'yhat']][-365:]
+
+def forecast_age_zero_yearly(df):
+    # Create a Prophet model
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=True)
+    
+    # Rename columns as required by Prophet
+    df = df.rename(columns={'date': 'ds', '0-15_age_count': 'y'})
+    
+    # Fit the model
+    model.fit(df[['ds', 'y']])
+    
+    # Make future dataframe for next 365 days
+    future = model.make_future_dataframe(periods=365)
+    
+    # Make predictions
+    forecast = model.predict(future)
+    
+    # Return only the forecasted age for the next 365 days
+    return forecast[['ds', 'yhat']][-365:]
+
+def forecast_age_fifteen_yearly(df):
+    # Create a Prophet model
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=True)
+    
+    # Rename columns as required by Prophet
+    df = df.rename(columns={'date': 'ds', '15-30_age_count': 'y'})
+    
+    # Fit the model
+    model.fit(df[['ds', 'y']])
+    
+    # Make future dataframe for next 365 days
+    future = model.make_future_dataframe(periods=365)
+    
+    # Make predictions
+    forecast = model.predict(future)
+    
+    # Return only the forecasted age for the next 365 days
+    return forecast[['ds', 'yhat']][-365:]
+
+def forecast_age_thirty_yearly(df):
+    # Create a Prophet model
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=True)
+    
+    # Rename columns as required by Prophet
+    df = df.rename(columns={'date': 'ds', '30-45_age_count': 'y'})
+    
+    # Fit the model
+    model.fit(df[['ds', 'y']])
+    
+    # Make future dataframe for next 365 days
+    future = model.make_future_dataframe(periods=365)
+    
+    # Make predictions
+    forecast = model.predict(future)
+    
+    # Return only the forecasted age for the next 365 days
+    return forecast[['ds', 'yhat']][-365:]
+
+def forecast_age_fourtyfive_yearly(df):
+    # Create a Prophet model
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=True)
+    
+    # Rename columns as required by Prophet
+    df = df.rename(columns={'date': 'ds', '30-45_age_count': 'y'})
+    
+    # Fit the model
+    model.fit(df[['ds', 'y']])
+    
+    # Make future dataframe for next 365 days
+    future = model.make_future_dataframe(periods=365)
+    
+    # Make predictions
+    forecast = model.predict(future)
+    
+    # Return only the forecasted age for the next 365 days
+    return forecast[['ds', 'yhat']][-365:]
+
 def floor_male_female_counts(df):
     # Floor the male and female counts
     df['yhat'] = df['yhat'].apply(math.floor)
     return df
 
 def forecast(user_id, store_id):
-    branch_name = "stores" 
-    names = fetch_names_from_firebase(user_id)
-    print(names)
     store_data = {}
     df = fetch_data_from_firebase(user_id, store_id)
     print(df)
+    if not df.empty:
+        # Preprocess data
+        df = preprocess_data(df)
 
-    for name in names:
-        if name is not None:
+
+
+        # Calculate average age and gender for the store
+        grouped_data = calculate_average_age_and_gender(df)
+        
+        forecast_male_count_data = floor_male_female_counts(forecast_male_count(grouped_data))
+        forecast_female_count_data = floor_male_female_counts(forecast_female_count(grouped_data))
+        forecast_age_zero_data = forecast_age_zero(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age_zero'})
+        forecast_age_fifteen_data = forecast_age_fifteen(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age_fifteen'})
+        forecast_age_thirty_data = forecast_age_thirty(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age_thirty'})
+        forecast_age_fourtyfive_data = forecast_age_fourtyfive(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age_fourtyfive'})
+        forecast_male_count_data_thirty_day = floor_male_female_counts(forecast_male_count_thirty_day(grouped_data))
+        forecast_female_count_data_thirty_day = floor_male_female_counts(forecast_female_count_thirty_day(grouped_data))
+        forecast_age_zero_data_thirty_day = forecast_age_zero_thirty_day(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age_zero'})
+        forecast_age_fifteen_data_thirty_day = forecast_age_fifteen_thirty_day(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age_fifteen'})
+        forecast_age_thirty_data_thirty_day = forecast_age_thirty_thirty_day(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age_thirty'})
+        forecast_age_fourtyfive_data_thirty_day = forecast_age_fourtyfive_thirty_day(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age_fourtyfive'})
+        forecast_male_count_data_yearly = floor_male_female_counts(forecast_male_count_yearly(grouped_data))
+        forecast_female_count_data_yearly = floor_male_female_counts(forecast_female_count_yearly(grouped_data))
+        forecast_age_zero_data_yearly = forecast_age_zero_yearly(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age_zero'})
+        forecast_age_fifteen_data_yearly = forecast_age_fifteen_yearly(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age_fifteen'})
+        forecast_age_thirty_data_yearly = forecast_age_thirty_yearly(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age_thirty'})
+        forecast_age_fourtyfive_data_yearly = forecast_age_fourtyfive_yearly(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age_fourtyfive'})
+
+
+
+
+
+        forecast_male_count_data = forecast_male_count_data.rename(columns={'ds': 'date', 'yhat': 'forecast_male_visitor'})
+        forecast_female_count_data = forecast_female_count_data.rename(columns={'ds': 'date', 'yhat': 'forecast_female_visitor'})
+        forecast_male_count_data_thirty_day = forecast_male_count_data_thirty_day.rename(columns={'ds': 'date', 'yhat': 'forecast_male_visitor'})
+        forecast_female_count_data_thirty_day = forecast_female_count_data_thirty_day.rename(columns={'ds': 'date', 'yhat': 'forecast_female_visitor'})
+        forecast_male_count_data_yearly = forecast_male_count_data_yearly.rename(columns={'ds': 'date', 'yhat': 'forecast_male_visitor'})
+        forecast_female_count_data_yearly = forecast_female_count_data_yearly.rename(columns={'ds': 'date', 'yhat': 'forecast_female_visitor'})
+
+        grouped_data['date'] = grouped_data['date'].astype(str)
+        forecast_age_zero_data_thirty_day['date'] = forecast_age_zero_data_thirty_day['date'].astype(str)
+        forecast_age_fifteen_data_thirty_day['date'] = forecast_age_fifteen_data_thirty_day['date'].astype(str)
+        forecast_age_thirty_data_thirty_day['date'] = forecast_age_thirty_data_thirty_day['date'].astype(str)
+        forecast_age_fourtyfive_data_thirty_day['date'] = forecast_age_fourtyfive_data_thirty_day['date'].astype(str)
+        forecast_age_zero_data['date'] = forecast_age_zero_data['date'].astype(str)
+        forecast_age_fifteen_data['date'] = forecast_age_fifteen_data['date'].astype(str)
+        forecast_age_thirty_data['date'] = forecast_age_thirty_data['date'].astype(str)
+        forecast_age_fourtyfive_data['date'] = forecast_age_fourtyfive_data['date'].astype(str)
+        forecast_age_zero_data_yearly['date'] = forecast_age_zero_data_yearly['date'].astype(str)
+        forecast_age_fifteen_data_yearly['date'] = forecast_age_fifteen_data_yearly['date'].astype(str)
+        forecast_age_thirty_data_yearly['date'] = forecast_age_thirty_data_yearly['date'].astype(str)
+        forecast_age_fourtyfive_data_yearly['date'] = forecast_age_fourtyfive_data_yearly['date'].astype(str)
+
+        forecast_male_count_data_thirty_day['date'] = forecast_male_count_data_thirty_day['date'].astype(str)
+        forecast_female_count_data_thirty_day['date'] = forecast_female_count_data_thirty_day['date'].astype(str)
+        forecast_male_count_data['date'] = forecast_male_count_data['date'].astype(str)
+        forecast_female_count_data['date'] = forecast_female_count_data['date'].astype(str)
+        forecast_male_count_data_yearly['date'] = forecast_male_count_data_yearly['date'].astype(str)
+        forecast_female_count_data_yearly['date'] = forecast_female_count_data_yearly['date'].astype(str)
+
+
+        # Store the grouped data and forecast for the store in the dictionary
+        store_data[store_id] = {
+            'grouped_data': grouped_data.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
+            'forecast_age_zero': forecast_age_zero_data.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
+            'forecast_age_fifteen': forecast_age_fifteen_data.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
+            'forecast_age_thirty': forecast_age_thirty_data.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
+            'forecast_age_fourtyfive': forecast_age_fourtyfive_data.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
+
+            'forecast_male_count': forecast_male_count_data.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
+            'forecast_female_count': forecast_female_count_data.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
             
-            if not df.empty:
-                # Preprocess data
-                df = preprocess_data(df)
+            'forecast_age_zero_thirty': forecast_age_zero_data_thirty_day.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
+            'forecast_age_fifteen_thirty': forecast_age_fifteen_data_thirty_day.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
+            'forecast_age_thirty_thirty': forecast_age_thirty_data_thirty_day.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
+            'forecast_age_fourtyfive_thirty': forecast_age_fourtyfive_data_thirty_day.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
+
+            'forecast_male_count_thirty': forecast_male_count_data_thirty_day.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
+            'forecast_female_count_thirty': forecast_female_count_data_thirty_day.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
 
 
-
-                # Calculate average age and gender for the store
-                grouped_data = calculate_average_age_and_gender(df)
-                
-                forecast_male_count_data = floor_male_female_counts(forecast_male_count(grouped_data))
-                forecast_female_count_data = floor_male_female_counts(forecast_female_count(grouped_data))
-                forecast_age_data = forecast_age(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age'})
-                forecast_male_count_data = forecast_male_count_data.rename(columns={'ds': 'date', 'yhat': 'forecast_male_visitor'})
-                forecast_female_count_data = forecast_female_count_data.rename(columns={'ds': 'date', 'yhat': 'forecast_female_visitor'})
-                grouped_data['date'] = grouped_data['date'].astype(str)
-                forecast_age_data['date'] = forecast_age_data['date'].astype(str)
-                forecast_male_count_data['date'] = forecast_male_count_data['date'].astype(str)
-                forecast_female_count_data['date'] = forecast_female_count_data['date'].astype(str)
-                # Store the grouped data and forecast for the store in the dictionary
-                store_data[name] = {
-                    'grouped_data': grouped_data.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
-                    'forecast_age': forecast_age_data.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
-                    'forecast_male_count': forecast_male_count_data.to_dict(orient='records'),  # Convert DataFrame to list of dictionaries
-                    'forecast_female_count': forecast_female_count_data.to_dict(orient='records')  # Convert DataFrame to list of dictionaries
-                }
+            'forecast_age_zero_yearly': forecast_age_zero_data_yearly.to_dict(orient='records'),
+            'forecast_age_fifteen_yearly': forecast_age_fifteen_data_yearly.to_dict(orient='records'),
+            'forecast_age_thirty_yearly': forecast_age_thirty_data_yearly.to_dict(orient='records'),
+            'forecast_age_fourtyfive_yearly': forecast_age_fourtyfive_data_yearly.to_dict(orient='records'),
+            'forecast_male_count_yearly': forecast_male_count_data_yearly.to_dict(orient='records'),
+            'forecast_female_count_yearly': forecast_female_count_data_yearly.to_dict(orient='records')
+        }
     
     store_data_json = json.dumps(store_data)
     return store_data_json

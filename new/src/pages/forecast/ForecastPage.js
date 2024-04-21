@@ -9,8 +9,8 @@ function ForecastPage() {
   let  [forecast, setForecast] = useState([])
   const {currentUser} = useContext(AuthContext)
   const userId = currentUser.uid
-  const { id } = useParams();
-
+  let pathArray = window.location.pathname.split('/');
+  let id = pathArray[pathArray.length - 1];
   useEffect(() => {
     const getData = async () => {
       try {
