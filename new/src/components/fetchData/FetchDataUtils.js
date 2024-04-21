@@ -1,5 +1,24 @@
 import { db } from "../../utils/firebase";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+const fetchFromStorage = async (filePath) => {
+  try {
+    // Get a reference to the storage service
+    const storage = getStorage();
+
+    // Create a storage reference from our storage service
+    const fileRef = ref(storage, filePath);
+
+    // Get the download URL
+    const url = await getDownloadURL(fileRef);
+    console.log("URL:", url);
+    // `url` is the download URL for your file
+    return url;
+  } catch (error) {
+    console.error("Error fetching data from storage:", error);
+    throw error;
+  }
+};
 
 const fetchSingleArray = async (dataLocation, documentName) => {
   try {
@@ -91,4 +110,4 @@ const fetchUserStores = async (userId) => {
   }
 };
 
-export { fetchSingleArray, fetchAllFromSingleStore, fetchAllForUser, fetchUserStores };
+export {fetchFromStorage, fetchSingleArray, fetchAllFromSingleStore, fetchAllForUser, fetchUserStores };

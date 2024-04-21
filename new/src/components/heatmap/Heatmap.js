@@ -1,11 +1,16 @@
 // SliderComponent.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactSlider from 'react-slider';
 import "./heatmap.scss"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
+import { fetchFromStorage} from '../../components/fetchData/FetchDataUtils';
 const Heatmap = () => {
   const [sliderValue, setSliderValue] = useState(0);
+  const [testdata, setTestData] = useState([]);
+  const dataLocation = `abc@gmail.com/store1/view_2024-03-31 13:44:11.399000.npy`;
+
+
   const handlePlay = () => {
     // Implement play functionality here
   };
@@ -13,6 +18,7 @@ const Heatmap = () => {
   const handleStop = () => {
     // Implement stop functionality here
   };
+
   return (
     <div className='parent'>
     <div className='canvas'>
