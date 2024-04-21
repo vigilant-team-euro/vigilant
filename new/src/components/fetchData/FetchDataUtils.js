@@ -1,6 +1,19 @@
 import { db } from "../../utils/firebase";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+const fetchImageUrl = async (imagePath) => {
+  const storage = getStorage();
+  const imageRef = ref(storage, imagePath);
+
+  try {
+    const imageUrl = await getDownloadURL(imageRef);
+    return imageUrl;
+  } catch (error) {
+    console.error("Error fetching image:", error);
+    throw error;
+  }
+};
+
 const fetchFromStorage = async (filePath) => {
   try {
     // Get a reference to the storage service
@@ -110,4 +123,4 @@ const fetchUserStores = async (userId) => {
   }
 };
 
-export {fetchFromStorage, fetchSingleArray, fetchAllFromSingleStore, fetchAllForUser, fetchUserStores };
+export {fetchImageUrl,fetchFromStorage, fetchSingleArray, fetchAllFromSingleStore, fetchAllForUser, fetchUserStores };

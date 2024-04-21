@@ -6,13 +6,15 @@ import BarChartBox from "../../components/barChart/BarChartBox";
 import GraphSettings from "../../components/graphSettings/GraphSettings";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { fetchAllFromSingleStore } from "../../components/fetchData/FetchDataUtils";
+import { fetchAllFromSingleStore,fetchImageUrl } from "../../components/fetchData/FetchDataUtils";
 import { AuthContext } from "../../context/AuthContext";
 
 import ReactSlider from "react-slider";
 import { Canvas } from "react-canvas-js";
 import Heatmap from "../../components/heatmap/Heatmap";
 function StoreDemographics(props) {
+  const [imageUrl, setImageUrl] = useState(null);
+
   const { currentUser } = useContext(AuthContext);
   const userId = currentUser.uid;
   const { id } = useParams();
@@ -58,6 +60,20 @@ function StoreDemographics(props) {
         return false;
     }
   }
+  useEffect(() => {
+    const fetchImage = async () => {
+      const imagePath = `gs://vigilant-36758.appspot.com/${userId}/${storeName}/cs_fair_camera_2024-04-21 13:08:12.895000.png`; // replace with your image path
+      try {
+        const url = await fetchImageUrl(imagePath);
+        console.log("url", url);
+        setImageUrl(url);
+      } catch (error) {
+        console.error('Error fetching image:', error);
+      }
+    };
+  
+    fetchImage();
+  }, []);
   //console.log(id); // Print storeData to console
   useEffect(() => {
     const fetchData = async () => {
@@ -234,7 +250,7 @@ function StoreDemographics(props) {
         <ChartBox {...totalCustomer} />
       </div>
       <div className="box box3">
-        <Heatmap/>
+      <img src={imageUrl} alt="store" />
       </div>
       <div className="box box6">
         <PieChartBox data={genderAnalysis} title="Gender Analysis" />
