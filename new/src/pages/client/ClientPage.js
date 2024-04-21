@@ -80,7 +80,7 @@ function ClientPage() {
     }
     framesData.forEach((frame) => {
       frame.framesData.forEach((frameData) => {
-        if (isInTimePeriod(frameData.timestamp, timePeriod)) {
+        if (isInTimePeriod(frameData.start_date, timePeriod)) {
           sumData.happy_count += frameData.happy_count || 0;
           sumData.surprise_count += frameData.surprise_count || 0;
           sumData.sad_count += frameData.sad_count || 0;
