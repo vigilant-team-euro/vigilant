@@ -398,7 +398,7 @@ def forecast_age_fourtyfive_yearly(df):
 
 def floor_male_female_counts(df):
     # Floor the male and female counts
-    df['yhat'] = df['yhat'].apply(math.floor)
+    df['yhat'] = df['yhat'].apply(round)
     return df
 
 def forecast(user_id, store_id):
@@ -443,6 +443,8 @@ def forecast(user_id, store_id):
         forecast_female_count_data_thirty_day = forecast_female_count_data_thirty_day.rename(columns={'ds': 'date', 'yhat': 'forecast_female_visitor'})
         forecast_male_count_data_yearly = forecast_male_count_data_yearly.rename(columns={'ds': 'date', 'yhat': 'forecast_male_visitor'})
         forecast_female_count_data_yearly = forecast_female_count_data_yearly.rename(columns={'ds': 'date', 'yhat': 'forecast_female_visitor'})
+
+
 
         grouped_data['date'] = grouped_data['date'].astype(str)
         forecast_age_zero_data_thirty_day['date'] = forecast_age_zero_data_thirty_day['date'].astype(str)
