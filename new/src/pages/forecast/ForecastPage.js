@@ -1,13 +1,20 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect, useContext} from 'react'
 import "./forecastpage.scss"
 import { MdPictureAsPdf, MdInsertDriveFile } from "react-icons/md";
 import GraphSettings from "../../components/graphSettings/GraphSettings"; 
+import { AuthContext } from '../../context/AuthContext';
+import { useParams } from "react-router-dom";
+
 function ForecastPage() {
   let  [forecast, setForecast] = useState([])
+  const {currentUser} = useContext(AuthContext)
+  const userId = currentUser.uid
+  const { id } = useParams();
+
   useEffect(() => {
     const getData = async () => {
       try {
-        let response = await fetch('http://127.0.0.1:5000/get_store_data/', {
+        let response = await fetch(`http://127.0.0.1:5000/get_store_data?user_id=${userId}&store_id=${id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -20,11 +27,10 @@ function ForecastPage() {
         console.error('Failed to fetch data:', error);
       }
     };
-  
     getData();
   }, []);
   const [timePeriod, setTimePeriod] = useState("All");
-
+  console.log(`http://127.0.0.1:5000/get_store_data?user_id=${userId}&store_id=${id}`)
   console.log(forecast)
   const handleExportPDF = () => {
     // Implement PDF export logic here

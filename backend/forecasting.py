@@ -8,33 +8,46 @@ import json
 #initialize_app(cred)
 db = firestore.client()
 
-def fetch_data_from_firebase(branch_name: str):
-    persons = []
-    docs = db.collection(branch_name).stream()
-    for doc in docs:
-        person_data = doc.to_dict()
-        persons.append(person_data)
-
-    # Create DataFrame from Firebase data
-    df = pd.DataFrame(persons)
+def fetch_data_from_firebase(user_id: str, store_id: str):
+    # Reference to the collection
+    collection_ref = db.collection('users').document(user_id).collection('stores').document(store_id).collection('data')
+    
+    # List to store frames from all documents
+    frames_data = []
+    
+    # Iterate over documents in the collection
+    for doc in collection_ref.stream():
+        # Get data from each document
+        data = doc.to_dict()
+        # Extract 'frames' field and append to the list
+        frames_data.extend(data.get('frames', []))
+    
+    # Convert the list of dictionaries into a DataFrame
+    df = pd.DataFrame(frames_data)
+    
     return df
 
-def fetch_names_from_firebase(branch_name: str):
-    names = []  # Array to store names
+def fetch_names_from_firebase(user_id: str):
+    names = []  # Array to store store names
     
-    docs = db.collection(branch_name).stream()
-    for doc in docs:
-        person_data = doc.to_dict()
-        names.append(person_data.get('name'))  # Assuming 'name' is the key for names, modify as per your data structure
-
-    return names  # Return array of names
+    try:
+        docs = db.collection('users').document(user_id).collection('stores').stream()
+        print(user_id)
+        for doc in docs:
+            store_name = doc.id  # Using document ID as store name
+            names.append(store_name)
+    except Exception as e:
+        print("Error fetching documents:", e)
+    
+    return names  # Return array of store names
 
 def preprocess_data(df):
     # Convert 'datetime' to datetime object
-    df['datetime'] = pd.to_datetime(df['datetime'])
+    df['datetime'] = pd.to_datetime(df['timestamp'])
 
     # Group age into 10-year age groups
-    df['age_group'] = pd.cut(df['age'], bins=range(0, 101, 10), right=False)
+    #avarage
+    df['age_group'] = pd.cut(df['average_age'], bins=range(0, 101, 10), right=False)
     
     # Extract date from datetime
     df['date'] = df['datetime'].dt.date
@@ -120,16 +133,17 @@ def floor_male_female_counts(df):
     df['yhat'] = df['yhat'].apply(math.floor)
     return df
 
-def forecast():
+def forecast(user_id, store_id):
     branch_name = "stores" 
-    names = fetch_names_from_firebase(branch_name)
-
-    # Create a dictionary to store data for each store
+    names = fetch_names_from_firebase(user_id)
+    print(names)
     store_data = {}
+    df = fetch_data_from_firebase(user_id, store_id)
+    print(df)
 
     for name in names:
         if name is not None:
-            df = fetch_data_from_firebase(name)
+            
             if not df.empty:
                 # Preprocess data
                 df = preprocess_data(df)

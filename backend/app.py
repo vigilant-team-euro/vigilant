@@ -39,7 +39,12 @@ def getAges():
 
 @app.route('/get_store_data', methods=['GET'])
 def get_store_data():
-    return forecast()
+    print("Request args:", request.args)  # Debug print statement
+    user_id = request.args.get('user_id')
+    store_id = request.args.get('store_id')
+    print("User ID:", user_id)  # Debug print statement
+    print("Store ID:", store_id)  # Debug print statement
+    return forecast(user_id, store_id)
 
 if __name__ == '__main__':
     app.run(debug=True)
