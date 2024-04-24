@@ -8,6 +8,7 @@ import GraphSettings from "../../components/graphSettings/GraphSettings";
 import { AuthContext } from '../../context/AuthContext';
 import { ResponsiveContainer,LineChart, Treemap, Sankey, Line, Tooltip } from "recharts";
 import { useParams } from "react-router-dom";
+import OpenAIAPIComponent from "../../components/openapi/OpenAPI";
 const API_KEY = "sk-proj-NM7EApOZLK7KuWBcWEfBT3BlbkFJErnFFbEp22wS15gYTH6X"; // secure -> environment variable
 
 function ForecastPage() {
@@ -16,41 +17,7 @@ function ForecastPage() {
   const userId = currentUser.uid
   let pathArray = window.location.pathname.split('/');
   let id = pathArray[pathArray.length - 1];
-  const [tweet, setTweet] = useState("");
-  const [sentiment, setSentiment] = useState(""); // "Negative" or "Positive"
 
-
-
-  async function callOpenAIAPI() {
-    console.log("Calling the OpenAI API");
-
-    const APIBody = {
-        "model": "gpt-3.5-turbo",
-        "messages": [{ "role": "user", "content": "with given data estimate recep's balls weight" + tweet }],
-        "temperature": 0,
-        "max_tokens": 60,
-        "top_p": 1.0,
-        "frequency_penalty": 0.0,
-        "presence_penalty": 0.0
-    }
-
-    await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + API_KEY
-        },
-        body: JSON.stringify(APIBody)
-    }).then((response) => response.json()).then((data) => {
-        console.log(data);
-        // Assuming the sentiment is returned as the text in the response
-        setSentiment(data.choices[0].message.content.trim());
-    });
-}
-
-console.log(tweet);
-
-  console.log(tweet);
   useEffect(() => {
     const getData = async () => {
       try {
@@ -80,6 +47,7 @@ console.log(tweet);
     date: item.date,
     femaleCount: item["female_count"] // Assuming "0-15_age_count" is the key for the age count data
   }));
+  
   const weekly_fifteen_forecast = {
     title: "Female Count",
     color: "#FF8042",
@@ -150,19 +118,10 @@ console.log(tweet);
       <button onClick={handleExportPDF}><MdPictureAsPdf /></button>
         <button onClick={handleExportCSV}><MdInsertDriveFile /></button>
       </div>
-      <div className="box box4">Detailed Explanation of Chart
-      <button onClick={callOpenAIAPI}>Get The Tweet Sentiment From OpenAI API</button>
-        {sentiment !== "" ?
-          <h3>This Tweet Is: {sentiment}</h3>  
-          :
-          null
-        }
-        <textarea
-          onChange={(e) => setTweet(e.target.value)}
-          placeholder='Paste your tweet here!'
-          cols={50}
-          rows={10}
-        />
+      <div className="box box4">
+      
+        <OpenAIAPIComponent />
+
       </div>
       <div className="box box3">CHARTS
         <div>

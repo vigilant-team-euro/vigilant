@@ -105,7 +105,7 @@ function ClientPage() {
       name: store.storeName,
       storeId: store.storeId,
       storeData: storedata,
-      size: storedata.customer_count,
+      size: 100,
     };
   });
   const sumStoresData = () => {
