@@ -306,7 +306,7 @@ function ClientPage() {
         <PieChartBox data={moodAnalysis} title="Mood Analysis" />
       </div>
       <div className="box box3">
-            <OpenAPI type="client_page"/>
+            <OpenAPI {...totalData} type="client_page"/>
       </div>
       <div className="box box6">
         <PieChartBox data={genderAnalysis} title="Gender Analysis" />

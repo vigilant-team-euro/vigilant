@@ -18,11 +18,7 @@
     cursor: pointer; // Change the cursor when hovering over the button
     border-radius: 4px; // Round the corners of the button
   }
-  
-  button:hover {
-    background-color: #45a049; // Change the background color when hovering over the button
-  }
-  
+
   
   .canvas {
     flex-grow: 1; // This will make the canvas take up all available space
