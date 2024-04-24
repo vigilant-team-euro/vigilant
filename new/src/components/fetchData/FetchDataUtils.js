@@ -1,6 +1,6 @@
 import { db } from "../../utils/firebase";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, getDownloadURL, listAll } from "firebase/storage";
 const fetchImageUrl = async (imagePath) => {
   const storage = getStorage();
   const imageRef = ref(storage, imagePath);
@@ -13,7 +13,19 @@ const fetchImageUrl = async (imagePath) => {
     throw error;
   }
 };
+const fetchAllImages = async (folderPath) => {
+  const storage = getStorage();
+  
+  const folderRef = ref(storage, folderPath);
+  console.log( "folderRef",folderRef)
+ 
+    const res = await listAll(folderRef);
+    console.log('listAll result:', res); // Log the result
 
+    const urls = await Promise.all(res.items.map(item => getDownloadURL(item)));
+    return urls;
+  
+};
 const fetchFromStorage = async (filePath) => {
   try {
     // Get a reference to the storage service
@@ -123,4 +135,4 @@ const fetchUserStores = async (userId) => {
   }
 };
 
-export {fetchImageUrl,fetchFromStorage, fetchSingleArray, fetchAllFromSingleStore, fetchAllForUser, fetchUserStores };
+export {fetchAllImages,fetchImageUrl,fetchFromStorage, fetchSingleArray, fetchAllFromSingleStore, fetchAllForUser, fetchUserStores };

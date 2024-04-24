@@ -6,15 +6,14 @@ import BarChartBox from "../../components/barChart/BarChartBox";
 import GraphSettings from "../../components/graphSettings/GraphSettings";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { fetchAllFromSingleStore,fetchImageUrl } from "../../components/fetchData/FetchDataUtils";
+import { fetchAllFromSingleStore,fetchAllImages } from "../../components/fetchData/FetchDataUtils";
 import { AuthContext } from "../../context/AuthContext";
 
 import ReactSlider from "react-slider";
 import { Canvas } from "react-canvas-js";
 import Heatmap from "../../components/heatmap/Heatmap";
 function StoreDemographics(props) {
-  const [imageUrl, setImageUrl] = useState(null);
-
+  const [imageUrl, setImageUrl] = useState([]);
   const { currentUser } = useContext(AuthContext);
   const userId = currentUser.uid;
   const { id } = useParams();
@@ -22,6 +21,7 @@ function StoreDemographics(props) {
   const storeName = location.state.storeName;
 
   const [timePeriod, setTimePeriod] = useState("All");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0); // New state variable
 
   const [testdata, setTestData] = useState([]);
   const dataLocation = `users/${userId}/stores/${id}/data`;
@@ -41,7 +41,11 @@ function StoreDemographics(props) {
       },
     ],
   };
+  const handleImageChange = (event) => {
+    setCurrentImageIndex(event.target.value);
+    event.preventDefault();
 
+  };
   function isInTimePeriod(timestamp, timePeriod) {
     const now = Date.now();
     const frameTime =
@@ -60,11 +64,12 @@ function StoreDemographics(props) {
         return false;
     }
   }
+
   useEffect(() => {
     const fetchImage = async () => {
-      const imagePath = `gs://vigilant-36758.appspot.com/${userId}/${storeName}/cs_fair_camera_2024-04-21 13:08:12.895000.png`; // replace with your image path
+      const imagePath = `gs://vigilant-36758.appspot.com/${userId}/${storeName}/`; // replace with your image path
       try {
-        const url = await fetchImageUrl(imagePath);
+        const url = await fetchAllImages(imagePath);
         console.log("url", url);
         setImageUrl(url);
       } catch (error) {
@@ -250,7 +255,14 @@ function StoreDemographics(props) {
         <ChartBox {...totalCustomer} />
       </div>
       <div className="box box3">
-      <img src={imageUrl} alt="store" />
+      {imageUrl.length > 0 && <img src={imageUrl[currentImageIndex]} alt="store" />}
+      <select onChange={handleImageChange}>
+          {imageUrl && imageUrl.map((url, index) => (
+            <option value={index} key={index}>
+              Image {index + 1}
+            </option>
+          ))}
+        </select>
       </div>
       <div className="box box6">
         <PieChartBox data={genderAnalysis} title="Gender Analysis" />
