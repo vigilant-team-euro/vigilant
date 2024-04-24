@@ -399,6 +399,7 @@ def forecast_age_fourtyfive_yearly(df):
 def floor_male_female_counts(df):
     # Floor the male and female counts
     df['yhat'] = df['yhat'].apply(round)
+    df['yhat'] = df['yhat'].apply(lambda x: max(0, round(x)))
     return df
 
 def forecast(user_id, store_id):
@@ -416,6 +417,21 @@ def forecast(user_id, store_id):
         
         forecast_male_count_data = floor_male_female_counts(forecast_male_count(grouped_data))
         forecast_female_count_data = floor_male_female_counts(forecast_female_count(grouped_data))
+        # forecast_age_zero_data = floor_male_female_counts(forecast_age_zero_data(grouped_data))
+        # forecast_age_zero_data_thirty_day = floor_male_female_counts(forecast_age_zero_data_thirty_day(grouped_data))
+        # forecast_age_zero_data_yearly = floor_male_female_counts(forecast_age_zero_data_yearly(grouped_data))
+        # forecast_age_fifteen_data = floor_male_female_counts(forecast_age_fifteen_data(grouped_data))
+        # forecast_age_fifteen_data_thirty_day = floor_male_female_counts(forecast_age_fifteen_data_thirty_day(grouped_data))
+        # forecast_age_fifteen_data_yearly = floor_male_female_counts(forecast_age_fifteen_data_yearly(grouped_data))
+        # forecast_age_thirty_data = floor_male_female_counts(forecast_age_thirty_data(grouped_data))
+        # forecast_age_thirty_data_thirty_day = floor_male_female_counts(forecast_age_thirty_data_thirty_day(grouped_data))
+        # forecast_age_thirty_data_yearly = floor_male_female_counts(forecast_age_thirty_data_yearly(grouped_data))
+        # forecast_age_fourtyfive_data = floor_male_female_counts(forecast_age_fourtyfive_data(grouped_data))
+        # forecast_age_fourtyfive_data_thirty_day = floor_male_female_counts(forecast_age_fourtyfive_data_thirty_day(grouped_data))
+        # forecast_age_fourtyfive_data_yearly = floor_male_female_counts(forecast_age_fourtyfive_data_yearly(grouped_data))
+
+
+
         forecast_age_zero_data = forecast_age_zero(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age_zero'})
         forecast_age_fifteen_data = forecast_age_fifteen(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age_fifteen'})
         forecast_age_thirty_data = forecast_age_thirty(grouped_data).rename(columns={'ds': 'date', 'yhat': 'forecast_age_thirty'})

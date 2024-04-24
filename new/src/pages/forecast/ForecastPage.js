@@ -5,10 +5,10 @@ import ChartBox from "../../components/chartBox/ChartBox";
 import PieChartBox from "../../components/pieChartBox/PieChartBox";
 import BarChartBox from "../../components/barChart/BarChartBox";
 import GraphSettings from "../../components/graphSettings/GraphSettings"; 
-import { AuthContext } from '../../context/AuthContext';
-import { ResponsiveContainer,LineChart, Treemap, Sankey, Line, Tooltip } from "recharts";
-import { useParams } from "react-router-dom";
 import OpenAPI from "../../components/openapi/OpenAPI";
+import { AuthContext } from '../../context/AuthContext';
+import { LineChart, Line, Tooltip, XAxis, YAxis, ResponsiveContainer } from "recharts";
+import { useParams } from "react-router-dom";
 const API_KEY = "sk-proj-NM7EApOZLK7KuWBcWEfBT3BlbkFJErnFFbEp22wS15gYTH6X"; // secure -> environment variable
 
 function ForecastPage() {
@@ -17,7 +17,41 @@ function ForecastPage() {
   const userId = currentUser.uid
   let pathArray = window.location.pathname.split('/');
   let id = pathArray[pathArray.length - 1];
+  const [tweet, setTweet] = useState("");
+  const [sentiment, setSentiment] = useState(""); // "Negative" or "Positive"
+  const [combinedData, setCombinedData] = useState([]); 
 
+
+  // async function callOpenAIAPI() {
+  //   console.log("Calling the OpenAI API");
+
+  //   const APIBody = {
+  //       "model": "gpt-3.5-turbo",
+  //       "messages": [{ "role": "user", "content": "with given data estimate recep's balls weight" + tweet }],
+  //       "temperature": 0,
+  //       "max_tokens": 60,
+  //       "top_p": 1.0,
+  //       "frequency_penalty": 0.0,
+  //       "presence_penalty": 0.0
+  //   }
+
+  //   await fetch("https://api.openai.com/v1/chat/completions", {
+  //       method: "POST",
+  //       headers: {
+  //           "Content-Type": "application/json",
+  //           "Authorization": "Bearer " + API_KEY
+  //       },
+  //       body: JSON.stringify(APIBody)
+  //   }).then((response) => response.json()).then((data) => {
+  //       console.log(data);
+  //       // Assuming the sentiment is returned as the text in the response
+  //       setSentiment(data.choices[0].message.content.trim());
+  //   });
+  // }
+
+  // console.log(tweet);
+
+  // console.log(tweet);
   useEffect(() => {
     const getData = async () => {
       try {
@@ -41,20 +75,18 @@ function ForecastPage() {
   console.log(forecast)
   console.log(forecast[id])
   console.log(forecast[id]?.grouped_data)
-  console.log("fartand balls")
-  const forecastData = forecast[id]?.grouped_data || []; // Use an empty array if forecastData is undefined
-  const chartData = forecastData.map((item) => ({
+  console.log(forecast[id]?.forecast_female_count)
+  console.log("hello")
+  const existingData = forecast[id]?.grouped_data?.map((item) => ({
     date: item.date,
-    femaleCount: item["female_count"] // Assuming "0-15_age_count" is the key for the age count data
-  }));
+    femaleCount: item["female_count"]
+  })) || [];
   
-  const weekly_fifteen_forecast = {
-    title: "Female Count",
-    color: "#FF8042",
-    dataKey: "femaleCount",
-    chartData: chartData,
-  };
-  console.log(weekly_fifteen_forecast.chartData)
+  // Calculate additional forecast data
+  const additionalData = forecast[id]?.forecast_female_count?.map((item) => ({
+    date: item.date,
+    femaleForecastCount: item["forecast_female_visitor"]
+  })) || [];
   const handleExportPDF = () => {
     // Implement PDF export logic here
   };
@@ -118,30 +150,54 @@ function ForecastPage() {
       <button onClick={handleExportPDF}><MdPictureAsPdf /></button>
         <button onClick={handleExportCSV}><MdInsertDriveFile /></button>
       </div>
-      <div className="box box4">
-      
-        <OpenAPI type="forecast_page" />
-
-      </div>
+      {/* <div className="box box4">Detailed Explanation of Chart
+      <button onClick={callOpenAIAPI}>Get The Tweet Sentiment From OpenAI API</button>
+        {sentiment !== "" ?
+          <h3>This Tweet Is: {sentiment}</h3>  
+          :
+          null
+        }
+        <textarea
+          onChange={(e) => setTweet(e.target.value)}
+          placeholder='Paste your tweet here!'
+          cols={50}
+          rows={10}
+        />
+      </div> */}
       <div className="box box3">CHARTS
         <div>
           <h2>Weekly Female Customer Number Forecast</h2>
-          <ResponsiveContainer width="100%" height={400}> {/* Adjust dimensions as needed */}
-            <LineChart data={weekly_fifteen_forecast.chartData}>
-              <Tooltip
-                contentStyle={{ backgroundColor: "rgba(255, 255, 255, 0.8)", border: "1px solid #ccc", borderRadius: "5px", padding: "10px" }}
-                labelStyle={{ color: "#333", fontSize: "14px" }}
-                position={{ x: 30, y: 40 }}
-              />
+          <ResponsiveContainer width="100%" height={400}>
+          <LineChart data={[...existingData, ...additionalData]}>
+            <Tooltip
+              contentStyle={{ backgroundColor: "rgba(255, 255, 255, 0.8)", border: "1px solid #ccc", borderRadius: "5px", padding: "10px" }}
+              labelStyle={{ color: "#333", fontSize: "14px" }}
+              position={{ x: 30, y: 40 }}
+            />
+            <XAxis dataKey="date" />
+            <YAxis />
+            {/* Render line for existing data (female count) */}
+            {existingData.length > 0 && (
               <Line
                 type="monotone"
-                dataKey={weekly_fifteen_forecast.dataKey}
-                stroke={weekly_fifteen_forecast.color}
+                dataKey="femaleCount"
+                stroke="#FFFF42" // Color for existing data
                 strokeWidth={2}
                 dot={false}
               />
-            </LineChart>
-          </ResponsiveContainer>
+            )}
+            {/* Render line for additional forecast data */}
+            {additionalData.length > 0 && (
+              <Line
+                type="monotone"
+                dataKey="femaleForecastCount"
+                stroke="#FF00FF" // Color for additional forecast data
+                strokeWidth={2}
+                dot={false}
+              />
+            )}
+          </LineChart>
+        </ResponsiveContainer>
         </div>
       </div>
     </div>
