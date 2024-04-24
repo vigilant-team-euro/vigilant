@@ -8,7 +8,7 @@ import GraphSettings from "../../components/graphSettings/GraphSettings";
 import { AuthContext } from '../../context/AuthContext';
 import { ResponsiveContainer,LineChart, Treemap, Sankey, Line, Tooltip } from "recharts";
 import { useParams } from "react-router-dom";
-import OpenAIAPIComponent from "../../components/openapi/OpenAPI";
+import OpenAPI from "../../components/openapi/OpenAPI";
 const API_KEY = "sk-proj-NM7EApOZLK7KuWBcWEfBT3BlbkFJErnFFbEp22wS15gYTH6X"; // secure -> environment variable
 
 function ForecastPage() {
@@ -120,7 +120,7 @@ function ForecastPage() {
       </div>
       <div className="box box4">
       
-        <OpenAIAPIComponent />
+        <OpenAPI type="forecast_page" />
 
       </div>
       <div className="box box3">CHARTS

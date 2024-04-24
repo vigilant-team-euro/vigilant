@@ -11,6 +11,7 @@ import {
 import { AuthContext } from "../../context/AuthContext";
 import TreeMapBox from "../../components/treeMap/TreeMapBox";
 import GraphSettings from "../../components/graphSettings/GraphSettings";
+import OpenAPI from "../../components/openapi/OpenAPI";
 
 function ClientPage() {
   const { currentUser } = useContext(AuthContext);
@@ -305,22 +306,7 @@ function ClientPage() {
         <PieChartBox data={moodAnalysis} title="Mood Analysis" />
       </div>
       <div className="box box3">
-      <ResponsiveContainer width="99%" height="100%">
-                <LineChart data={totalCustomer.chartData}>
-                  <Tooltip
-                    contentStyle={{ background: "transparent", border: "none" }}
-                    labelStyle={{ display: "none" }}
-                    position={{ x: 10, y: 30 }}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey={totalCustomer.dataKey}
-                    stroke={totalCustomer.color}
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+            <OpenAPI type="client_page"/>
       </div>
       <div className="box box6">
         <PieChartBox data={genderAnalysis} title="Gender Analysis" />
