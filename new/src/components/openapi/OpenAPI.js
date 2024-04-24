@@ -3,9 +3,8 @@ import "./OpenAPI.scss";
 function OpenAPI() {
   const [tweet, setTweet] = useState("");
   const [sentiment, setSentiment] = useState("To estimate the weight of Recep's balls, we can use the fact that he can lift up to 200kg. Assuming that Recep can lift his balls with the same strength as he can lift other objects, we can estimate the weight of his balls to be around 200kg or less. New. New"); // "Negative" or "Positive"
-  const API_KEY =
-    "sk-proj-NM7EApOZLK7KuWBcWEfBT3BlbkFJErnFFbEp22wS15gYTH6X"; // secure -> environment variable
-
+  //const API_KEY ="sk-proj-NM7EApOZLK7KuWBcWEfBT3BlbkFJErnFFbEp22wS15gYTH6X"; // secure -> environment variable
+  const API_KEY = "";
   async function callOpenAIAPI(props) {
     console.log("Calling the OpenAI API");
     let content;
