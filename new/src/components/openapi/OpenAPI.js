@@ -3,7 +3,7 @@ import "./OpenAPI.scss";
 function OpenAPI(props) {
   const [tweet, setTweet] = useState("");
   const [sentiment, setSentiment] = useState(
-    "To estimate the weight of Recep's balls, we can use the fact that he can lift up to 200kg. Assuming that Recep can lift his balls with the same strength as he can lift other objects, we can estimate the weight of his balls to be around 200kg or less. New. New.New.New"
+    "Welcome to our AI-powered store data analysis! We use OpenAI to transform complex data into clear insights. Our algorithms extract trends from sales, inventory, and feedback. The goal? Empower you with actionable info. Understand popular products, predict demand, and enhance satisfaction. Explore our intuitive dashboard for valuable insights"
   ); // "Negative" or "Positive"
   const API_KEY ="sk-proj-NM7EApOZLK7KuWBcWEfBT3BlbkFJErnFFbEp22wS15gYTH6X"; // secure -> environment variable
   //const API_KEY = "";
