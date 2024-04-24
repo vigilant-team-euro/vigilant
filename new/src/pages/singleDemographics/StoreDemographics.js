@@ -176,7 +176,7 @@ function StoreDemographics(props) {
     color: "#8884d8",
     icon: "/userIcon.svg",
     title: "Total Customers",
-    number: storeData.female_count+storeData.male_count,
+    number: storeData.female_count+storeData.male_count ,
     dataKey: "users",
     percentage: 45,
     chartData: [

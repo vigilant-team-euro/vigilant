@@ -9,11 +9,10 @@ function Store() {
         title: "Bilkent Casino",
         img: "https://fastly.4sqi.net/img/general/200x200/83521111_Dwl9xfMERw9GaxjMlI5RIpyHFJmsGm8ureHoL_13fKw.jpg",
         info: {
-          productId: "Ps5SDF1156d",
-          color: "white",
-          price: "$250.99",
-          producer: "Sony",
-          export: "Japan",
+          status: "Available", // replace with actual status
+          location: "Ankara, Turkey", // replace with actual location
+          createdAt: "2022-01-01", // replace with actual creation date
+          storeId: "ST123", // replace with actual store ID
         },
         chart: {
           dataKeys: [
