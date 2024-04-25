@@ -22,36 +22,7 @@ function ForecastPage() {
   const [combinedData, setCombinedData] = useState([]); 
 
 
-  // async function callOpenAIAPI() {
-  //   console.log("Calling the OpenAI API");
 
-  //   const APIBody = {
-  //       "model": "gpt-3.5-turbo",
-  //       "messages": [{ "role": "user", "content": "with given data estimate recep's balls weight" + tweet }],
-  //       "temperature": 0,
-  //       "max_tokens": 60,
-  //       "top_p": 1.0,
-  //       "frequency_penalty": 0.0,
-  //       "presence_penalty": 0.0
-  //   }
-
-  //   await fetch("https://api.openai.com/v1/chat/completions", {
-  //       method: "POST",
-  //       headers: {
-  //           "Content-Type": "application/json",
-  //           "Authorization": "Bearer " + API_KEY
-  //       },
-  //       body: JSON.stringify(APIBody)
-  //   }).then((response) => response.json()).then((data) => {
-  //       console.log(data);
-  //       // Assuming the sentiment is returned as the text in the response
-  //       setSentiment(data.choices[0].message.content.trim());
-  //   });
-  // }
-
-  // console.log(tweet);
-
-  // console.log(tweet);
   useEffect(() => {
     const getData = async () => {
       try {
@@ -150,21 +121,11 @@ function ForecastPage() {
       <button onClick={handleExportPDF}><MdPictureAsPdf /></button>
         <button onClick={handleExportCSV}><MdInsertDriveFile /></button>
       </div>
-      {/* <div className="box box4">Detailed Explanation of Chart
-      <button onClick={callOpenAIAPI}>Get The Tweet Sentiment From OpenAI API</button>
-        {sentiment !== "" ?
-          <h3>This Tweet Is: {sentiment}</h3>  
-          :
-          null
-        }
-        <textarea
-          onChange={(e) => setTweet(e.target.value)}
-          placeholder='Paste your tweet here!'
-          cols={50}
-          rows={10}
-        />
-      </div> */}
+      <div className='box box4' >
+      <OpenAPI type="forecast_page" />
+      </div>
       <div className="box box3">CHARTS
+      
         <div>
           <h2>Weekly Female Customer Number Forecast</h2>
           <ResponsiveContainer width="100%" height={400}>
