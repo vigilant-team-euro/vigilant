@@ -5,10 +5,10 @@ import ChartBox from "../../components/chartBox/ChartBox";
 import PieChartBox from "../../components/pieChartBox/PieChartBox";
 import BarChartBox from "../../components/barChart/BarChartBox";
 import GraphSettings from "../../components/graphSettings/GraphSettings"; 
-import OpenAPI from "../../components/openapi/OpenAPI";
 import { AuthContext } from '../../context/AuthContext';
-import { LineChart, Line, Tooltip, XAxis, YAxis, ResponsiveContainer } from "recharts";
+import { ResponsiveContainer,LineChart, Treemap, Sankey, Line, Tooltip } from "recharts";
 import { useParams } from "react-router-dom";
+import OpenAPI from "../../components/openapi/OpenAPI";
 const API_KEY = "sk-proj-NM7EApOZLK7KuWBcWEfBT3BlbkFJErnFFbEp22wS15gYTH6X"; // secure -> environment variable
 
 function ForecastPage() {
@@ -17,11 +17,6 @@ function ForecastPage() {
   const userId = currentUser.uid
   let pathArray = window.location.pathname.split('/');
   let id = pathArray[pathArray.length - 1];
-  const [tweet, setTweet] = useState("");
-  const [sentiment, setSentiment] = useState(""); // "Negative" or "Positive"
-  const [combinedData, setCombinedData] = useState([]); 
-
-
 
   useEffect(() => {
     const getData = async () => {
@@ -42,22 +37,26 @@ function ForecastPage() {
     getData();
   }, []);
   const [timePeriod, setTimePeriod] = useState("All");
+  const [forecasttype, setForecastType] = useState("Gender");
   console.log(`http://127.0.0.1:5000/get_store_data?user_id=${userId}&store_id=${id}`)
   console.log(forecast)
   console.log(forecast[id])
   console.log(forecast[id]?.grouped_data)
-  console.log(forecast[id]?.forecast_female_count)
-  console.log("hello")
-  const existingData = forecast[id]?.grouped_data?.map((item) => ({
+  console.log("fartand balls")
+  const forecastData = forecast[id]?.grouped_data || []; // Use an empty array if forecastData is undefined
+  const chartData = forecastData.map((item) => ({
     date: item.date,
-    femaleCount: item["female_count"]
-  })) || [];
+    femaleCount: item["female_count"] // Assuming "0-15_age_count" is the key for the age count data
+  }));
   
-  // Calculate additional forecast data
-  const additionalData = forecast[id]?.forecast_female_count?.map((item) => ({
-    date: item.date,
-    femaleForecastCount: item["forecast_female_visitor"]
-  })) || [];
+  const weekly_fifteen_forecast = {
+    title: "Female Count",
+    color: "#FF8042",
+    dataKey: "femaleCount",
+    chartData: chartData,
+  };
+  console.log(weekly_fifteen_forecast.chartData)
+  
   const handleExportPDF = () => {
     // Implement PDF export logic here
   };
@@ -111,6 +110,41 @@ function ForecastPage() {
           >
             All
           </button>
+
+          
+
+          <button
+            style={
+              forecasttype === "Age"
+                ? { backgroundColor: "#008CBA", color: "white" }
+                : {}
+            }
+            onClick={() => setForecastType("Age")}
+          >
+            Age
+          </button>
+
+          <button
+            style={
+              forecasttype === "Gender"
+                ? { backgroundColor: "#008CBA", color: "white" }
+                : {}
+            }
+            onClick={() => setForecastType("Gender")}
+          >
+            Gender
+          </button>
+
+          <button
+            style={
+              forecasttype === "Total"
+                ? { backgroundColor: "#008CBA", color: "white" }
+                : {}
+            }
+            onClick={() => setForecastType("Total")}
+          >
+            Total
+          </button>
         </div>
   
       </div>
@@ -121,44 +155,30 @@ function ForecastPage() {
       <button onClick={handleExportPDF}><MdPictureAsPdf /></button>
         <button onClick={handleExportCSV}><MdInsertDriveFile /></button>
       </div>
-      <div className='box box4' >
-      <OpenAPI type="forecast_page" />
+      <div className="box box4">
+      
+        <OpenAPI type="forecast_page" />
+
       </div>
       <div className="box box3">CHARTS
-      
         <div>
-          <h2>Weekly Female Customer Number Forecast</h2>
-          <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={[...existingData, ...additionalData]}>
-            <Tooltip
-              contentStyle={{ backgroundColor: "rgba(255, 255, 255, 0.8)", border: "1px solid #ccc", borderRadius: "5px", padding: "10px" }}
-              labelStyle={{ color: "#333", fontSize: "14px" }}
-              position={{ x: 30, y: 40 }}
-            />
-            <XAxis dataKey="date" />
-            <YAxis />
-            {/* Render line for existing data (female count) */}
-            {existingData.length > 0 && (
+          <h2>{timePeriod} {forecasttype} Number Forecast</h2>
+          <ResponsiveContainer width="100%" height={400}> {/* Adjust dimensions as needed */}
+            <LineChart data={weekly_fifteen_forecast.chartData}>
+              <Tooltip
+                contentStyle={{ backgroundColor: "rgba(255, 255, 255, 0.8)", border: "1px solid #ccc", borderRadius: "5px", padding: "10px" }}
+                labelStyle={{ color: "#333", fontSize: "14px" }}
+                position={{ x: 30, y: 40 }}
+              />
               <Line
                 type="monotone"
-                dataKey="femaleCount"
-                stroke="#FFFF42" // Color for existing data
+                dataKey={weekly_fifteen_forecast.dataKey}
+                stroke={weekly_fifteen_forecast.color}
                 strokeWidth={2}
                 dot={false}
               />
-            )}
-            {/* Render line for additional forecast data */}
-            {additionalData.length > 0 && (
-              <Line
-                type="monotone"
-                dataKey="femaleForecastCount"
-                stroke="#FF00FF" // Color for additional forecast data
-                strokeWidth={2}
-                dot={false}
-              />
-            )}
-          </LineChart>
-        </ResponsiveContainer>
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </div>

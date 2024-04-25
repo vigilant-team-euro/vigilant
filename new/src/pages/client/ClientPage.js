@@ -288,6 +288,47 @@ function ClientPage() {
           >
             All
           </button>
+                      <button
+            style={
+              timePeriod === "Week"
+                ? { backgroundColor: "#008CBA", color: "white" }
+                : {}
+            }
+            onClick={() => setTimePeriod("Week")}
+          >
+            Week
+          </button>
+          <button
+            style={
+              timePeriod === "Month"
+                ? { backgroundColor: "#008CBA", color: "white" }
+                : {}
+            }
+            onClick={() => setTimePeriod("Month")}
+          >
+            Month
+          </button>
+          <button
+            style={
+              timePeriod === "Year"
+                ? { backgroundColor: "#008CBA", color: "white" }
+                : {}
+            }
+            onClick={() => setTimePeriod("Year")}
+          >
+            Year
+          </button>
+          <button
+            style={
+              timePeriod === "All"
+                ? { backgroundColor: "#008CBA", color: "white" }
+                : {}
+            }
+            onClick={() => setTimePeriod("All")}
+          >
+            All
+          </button>
+
         </div>
         <div className="half">
           <GraphSettings id="general" />
