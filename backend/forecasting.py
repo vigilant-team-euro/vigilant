@@ -61,7 +61,7 @@ def calculate_average_age_and_gender(df):
 
 def forecast_male_count(df):
     # Create a Prophet model
-    model = Prophet(seasonality_mode='additive', weekly_seasonality=False, yearly_seasonality=False)
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=False)
     
     # Rename columns as required by Prophet
     df = df.rename(columns={'date': 'ds', 'male_count': 'y'})
@@ -80,7 +80,7 @@ def forecast_male_count(df):
 
 def forecast_female_count(df):
     # Create a Prophet model
-    model = Prophet(seasonality_mode='additive', weekly_seasonality=False, yearly_seasonality=False)
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=False)
     
     # Rename columns as required by Prophet
     df = df.rename(columns={'date': 'ds', 'female_count': 'y'})
@@ -99,7 +99,7 @@ def forecast_female_count(df):
 
 def forecast_age_zero(df):
     # Create a Prophet model
-    model = Prophet(seasonality_mode='additive', weekly_seasonality=False, yearly_seasonality=False)
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=False)
     
     # Rename columns as required by Prophet
     df = df.rename(columns={'date': 'ds', '0-15_age_count': 'y'})
@@ -117,7 +117,7 @@ def forecast_age_zero(df):
     return forecast[['ds', 'yhat']][-7:]
 def forecast_age_fifteen(df):
     # Create a Prophet model
-    model = Prophet(seasonality_mode='additive', weekly_seasonality=False, yearly_seasonality=False)
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=False)
     
     # Rename columns as required by Prophet
     df = df.rename(columns={'date': 'ds', '15-30_age_count': 'y'})
@@ -135,7 +135,7 @@ def forecast_age_fifteen(df):
     return forecast[['ds', 'yhat']][-7:]
 def forecast_age_thirty(df):
     # Create a Prophet model
-    model = Prophet(seasonality_mode='additive', weekly_seasonality=False, yearly_seasonality=False)
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=False)
     
     # Rename columns as required by Prophet
     df = df.rename(columns={'date': 'ds', '30-45_age_count': 'y'})
@@ -153,7 +153,7 @@ def forecast_age_thirty(df):
     return forecast[['ds', 'yhat']][-7:]
 def forecast_age_fourtyfive(df):
     # Create a Prophet model
-    model = Prophet(seasonality_mode='additive', weekly_seasonality=False, yearly_seasonality=False)
+    model = Prophet(seasonality_mode='additive', weekly_seasonality=True, yearly_seasonality=False)
     
     # Rename columns as required by Prophet
     df = df.rename(columns={'date': 'ds', '30-45_age_count': 'y'})
