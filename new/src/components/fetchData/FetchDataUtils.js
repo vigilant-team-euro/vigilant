@@ -15,16 +15,16 @@ const fetchImageUrl = async (imagePath) => {
 };
 const fetchAllImages = async (folderPath) => {
   const storage = getStorage();
-  
-  const folderRef = ref(storage, folderPath);
-  console.log( "folderRef",folderRef)
- 
-    const res = await listAll(folderRef);
-    console.log('listAll result:', res); // Log the result
 
-    const urls = await Promise.all(res.items.map(item => getDownloadURL(item)));
-    return urls;
-  
+  const folderRef = ref(storage, folderPath);
+  console.log("folderRef", folderRef);
+  // Get a list of the items in the folder
+
+  const res = await listAll(folderRef);
+  console.log("listAll result:", res); // Log the result
+
+  const urls = await Promise.all(res.items.map((item) => getDownloadURL(item)));
+  return urls;
 };
 const fetchFromStorage = async (filePath) => {
   try {
@@ -52,7 +52,7 @@ const fetchSingleArray = async (dataLocation, documentName) => {
 
     if (docSnapshot.exists()) {
       const data = docSnapshot.data();
-     
+
       const framesArray = data.frames;
       return framesArray;
     } else {
@@ -99,14 +99,14 @@ const fetchAllForUser = async (storesLocation) => {
     for (const userDocument of userQuerySnapshot.docs) {
       const userDataLocation = storesLocation + "/" + userDocument.id + "/data"; // Assuming user document name is the data location
       const userFramesData = await fetchAllFromSingleStore(userDataLocation);
-        
+
       allUserData.push({
         storeId: userDocument.id,
         userDataLocation,
         userFramesData,
       });
     }
-    console.log(allUserData)
+    console.log(allUserData);
     return allUserData;
   } catch (error) {
     console.error("Error fetching data for user:", error);
@@ -135,4 +135,12 @@ const fetchUserStores = async (userId) => {
   }
 };
 
-export {fetchAllImages,fetchImageUrl,fetchFromStorage, fetchSingleArray, fetchAllFromSingleStore, fetchAllForUser, fetchUserStores };
+export {
+  fetchAllImages,
+  fetchImageUrl,
+  fetchFromStorage,
+  fetchSingleArray,
+  fetchAllFromSingleStore,
+  fetchAllForUser,
+  fetchUserStores,
+};
