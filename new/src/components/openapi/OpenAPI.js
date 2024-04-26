@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./OpenAPI.scss";
 import openai from "./openai.png";
+import { IoReload } from 'react-icons/io5';
+
 function OpenAPI(props) {
   const [tweet, setTweet] = useState("");
   const [sentiment, setSentiment] = useState(
@@ -53,7 +55,8 @@ function OpenAPI(props) {
       <div className="header">
     
     <img alt="" src={openai}></img>
-    <button className="analyze" onClick={callOpenAIAPI}>Analyze</button>
+    <button className="analyze" onClick={callOpenAIAPI}>  <IoReload />
+</button>
   </div>
 
       {sentiment !== ""

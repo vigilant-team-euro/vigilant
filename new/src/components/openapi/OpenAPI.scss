@@ -22,5 +22,14 @@
 }
 }
 .analyze{
+    background-color: $soft-bg;
+    color:white;
+    height:40px;
+    width: 40px;
+    border-radius: 20px;
+    border-color: white;
+    &:hover{
+        background-color: $dark-bg;
+    }
     padding: 5px;
 }
