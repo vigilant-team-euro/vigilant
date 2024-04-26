@@ -9,9 +9,13 @@ import OpenAPI from "../../components/openapi/OpenAPI";
 import { AuthContext } from '../../context/AuthContext';
 import { LineChart, Line, Tooltip, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import { useParams } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
+
 const API_KEY = "sk-proj-NM7EApOZLK7KuWBcWEfBT3BlbkFJErnFFbEp22wS15gYTH6X"; // secure -> environment variable
 
 function ForecastPage() {
+  const [isLoading, setIsLoading] = useState(false); // add a loading state
+
   let  [forecast, setForecast] = useState([])
   const {currentUser} = useContext(AuthContext)
   const userId = currentUser.uid
@@ -25,6 +29,7 @@ function ForecastPage() {
 
   useEffect(() => {
     const getData = async () => {
+      setIsLoading(true);
       try {
         let response = await fetch(`http://127.0.0.1:5000/get_store_data?user_id=${userId}&store_id=${id}`, {
           method: 'GET',
@@ -35,8 +40,12 @@ function ForecastPage() {
         });
         let data = await response.json();
         setForecast(data);
+        setIsLoading(false); // also set loading state to false if an error occurs
+
       } catch (error) {
         console.error('Failed to fetch data:', error);
+        setIsLoading(false); // also set loading state to false if an error occurs
+
       }
     };
     getData();
@@ -258,7 +267,7 @@ function ForecastPage() {
     
     <div className="forecast">
       <div className="box box1">
-      <div className="half">
+      <div className="half"><h2>Choose Timeframe</h2>
           <button
             style={
               timePeriod === "Week"
@@ -299,7 +308,13 @@ function ForecastPage() {
           >
             All
           </button>
-          <button
+          
+        </div>
+  
+      </div>
+      <div className="box box1">
+      <div className="half"><h2>Choose Category</h2>
+      <button
             style={
               forecasttype === "Age"
                 ? { backgroundColor: "#008CBA", color: "white" }
@@ -331,21 +346,29 @@ function ForecastPage() {
           >
             Total
           </button>
-        </div>
-  
       </div>
-      <div className="box box2">2
-      
+      </div>
+      <div className="box box2">
+           
       </div>
       <div className="box box5">
       <button onClick={handleExportPDF}><MdPictureAsPdf /></button>
         <button onClick={handleExportCSV}><MdInsertDriveFile /></button>
       </div>
       <div className='box box4' >
-      <OpenAPI type="forecast_page" />
+      <OpenAPI type="forecast_page" {...combinedDataAgeMonthly}/>
       </div>
       <div className="box box3">CHARTS
-      
+      <div>
+      {isLoading ? (
+        
+        <div className='centered'>
+        <ClipLoader color="#ffff"
+        size={150}
+        aria-label="Loading Spinner"
+        data-testid="loader"/> 
+        </div>
+      ) : (
         <div>
           <h2>{timePeriod} {forecasttype} Number Forecast</h2>
           {timePeriod === "Week" && forecasttype === "Gender" && (
@@ -715,6 +738,9 @@ function ForecastPage() {
         </ResponsiveContainer>
         )}
         </div>
+      )}
+    </div>
+      
       </div>
     </div>
 

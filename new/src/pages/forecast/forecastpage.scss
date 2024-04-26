@@ -27,7 +27,11 @@
 
   .box1 {
     grid-row: span 2;
-    grid-column: span 2;
+    grid-column: span 1;
+  }
+  .box8 {
+    grid-row: span 2;
+    grid-column: span 1;
   }
   .box2 {
     grid-row: span 1;
@@ -61,5 +65,12 @@
     &:hover {
       background-color: $dark-bg;
     }
+  }
+  .centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    height: 100%; /* Adjust as needed */
   }
 }

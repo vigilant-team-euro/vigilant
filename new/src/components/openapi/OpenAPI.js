@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./OpenAPI.scss";
+import openai from "./openai.png";
 function OpenAPI(props) {
   const [tweet, setTweet] = useState("");
   const [sentiment, setSentiment] = useState(
@@ -12,8 +13,8 @@ function OpenAPI(props) {
     let content;
     if (props.type === "client_page") {
       content = "Analyze the stores data with 6 sentences total of 100 tokens" + props;
-    } else if (props.type === "forecast_page" +  props) {
-      content = "forecast content";
+    } else if (props.type === "forecast_page") {
+      content = "Analyze the stores data with 6 sentences total of 100 tokens"+props;
     }
     const APIBody = {
       model: "gpt-3.5-turbo",
@@ -50,7 +51,8 @@ function OpenAPI(props) {
   return (
     <>
       <div className="header">
-    <h1>Powered by OpenAI </h1>
+    
+    <img alt="" src={openai}></img>
     <button className="analyze" onClick={callOpenAIAPI}>Analyze</button>
   </div>
 

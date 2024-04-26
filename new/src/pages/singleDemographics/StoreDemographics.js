@@ -6,7 +6,10 @@ import BarChartBox from "../../components/barChart/BarChartBox";
 import GraphSettings from "../../components/graphSettings/GraphSettings";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { fetchAllFromSingleStore,fetchAllImages } from "../../components/fetchData/FetchDataUtils";
+import {
+  fetchAllFromSingleStore,
+  fetchAllImages,
+} from "../../components/fetchData/FetchDataUtils";
 import { AuthContext } from "../../context/AuthContext";
 
 import ReactSlider from "react-slider";
@@ -42,9 +45,7 @@ function StoreDemographics(props) {
     ],
   };
   const handleImageChange = (event) => {
-    setCurrentImageIndex(event.target.value);
-    event.preventDefault();
-
+    setCurrentImageIndex(Number(event.target.value));
   };
   function isInTimePeriod(timestamp, timePeriod) {
     const now = Date.now();
@@ -73,10 +74,10 @@ function StoreDemographics(props) {
         console.log("url", url);
         setImageUrl(url);
       } catch (error) {
-        console.error('Error fetching image:', error);
+        console.error("Error fetching image:", error);
       }
     };
-  
+
     fetchImage();
   }, []);
   //console.log(id); // Print storeData to console
@@ -181,7 +182,7 @@ function StoreDemographics(props) {
     color: "#8884d8",
     icon: "/userIcon.svg",
     title: "Total Customers",
-    number: storeData.female_count+storeData.male_count ,
+    number: storeData.female_count + storeData.male_count,
     dataKey: "users",
     percentage: 45,
     chartData: [
@@ -255,14 +256,17 @@ function StoreDemographics(props) {
         <ChartBox {...totalCustomer} />
       </div>
       <div className="box box3">
-      {imageUrl.length > 0 && <img src={imageUrl[currentImageIndex]} alt="store" />}
-      <select onChange={handleImageChange}>
-          {imageUrl && imageUrl.map((url, index) => (
-            <option value={index} key={index}>
-              Image {index + 1}
-            </option>
-          ))}
-        </select>
+        {imageUrl.length > 0 && (
+          <img src={imageUrl[currentImageIndex]} alt="store" />
+        )}
+        <div>
+          {imageUrl &&
+            imageUrl.map((url, index) => (
+              <button value={index} key={index} onClick={handleImageChange}>
+                {index + 1}
+              </button>
+            ))}
+        </div>
       </div>
       <div className="box box6">
         <PieChartBox data={genderAnalysis} title="Gender Analysis" />
