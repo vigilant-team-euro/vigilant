@@ -2,15 +2,19 @@ import React, { useState } from "react";
 import "./OpenAPI.scss";
 import openai from "./openai.png";
 import { IoReload } from 'react-icons/io5';
+import CircleLoader from "react-spinners/CircleLoader";
 
 function OpenAPI(props) {
   const [tweet, setTweet] = useState("");
+  const [loading, setLoading] = useState(false);
   const [sentiment, setSentiment] = useState(
-    "Welcome to our AI-powered store data analysis! We use OpenAI to transform complex data into clear insights. Our algorithms extract trends from sales, inventory, and feedback. The goal? Empower you with actionable info. Understand popular products, predict demand, and enhance satisfaction. Explore our intuitive dashboard for valuable insights"
+    " to our AI-powered store data analysis! We use OpenAI to transform complex data into clear insights. Our algorithms extract trends from sales, inventory, and feedback. The goal? Empower you with actionable info. Understand popular products, predict demand, and enhance satisfaction. Explore our intuitive dashboard for valuable insights"
   ); // "Negative" or "Positive"
   const API_KEY ="sk-proj-NM7EApOZLK7KuWBcWEfBT3BlbkFJErnFFbEp22wS15gYTH6X"; // secure -> environment variable
   //const API_KEY = "";
   async function callOpenAIAPI() {
+    setLoading(true);
+    setSentiment("");
     console.log("Calling the OpenAI API");
     let content;
     if (props.type === "client_page") {
@@ -46,7 +50,7 @@ function OpenAPI(props) {
         console.log(data);
         // Assuming the sentiment is returned as the text in the response
         setSentiment(data.choices[0].message.content.trim());
-        
+        setLoading(false);
       });
   }
 
@@ -65,7 +69,7 @@ function OpenAPI(props) {
               {sentence.trim()}
             </div>
           ))
-        : null}
+        : <div className="centered"><CircleLoader color="#fff"  size={150} /></div>}
 
       
     </>

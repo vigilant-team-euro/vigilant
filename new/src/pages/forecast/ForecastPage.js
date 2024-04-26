@@ -10,7 +10,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { LineChart, Line, Tooltip, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import { useParams } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
-
+import RingLoader from "react-spinners/RingLoader";
 const API_KEY = "sk-proj-NM7EApOZLK7KuWBcWEfBT3BlbkFJErnFFbEp22wS15gYTH6X"; // secure -> environment variable
 
 function ForecastPage() {
@@ -44,7 +44,7 @@ function ForecastPage() {
 
       } catch (error) {
         console.error('Failed to fetch data:', error);
-        setIsLoading(false); // also set loading state to false if an error occurs
+        setIsLoading(true); // also set loading state to false if an error occurs
 
       }
     };
@@ -363,7 +363,7 @@ function ForecastPage() {
       {isLoading ? (
         
         <div className='centered'>
-        <ClipLoader color="#ffff"
+        <RingLoader color="#ffff"
         size={150}
         aria-label="Loading Spinner"
         data-testid="loader"/> 
