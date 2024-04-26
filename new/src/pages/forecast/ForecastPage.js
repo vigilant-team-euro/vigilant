@@ -44,7 +44,7 @@ function ForecastPage() {
 
       } catch (error) {
         console.error('Failed to fetch data:', error);
-        setIsLoading(true); // also set loading state to false if an error occurs
+        setIsLoading(false); // also set loading state to false if an error occurs
 
       }
     };
@@ -370,7 +370,7 @@ function ForecastPage() {
         </div>
       ) : (
         <div>
-          <h2>{timePeriod} {forecasttype} Number Forecast</h2>
+          <h2>{forecasttype} Forecast for {timePeriod} </h2>
           {timePeriod === "Week" && forecasttype === "Gender" && (
           <ResponsiveContainer width="100%" height={400}>
           <LineChart data={[...combinedDataGenderWeekly, ...combinedForecastDataGenderWeekly]}>

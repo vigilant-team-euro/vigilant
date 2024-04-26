@@ -20,7 +20,7 @@ function OpenAPI(props) {
     if (props.type === "client_page") {
       content = "Analyze the stores data with 6 sentences total of 100 tokens" + props;
     } else if (props.type === "forecast_page") {
-      content = "Analyze the stores data with 6 sentences total of 100 tokens"+props;
+      content = "Analyze the stores data with 10 sentences total of 200 tokens"+props;
     }
     const APIBody = {
       model: "gpt-3.5-turbo",
@@ -31,7 +31,7 @@ function OpenAPI(props) {
         },
       ],
       temperature: 0,
-      max_tokens: 100,
+      max_tokens: 200,
       top_p: 1.0,
       frequency_penalty: 0.0,
       presence_penalty: 0.0,
