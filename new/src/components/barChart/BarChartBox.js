@@ -1,5 +1,5 @@
 import React from 'react'
-import { Bar, BarChart, ResponsiveContainer, Tooltip } from "recharts";
+import { Bar, BarChart, ResponsiveContainer, Tooltip,XAxis} from "recharts";
 import "./barchart.scss"
 export default function BarChartBox(props) {
     return (
@@ -8,6 +8,7 @@ export default function BarChartBox(props) {
           <div className="chart">
             <ResponsiveContainer width="99%" height={180}>
               <BarChart data={props.chartData}>
+              <XAxis dataKey="range" stroke="#ffffff" />
                 <Tooltip
                   contentStyle={{ background: "#2a3447", borderRadius: "5px" }}
                   

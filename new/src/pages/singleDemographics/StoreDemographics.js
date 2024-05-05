@@ -143,40 +143,32 @@ function StoreDemographics(props) {
     { name: "Fear", value: storeData.fear_count, color: "#FF8042" },
     { name: "Neutral", value: storeData.neutral_count, color: "#8884d8" },
   ];
+  const [ages, setAges] = useState([]);
+
+  useEffect(() => {
+    setAges(Array.from({length: 1111}, () => Math.floor(Math.random() * 81) + 1));
+  }, [timePeriod]);
+
+  const ageRanges = [
+    { range: "0-15", count: 0 },
+    { range: "15-30", count: 0 },
+    { range: "30-45", count: 0 },
+    { range: "45-60", count: 0 },
+    { range: "60+", count: 0 },
+];
+
+ages.forEach((age) => {
+    if (age >= 0 && age < 15) ageRanges[0].count++;
+    else if (age >= 15 && age < 30) ageRanges[1].count++;
+    else if (age >= 30 && age < 45) ageRanges[2].count++;
+    else if (age >= 45 && age < 60) ageRanges[3].count++;
+    else if (age >= 60) ageRanges[4].count++;
+});
   const ageAnalysis = {
     title: "Customer Age",
     color: "#FF8042",
-    dataKey: "visit",
-    chartData: [
-      {
-        name: "Sun",
-        visit: 4000,
-      },
-      {
-        name: "Mon",
-        visit: 3000,
-      },
-      {
-        name: "Tue",
-        visit: 2000,
-      },
-      {
-        name: "Wed",
-        visit: 2780,
-      },
-      {
-        name: "Thu",
-        visit: 1890,
-      },
-      {
-        name: "Fri",
-        visit: 2390,
-      },
-      {
-        name: "Sat",
-        visit: 3490,
-      },
-    ],
+    dataKey: "count",
+    chartData: ageRanges,
   };
   const totalCustomer = {
     color: "#8884d8",

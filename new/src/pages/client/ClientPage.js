@@ -170,31 +170,27 @@ function ClientPage() {
     { name: "Male", value: totalData.male_count, color: "#0088FE" },
     { name: "Female", value: totalData.female_count, color: "#00C49F" },
   ];
+  const [ages, setAges] = useState([]);
 
-  const ages = [
-    10, 5, 15, 18, 23, 34, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70,
-  ];
+  useEffect(() => {
+    setAges(Array.from({length: 1111}, () => Math.floor(Math.random() * 81) + 1));
+  }, [timePeriod]);
 
   const ageRanges = [
-    { range: "10-20", count: 0 },
-    { range: "20-30", count: 0 },
-    { range: "30-40", count: 0 },
-    { range: "40-50", count: 0 },
-    { range: "50-60", count: 0 },
-    { range: "60-70", count: 0 },
-    { range: "70-80", count: 0 },
-  ];
+    { range: "0-15", count: 0 },
+    { range: "15-30", count: 0 },
+    { range: "30-45", count: 0 },
+    { range: "45-60", count: 0 },
+    { range: "60+", count: 0 },
+];
 
-  ages.forEach((age) => {
-    if (age >= 10 && age < 20) ageRanges[0].count++;
-    else if (age >= 20 && age < 30) ageRanges[1].count++;
-    else if (age >= 30 && age < 40) ageRanges[2].count++;
-    else if (age >= 40 && age < 50) ageRanges[3].count++;
-    else if (age >= 50 && age < 60) ageRanges[4].count++;
-    else if (age >= 60 && age < 70) ageRanges[5].count++;
-    else if (age >= 70 && age < 80) ageRanges[6].count++;
-  });
-
+ages.forEach((age) => {
+    if (age >= 0 && age < 15) ageRanges[0].count++;
+    else if (age >= 15 && age < 30) ageRanges[1].count++;
+    else if (age >= 30 && age < 45) ageRanges[2].count++;
+    else if (age >= 45 && age < 60) ageRanges[3].count++;
+    else if (age >= 60) ageRanges[4].count++;
+});
   const ageAnalysis = {
     title: "Customer Age",
     color: "#FF8042",
