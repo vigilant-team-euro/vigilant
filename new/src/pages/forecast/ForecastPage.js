@@ -23,7 +23,16 @@ const API_KEY = "sk-proj-NM7EApOZLK7KuWBcWEfBT3BlbkFJErnFFbEp22wS15gYTH6X"; // s
 
 function ForecastPage() {
   const [isLoading, setIsLoading] = useState(false); // add a loading state
-
+  const colors = [
+    "#845EC2",
+    "#D65DB1",
+    "#FF6F91",
+    "#FF9671",
+    "#FFC75F",
+    "#F9F871",
+    "#008E9B",
+    "#008F7A",
+  ];
   let [forecast, setForecast] = useState([]);
   const { currentUser } = useContext(AuthContext);
   const userId = currentUser.uid;
@@ -31,6 +40,15 @@ function ForecastPage() {
   let id = pathArray[pathArray.length - 1];
   const [tweet, setTweet] = useState("");
   const [sentiment, setSentiment] = useState(""); // "Negative" or "Positive"
+  const [activeSeries, setActiveSeries] = useState([]);
+
+  const handleLegendClick = (dataKey) => {
+    if (activeSeries.includes(dataKey)) {
+      setActiveSeries(activeSeries.filter((el) => el !== dataKey));
+    } else {
+      setActiveSeries((prev) => [...prev, dataKey]);
+    }
+  };
 
   useEffect(() => {
     const getData = async () => {
@@ -59,7 +77,9 @@ function ForecastPage() {
   const [timePeriod, setTimePeriod] = useState("All");
   const [forecasttype, setForecastType] = useState("Gender");
   console.log("hello");
-
+  function round(item) {
+    return Math.round(item * 100) / 100;
+  }
   //graph datas
   //gender weekly
   const existingDataFemaleWeekly =
@@ -86,15 +106,15 @@ function ForecastPage() {
     (femaleItem, index) => ({
       date: femaleItem.date,
       femaleCount: Math.round(femaleItem.femaleCount),
-      maleCount: existingDataMaleWeekly[index]?.maleCount || 0,
+      maleCount: Math.round(existingDataMaleWeekly[index]?.maleCount) || 0,
     })
   );
   const combinedForecastDataGenderWeekly = additionalDataFemaleWeekly.map(
     (femaleItem, index) => ({
       date: femaleItem.date,
-      femaleForecastCount: femaleItem.femaleForecastCount,
+      femaleForecastCount: round(femaleItem.femaleForecastCount),
       maleForecastCount:
-        additionalDataMaleWeekly[index]?.maleForecastCount || 0,
+        round(additionalDataMaleWeekly[index]?.maleForecastCount) || 0,
     })
   );
   //gender monthly
@@ -121,16 +141,16 @@ function ForecastPage() {
   const combinedDataGenderMonthly = existingDataFemaleMonthly.map(
     (femaleItem, index) => ({
       date: femaleItem.date,
-      femaleCount: femaleItem.femaleCount,
-      maleCount: existingDataMaleMonthly[index]?.maleCount || 0,
+      femaleCount: Math.round(femaleItem.femaleCount),
+      maleCount: Math.round(existingDataMaleMonthly[index]?.maleCount) || 0,
     })
   );
   const combinedForecastDataGenderMonthly = additionalDataFemaleMonthly.map(
     (femaleItem, index) => ({
       date: femaleItem.date,
-      femaleForecastCount: femaleItem.femaleForecastCount,
+      femaleForecastCount: round(femaleItem.femaleForecastCount),
       maleForecastCount:
-        additionalDataMaleMonthly[index]?.maleForecastCount || 0,
+        round(additionalDataMaleMonthly[index]?.maleForecastCount) || 0,
     })
   );
   //gender yearly
@@ -157,16 +177,16 @@ function ForecastPage() {
   const combinedDataGenderYearly = existingDataFemaleYearly.map(
     (femaleItem, index) => ({
       date: femaleItem.date,
-      femaleCount: femaleItem.femaleCount,
-      maleCount: existingDataMaleYearly[index]?.maleCount || 0,
+      femaleCount: Math.round(femaleItem.femaleCount),
+      maleCount: Math.round(existingDataMaleYearly[index]?.maleCount) || 0,
     })
   );
   const combinedForecastDataGenderYearly = additionalDataFemaleYearly.map(
     (femaleItem, index) => ({
       date: femaleItem.date,
-      femaleForecastCount: femaleItem.femaleForecastCount,
+      femaleForecastCount: round(femaleItem.femaleForecastCount),
       maleForecastCount:
-        additionalDataMaleYearly[index]?.maleForecastCount || 0,
+        round(additionalDataMaleYearly[index]?.maleForecastCount) || 0,
     })
   );
 
@@ -214,26 +234,30 @@ function ForecastPage() {
   const combinedDataAgeWeekly = existingDataAge0Weekly.map(
     (ageItem, index) => ({
       date: ageItem.date,
-      ZerotoFifteenAgeCount: ageItem.ZerotoFifteenAgeCount,
+      ZerotoFifteenAgeCount: Math.round(ageItem.ZerotoFifteenAgeCount),
       FifteentoThirtyAgeCount:
-        existingDataAge15Weekly[index]?.FifteentoThirtyAgeCount || 0,
+        Math.round(existingDataAge15Weekly[index]?.FifteentoThirtyAgeCount) ||
+        0,
       ThirtytoFourtyfiveAgeCount:
-        existingDataAge30Weekly[index]?.ThirtytoFourtyfiveAgeCount || 0,
+        Math.round(
+          existingDataAge30Weekly[index]?.ThirtytoFourtyfiveAgeCount
+        ) || 0,
       FourtyfivetoSixtyAgeCount:
-        existingDataAge45Weekly[index]?.FourtyfivetoSixtyAgeCount || 0,
+        Math.round(existingDataAge45Weekly[index]?.FourtyfivetoSixtyAgeCount) ||
+        0,
     })
   );
   const combinedForecastDataAgeWeekly = additionalDataAge0Weekly.map(
     (ageItem, index) => ({
       date: ageItem.date,
-      ForecastZerotoFifteenAgeCount: ageItem.ForecastZerotoFifteenAgeCount,
+      ForecastZerotoFifteenAgeCount: round(ageItem.ForecastZerotoFifteenAgeCount),
       ForecastFifteentoThirtyAgeCount:
-        additionalDataAge15Weekly[index]?.ForecastFifteentoThirtyAgeCount || 0,
+        round(additionalDataAge15Weekly[index]?.ForecastFifteentoThirtyAgeCount) || 0,
       ForecastThirtytoFourtyfiveAgeCount:
-        additionalDataAge30Weekly[index]?.ForecastThirtytoFourtyfiveAgeCount ||
+        round(additionalDataAge30Weekly[index]?.ForecastThirtytoFourtyfiveAgeCount) ||
         0,
       ForecastFourtyfivetoSixtyAgeCount:
-        additionalDataAge45Weekly[index]?.ForecastFourtyfivetoSixtyAgeCount ||
+        round(additionalDataAge45Weekly[index]?.ForecastFourtyfivetoSixtyAgeCount) ||
         0,
     })
   );
@@ -262,26 +286,26 @@ function ForecastPage() {
   const combinedDataAgeMonthly = existingDataAge0Weekly.map(
     (ageItem, index) => ({
       date: ageItem.date,
-      ZerotoFifteenAgeCount: ageItem.ZerotoFifteenAgeCount,
+      ZerotoFifteenAgeCount:Math.round( ageItem.ZerotoFifteenAgeCount),
       FifteentoThirtyAgeCount:
-        existingDataAge15Weekly[index]?.FifteentoThirtyAgeCount || 0,
+        Math.round(existingDataAge15Weekly[index]?.FifteentoThirtyAgeCount )|| 0,
       ThirtytoFourtyfiveAgeCount:
-        existingDataAge30Weekly[index]?.ThirtytoFourtyfiveAgeCount || 0,
+        Math.round(existingDataAge30Weekly[index]?.ThirtytoFourtyfiveAgeCount) || 0,
       FourtyfivetoSixtyAgeCount:
-        existingDataAge45Weekly[index]?.FourtyfivetoSixtyAgeCount || 0,
+        Math.round( existingDataAge45Weekly[index]?.FourtyfivetoSixtyAgeCount) || 0,
     })
   );
   const combinedForecastDataAgeMonthly = additionalDataAge0Monthly.map(
     (ageItem, index) => ({
       date: ageItem.date,
-      ForecastZerotoFifteenAgeCount: ageItem.ForecastZerotoFifteenAgeCount,
+      ForecastZerotoFifteenAgeCount:round( ageItem.ForecastZerotoFifteenAgeCount),
       ForecastFifteentoThirtyAgeCount:
-        additionalDataAge15Monthly[index]?.ForecastFifteentoThirtyAgeCount || 0,
+       round( additionalDataAge15Monthly[index]?.ForecastFifteentoThirtyAgeCount) || 0,
       ForecastThirtytoFourtyfiveAgeCount:
-        additionalDataAge30Monthly[index]?.ForecastThirtytoFourtyfiveAgeCount ||
+       round( additionalDataAge30Monthly[index]?.ForecastThirtytoFourtyfiveAgeCount) ||
         0,
       ForecastFourtyfivetoSixtyAgeCount:
-        additionalDataAge45Monthly[index]?.ForecastFourtyfivetoSixtyAgeCount ||
+        round(additionalDataAge45Monthly[index]?.ForecastFourtyfivetoSixtyAgeCount) ||
         0,
     })
   );
@@ -309,26 +333,26 @@ function ForecastPage() {
   const combinedDataAgeYearly = existingDataAge0Weekly.map(
     (ageItem, index) => ({
       date: ageItem.date,
-      ZerotoFifteenAgeCount: ageItem.ZerotoFifteenAgeCount,
+      ZerotoFifteenAgeCount: Math.round(ageItem.ZerotoFifteenAgeCount),
       FifteentoThirtyAgeCount:
-        existingDataAge15Weekly[index]?.FifteentoThirtyAgeCount || 0,
+        Math.round(existingDataAge15Weekly[index]?.FifteentoThirtyAgeCount) || 0,
       ThirtytoFourtyfiveAgeCount:
-        existingDataAge30Weekly[index]?.ThirtytoFourtyfiveAgeCount || 0,
+      Math.round(existingDataAge30Weekly[index]?.ThirtytoFourtyfiveAgeCount) || 0,
       FourtyfivetoSixtyAgeCount:
-        existingDataAge45Weekly[index]?.FourtyfivetoSixtyAgeCount || 0,
+      Math.round(existingDataAge45Weekly[index]?.FourtyfivetoSixtyAgeCount) || 0,
     })
   );
   const combinedForecastDataAgeYearly = additionalDataAge0Yearly.map(
     (ageItem, index) => ({
       date: ageItem.date,
-      ForecastZerotoFifteenAgeCount: ageItem.ForecastZerotoFifteenAgeCount,
+      ForecastZerotoFifteenAgeCount: round(ageItem.ForecastZerotoFifteenAgeCount),
       ForecastFifteentoThirtyAgeCount:
-        additionalDataAge15Yearly[index]?.ForecastFifteentoThirtyAgeCount || 0,
+        round(additionalDataAge15Yearly[index]?.ForecastFifteentoThirtyAgeCount )|| 0,
       ForecastThirtytoFourtyfiveAgeCount:
-        additionalDataAge30Yearly[index]?.ForecastThirtytoFourtyfiveAgeCount ||
+        round(additionalDataAge30Yearly[index]?.ForecastThirtytoFourtyfiveAgeCount) ||
         0,
       ForecastFourtyfivetoSixtyAgeCount:
-        additionalDataAge45Yearly[index]?.ForecastFourtyfivetoSixtyAgeCount ||
+        round(additionalDataAge45Yearly[index]?.ForecastFourtyfivetoSixtyAgeCount) ||
         0,
     })
   );
@@ -475,37 +499,47 @@ function ForecastPage() {
                     <YAxis stroke="white" />
                     {/* Render line for existing female data */}
                     <Line
+                      hide={activeSeries.includes("femaleCount")}
                       type="monotone"
+                      name="Female Count"
                       dataKey="femaleCount"
-                      stroke="#FFFF42" // Color for existing female data
+                      stroke={colors[0]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for existing male data */}
                     <Line
+                      hide={activeSeries.includes("maleCount")}
                       type="monotone"
+                      name="Male Count"
                       dataKey="maleCount"
-                      stroke="#FF0000" // Color for existing male data
+                      stroke={colors[1]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for additional female forecast data */}
                     <Line
+                      hide={activeSeries.includes("femaleForecastCount")}
                       type="monotone"
+                      name="Forcested Female Count"
                       dataKey="femaleForecastCount"
-                      stroke="#FF00FF" // Color for additional female forecast data
+                      stroke={colors[2]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for additional male forecast data */}
                     <Line
+                      hide={activeSeries.includes("maleForecastCount")}
                       type="monotone"
+                      name="Forcested Male Count"
                       dataKey="maleForecastCount"
-                      stroke="#FFFFFF" // Color for additional male forecast data
+                      stroke={colors[3]}
                       strokeWidth={2}
                       dot={false}
                     />
-                    <Legend />
+                    <Legend
+                      onClick={(data) => handleLegendClick(data.dataKey)}
+                    />{" "}
                   </LineChart>
                 </ResponsiveContainer>
               )}
@@ -529,39 +563,48 @@ function ForecastPage() {
                     />
                     <XAxis dataKey="date" stroke="white" />
                     <YAxis stroke="white" />
-                    {/* Render line for existing female data */}
                     <Line
+                      hide={activeSeries.includes("femaleCount")}
                       type="monotone"
+                      name="Female Count"
                       dataKey="femaleCount"
-                      stroke="#FFFF42" // Color for existing female data
+                      stroke={colors[0]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for existing male data */}
                     <Line
+                      hide={activeSeries.includes("maleCount")}
                       type="monotone"
+                      name="Male Count"
                       dataKey="maleCount"
-                      stroke="#FF0000" // Color for existing male data
+                      stroke={colors[1]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for additional female forecast data */}
                     <Line
+                      hide={activeSeries.includes("femaleForecastCount")}
                       type="monotone"
+                      name="Forcested Female Count"
                       dataKey="femaleForecastCount"
-                      stroke="#FF00FF" // Color for additional female forecast data
+                      stroke={colors[2]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for additional male forecast data */}
                     <Line
+                      hide={activeSeries.includes("maleForecastCount")}
                       type="monotone"
+                      name="Forcested Male Count"
                       dataKey="maleForecastCount"
-                      stroke="#FFFFFF" // Color for additional male forecast data
+                      stroke={colors[3]}
                       strokeWidth={2}
                       dot={false}
                     />
-                    <Legend />
+                    <Legend
+                      onClick={(data) => handleLegendClick(data.dataKey)}
+                    />{" "}
                   </LineChart>
                 </ResponsiveContainer>
               )}
@@ -585,39 +628,48 @@ function ForecastPage() {
                     />
                     <XAxis dataKey="date" stroke="white" />
                     <YAxis stroke="white" />
-                    {/* Render line for existing female data */}
                     <Line
+                      hide={activeSeries.includes("femaleCount")}
                       type="monotone"
+                      name="Female Count"
                       dataKey="femaleCount"
-                      stroke="#FFFF42" // Color for existing female data
+                      stroke={colors[0]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for existing male data */}
                     <Line
+                      hide={activeSeries.includes("maleCount")}
                       type="monotone"
+                      name="Male Count"
                       dataKey="maleCount"
-                      stroke="#FF0000" // Color for existing male data
+                      stroke={colors[1]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for additional female forecast data */}
                     <Line
+                      hide={activeSeries.includes("femaleForecastCount")}
                       type="monotone"
+                      name="Forcested Female Count"
                       dataKey="femaleForecastCount"
-                      stroke="#FF00FF" // Color for additional female forecast data
+                      stroke={colors[2]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for additional male forecast data */}
                     <Line
+                      hide={activeSeries.includes("maleForecastCount")}
                       type="monotone"
+                      name="Forcested Male Count"
                       dataKey="maleForecastCount"
-                      stroke="#FFFFFF" // Color for additional male forecast data
+                      stroke={colors[3]}
                       strokeWidth={2}
                       dot={false}
                     />
-                    <Legend />
+                    <Legend
+                      onClick={(data) => handleLegendClick(data.dataKey)}
+                    />{" "}
                   </LineChart>
                 </ResponsiveContainer>
               )}
@@ -643,69 +695,95 @@ function ForecastPage() {
                     <YAxis stroke="white" />
                     {/* Render line for existing female data */}
                     <Line
+                      hide={activeSeries.includes("ZerotoFifteenAgeCount")}
                       type="monotone"
                       dataKey="ZerotoFifteenAgeCount"
-                      stroke="#FFFF42" // Color for existing female data
+                      name="0-15"
+                      stroke={colors[0]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for existing male data */}
                     <Line
+                      hide={activeSeries.includes(
+                        "ForecastZerotoFifteenAgeCount"
+                      )}
+                      type="monotone"
+                      dataKey="ForecastZerotoFifteenAgeCount"
+                      name="Forecasted 0-15"
+                      stroke={colors[4]}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                    <Line
+                      hide={activeSeries.includes("FifteentoThirtyAgeCount")}
                       type="monotone"
                       dataKey="FifteentoThirtyAgeCount"
-                      stroke="#FF0000" // Color for existing male data
+                      name="15-30"
+                      stroke={colors[1]}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                    <Line
+                      hide={activeSeries.includes(
+                        "ForecastFifteentoThirtyAgeCount"
+                      )}
+                      type="monotone"
+                      dataKey="ForecastFifteentoThirtyAgeCount"
+                      name="Forecasted 15-30"
+                      stroke={colors[5]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for additional female forecast data */}
                     <Line
+                      hide={activeSeries.includes("ThirtytoFourtyfiveAgeCount")}
                       type="monotone"
                       dataKey="ThirtytoFourtyfiveAgeCount"
-                      stroke="#FF0000" // Color for existing male data
+                      name="30-45"
+                      stroke={colors[2]}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                    <Line
+                      hide={activeSeries.includes(
+                        "ForecastThirtytoFourtyfiveAgeCount"
+                      )}
+                      type="monotone"
+                      dataKey="ForecastThirtytoFourtyfiveAgeCount"
+                      name="Forecasted 30-45"
+                      stroke={colors[6]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for additional female forecast data */}
                     <Line
+                      hide={activeSeries.includes("FourtyfivetoSixtyAgeCount")}
                       type="monotone"
                       dataKey="FourtyfivetoSixtyAgeCount"
-                      stroke="#FF0000" // Color for existing male data
+                      name="45-60"
+                      stroke={colors[3]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for existing female data */}
-                    <Line
-                      type="monotone"
-                      dataKey="ForecastZerotoFifteenAgeCount"
-                      stroke="#FFFF42" // Color for existing female data
-                      strokeWidth={2}
-                      dot={false}
-                    />
                     {/* Render line for existing male data */}
-                    <Line
-                      type="monotone"
-                      dataKey="ForecastFifteentoThirtyAgeCount"
-                      stroke="#FF0000" // Color for existing male data
-                      strokeWidth={2}
-                      dot={false}
-                    />
+                    {/* Render line for additional female forecast data */}
                     {/* Render line for additional female forecast data */}
                     <Line
+                      hide={activeSeries.includes(
+                        "ForecastFourtyfivetoSixtyAgeCount"
+                      )}
                       type="monotone"
-                      dataKey="ForecastThirtytoFourtyfiveAgeCount"
-                      stroke="#FF0000" // Color for existing male data
-                      strokeWidth={2}
-                      dot={false}
-                    />
-                    {/* Render line for additional female forecast data */}
-                    <Line
-                      type="monotone"
+                      name="Forecasted 45-60"
                       dataKey="ForecastFourtyfivetoSixtyAgeCount"
-                      stroke="#FF0000" // Color for existing male data
+                      stroke={colors[7]}
                       strokeWidth={2}
                       dot={false}
                     />
-                    <Legend />
+                    <Legend
+                      onClick={(data) => handleLegendClick(data.dataKey)}
+                    />{" "}
                   </LineChart>
                 </ResponsiveContainer>
               )}
@@ -731,69 +809,95 @@ function ForecastPage() {
                     <YAxis stroke="white" />
                     {/* Render line for existing female data */}
                     <Line
+                      hide={activeSeries.includes("ZerotoFifteenAgeCount")}
                       type="monotone"
                       dataKey="ZerotoFifteenAgeCount"
-                      stroke="#FFFF42" // Color for existing female data
+                      name="0-15"
+                      stroke={colors[0]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for existing male data */}
                     <Line
+                      hide={activeSeries.includes(
+                        "ForecastZerotoFifteenAgeCount"
+                      )}
+                      type="monotone"
+                      dataKey="ForecastZerotoFifteenAgeCount"
+                      name="Forecasted 0-15"
+                      stroke={colors[4]}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                    <Line
+                      hide={activeSeries.includes("FifteentoThirtyAgeCount")}
                       type="monotone"
                       dataKey="FifteentoThirtyAgeCount"
-                      stroke="#FF0000" // Color for existing male data
+                      name="15-30"
+                      stroke={colors[1]}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                    <Line
+                      hide={activeSeries.includes(
+                        "ForecastFifteentoThirtyAgeCount"
+                      )}
+                      type="monotone"
+                      dataKey="ForecastFifteentoThirtyAgeCount"
+                      name="Forecasted 15-30"
+                      stroke={colors[5]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for additional female forecast data */}
                     <Line
+                      hide={activeSeries.includes("ThirtytoFourtyfiveAgeCount")}
                       type="monotone"
                       dataKey="ThirtytoFourtyfiveAgeCount"
-                      stroke="#FF0000" // Color for existing male data
+                      name="30-45"
+                      stroke={colors[2]}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                    <Line
+                      hide={activeSeries.includes(
+                        "ForecastThirtytoFourtyfiveAgeCount"
+                      )}
+                      type="monotone"
+                      dataKey="ForecastThirtytoFourtyfiveAgeCount"
+                      name="Forecasted 30-45"
+                      stroke={colors[6]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for additional female forecast data */}
                     <Line
+                      hide={activeSeries.includes("FourtyfivetoSixtyAgeCount")}
                       type="monotone"
                       dataKey="FourtyfivetoSixtyAgeCount"
-                      stroke="#FF0000" // Color for existing male data
+                      name="45-60"
+                      stroke={colors[3]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for existing female data */}
-                    <Line
-                      type="monotone"
-                      dataKey="ForecastZerotoFifteenAgeCount"
-                      stroke="#FFFF42" // Color for existing female data
-                      strokeWidth={2}
-                      dot={false}
-                    />
                     {/* Render line for existing male data */}
-                    <Line
-                      type="monotone"
-                      dataKey="ForecastFifteentoThirtyAgeCount"
-                      stroke="#FF0000" // Color for existing male data
-                      strokeWidth={2}
-                      dot={false}
-                    />
+                    {/* Render line for additional female forecast data */}
                     {/* Render line for additional female forecast data */}
                     <Line
+                      hide={activeSeries.includes(
+                        "ForecastFourtyfivetoSixtyAgeCount"
+                      )}
                       type="monotone"
-                      dataKey="ForecastThirtytoFourtyfiveAgeCount"
-                      stroke="#FF0000" // Color for existing male data
-                      strokeWidth={2}
-                      dot={false}
-                    />
-                    {/* Render line for additional female forecast data */}
-                    <Line
-                      type="monotone"
+                      name="Forecasted 45-60"
                       dataKey="ForecastFourtyfivetoSixtyAgeCount"
-                      stroke="#FF0000" // Color for existing male data
+                      stroke={colors[7]}
                       strokeWidth={2}
                       dot={false}
                     />
-                    <Legend />
+                    <Legend
+                      onClick={(data) => handleLegendClick(data.dataKey)}
+                    />{" "}
                   </LineChart>
                 </ResponsiveContainer>
               )}
@@ -819,69 +923,95 @@ function ForecastPage() {
                     <YAxis stroke="white" />
                     {/* Render line for existing female data */}
                     <Line
+                      hide={activeSeries.includes("ZerotoFifteenAgeCount")}
                       type="monotone"
                       dataKey="ZerotoFifteenAgeCount"
-                      stroke="#FFFF42" // Color for existing female data
+                      name="0-15"
+                      stroke={colors[0]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for existing male data */}
                     <Line
+                      hide={activeSeries.includes(
+                        "ForecastZerotoFifteenAgeCount"
+                      )}
+                      type="monotone"
+                      dataKey="ForecastZerotoFifteenAgeCount"
+                      name="Forecasted 0-15"
+                      stroke={colors[4]}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                    <Line
+                      hide={activeSeries.includes("FifteentoThirtyAgeCount")}
                       type="monotone"
                       dataKey="FifteentoThirtyAgeCount"
-                      stroke="#FF0000" // Color for existing male data
+                      name="15-30"
+                      stroke={colors[1]}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                    <Line
+                      hide={activeSeries.includes(
+                        "ForecastFifteentoThirtyAgeCount"
+                      )}
+                      type="monotone"
+                      dataKey="ForecastFifteentoThirtyAgeCount"
+                      name="Forecasted 15-30"
+                      stroke={colors[5]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for additional female forecast data */}
                     <Line
+                      hide={activeSeries.includes("ThirtytoFourtyfiveAgeCount")}
                       type="monotone"
                       dataKey="ThirtytoFourtyfiveAgeCount"
-                      stroke="#FF0000" // Color for existing male data
+                      name="30-45"
+                      stroke={colors[2]}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                    <Line
+                      hide={activeSeries.includes(
+                        "ForecastThirtytoFourtyfiveAgeCount"
+                      )}
+                      type="monotone"
+                      dataKey="ForecastThirtytoFourtyfiveAgeCount"
+                      name="Forecasted 30-45"
+                      stroke={colors[6]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for additional female forecast data */}
                     <Line
+                      hide={activeSeries.includes("FourtyfivetoSixtyAgeCount")}
                       type="monotone"
                       dataKey="FourtyfivetoSixtyAgeCount"
-                      stroke="#FF0000" // Color for existing male data
+                      name="45-60"
+                      stroke={colors[3]}
                       strokeWidth={2}
                       dot={false}
                     />
                     {/* Render line for existing female data */}
-                    <Line
-                      type="monotone"
-                      dataKey="ForecastZerotoFifteenAgeCount"
-                      stroke="#FFFF42" // Color for existing female data
-                      strokeWidth={2}
-                      dot={false}
-                    />
                     {/* Render line for existing male data */}
-                    <Line
-                      type="monotone"
-                      dataKey="ForecastFifteentoThirtyAgeCount"
-                      stroke="#FF0000" // Color for existing male data
-                      strokeWidth={2}
-                      dot={false}
-                    />
+                    {/* Render line for additional female forecast data */}
                     {/* Render line for additional female forecast data */}
                     <Line
+                      hide={activeSeries.includes(
+                        "ForecastFourtyfivetoSixtyAgeCount"
+                      )}
                       type="monotone"
-                      dataKey="ForecastThirtytoFourtyfiveAgeCount"
-                      stroke="#FF0000" // Color for existing male data
-                      strokeWidth={2}
-                      dot={false}
-                    />
-                    {/* Render line for additional female forecast data */}
-                    <Line
-                      type="monotone"
+                      name="Forecasted 45-60"
                       dataKey="ForecastFourtyfivetoSixtyAgeCount"
-                      stroke="#FF0000" // Color for existing male data
+                      stroke={colors[7]}
                       strokeWidth={2}
                       dot={false}
                     />
-                    <Legend />
+                    <Legend
+                      onClick={(data) => handleLegendClick(data.dataKey)}
+                    />{" "}
                   </LineChart>
                 </ResponsiveContainer>
               )}
