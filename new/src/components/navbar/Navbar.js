@@ -6,7 +6,7 @@ function Navbar() {
     <div className="navbar">
       <div className="logo">
         <img src={logo} className='logo'  alt="" />
-        <span>Vigilant</span>
+        <span>VIGILANT</span>
       </div>
       <div className="icons">
         <img src="/search.svg" alt="" className="icon" />

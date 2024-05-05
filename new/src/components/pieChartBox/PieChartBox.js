@@ -39,10 +39,7 @@ function PieChartBox(props) {
               </div>
             ))}
           </div>
-          {props.moodOnly ? (<div className='mood'>
-            Our analysis shows that your customer exists happier than before
-
-          </div>): (<></>)}
+          
         </div>
       );
 }
