@@ -7,6 +7,8 @@ import BarChartBox from "../../components/barChart/BarChartBox";
 import GraphSettings from "../../components/graphSettings/GraphSettings";
 import OpenAPI from "../../components/openapi/OpenAPI";
 import { AuthContext } from "../../context/AuthContext";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import {
   LineChart,
   Line,
@@ -49,6 +51,7 @@ function ForecastPage() {
       setActiveSeries((prev) => [...prev, dataKey]);
     }
   };
+  
 
   useEffect(() => {
     const getData = async () => {
@@ -357,9 +360,35 @@ function ForecastPage() {
     })
   );
   const handleExportPDF = () => {
-    // Implement PDF export logic here
+    const input1 = document.getElementById('divToPrint1');
+    const input2 = document.getElementById('divToPrint2');
+  
+    const originalBackgroundColor1 = input1.style.backgroundColor;
+    const originalBackgroundColor2 = input2.style.backgroundColor;
+  
+    input1.style.backgroundColor = '#2a3447'; // Set the background color you want
+    input2.style.backgroundColor = '#2a3447'; // Set the background color you want
+  
+    const pdf = new jsPDF();
+    let imgHeight = 0;
+  
+    html2canvas(input1)
+      .then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        imgHeight = canvas.height * 208 / canvas.width;
+        pdf.addImage(imgData, 'JPEG', 0, 0, 208, imgHeight);
+        return html2canvas(input2);
+      })
+      .then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        pdf.addImage(imgData, 'JPEG', 0, imgHeight, 208, canvas.height * 208 / canvas.width);
+        pdf.save("download.pdf");
+      })
+      .finally(() => {
+        input1.style.backgroundColor = originalBackgroundColor1; // Restore the original background color
+        input2.style.backgroundColor = originalBackgroundColor2; // Restore the original background color
+      });
   };
-
   const handleExportCSV = () => {
     // Implement CSV export logic here
   };
@@ -399,16 +428,7 @@ function ForecastPage() {
           >
             Year
           </button>
-          <button
-            style={
-              timePeriod === "All"
-                ? { backgroundColor: "#008CBA", color: "white" }
-                : {}
-            }
-            onClick={() => setTimePeriod("All")}
-          >
-            All
-          </button>
+         
         </div>
       </div>
       <div className="box box1">
@@ -436,16 +456,7 @@ function ForecastPage() {
             Gender
           </button>
 
-          <button
-            style={
-              forecasttype === "Total"
-                ? { backgroundColor: "#008CBA", color: "white" }
-                : {}
-            }
-            onClick={() => setForecastType("Total")}
-          >
-            Total
-          </button>
+         
         </div>
       </div>
       <div className="box box2"></div>
@@ -457,10 +468,10 @@ function ForecastPage() {
           <MdInsertDriveFile />
         </button>
       </div>
-      <div className="box box4">
+      <div className="box box4" id="divToPrint2">
         <OpenAPI type="forecast_page" {...combinedDataAgeMonthly} />
       </div>
-      <div className="box box3">
+      <div className="box box3" id="divToPrint1">
         CHARTS
         <div>
           {isLoading ? (
