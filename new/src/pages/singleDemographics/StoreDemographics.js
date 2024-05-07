@@ -238,7 +238,7 @@ ages.forEach((age) => {
       </div>
 
       <div className="box box4">
-        <h1>Store: {storeName.toUpperCase()}</h1>{" "}
+        <h1>{storeName.toUpperCase()}</h1>{" "}
       </div>
       <div className="box box5">
         <BarChartBox {...ageAnalysis} />

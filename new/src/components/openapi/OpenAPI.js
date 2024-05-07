@@ -63,13 +63,13 @@ function OpenAPI(props) {
 </button>
   </div>
 
-      {sentiment !== ""
-        ? sentiment.split(".").map((sentence, index) => (
-            <div key={index} className="sentence">
-              {sentence.trim()}
-            </div>
-          ))
-        : <div className="centered"><CircleLoader color="#fff"  size={150} /></div>}
+  {sentiment !== ""
+  ? sentiment.split(".").filter(sentence => sentence.trim() !== "").map((sentence, index) => (
+      <div key={index} className="sentence">
+        {sentence.trim()}
+      </div>
+    ))
+  : <div className="centered"><CircleLoader color="#fff"  size={150} /></div>}
 
       
     </>

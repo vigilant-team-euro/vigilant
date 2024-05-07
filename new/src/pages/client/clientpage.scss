@@ -1,58 +1,116 @@
 @import "../../styles/variables.scss";
 @import "../../styles/responsive.scss";
 
-.client{
+.client {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-auto-rows: minmax(150px, auto);
+  grid-auto-flow: dense;
+  @include xl {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @include lg {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include md {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @include sm {
+    grid-auto-rows: minmax(120px, auto);
+  }
+  .box {
+    padding: 20px;
+    border-radius: 10px;
+    &:hover {
+      box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.5); // Add this line
+      
+    }
+    border: 1px solid $soft-bg;
+  }
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .button-container button {
+    background-color:$soft-bg;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    text-align: center;
+    width:85px;
+}
+  
+  .button-container button:hover {
+    background-color: #0088FE;
+    color: white;
+    border-radius: 20px;
+  }
+  .box1 {
+    grid-row: span 1;
+    grid-column: span 1;
+    background: linear-gradient(rgba(1, 1, 4, 0.812), rgba(49, 48, 65, 0.881)),
+      url("../../../public/timeperiod2.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
     
-    display:grid;
-    gap:20px;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-auto-rows: minmax(150px, auto);
-    grid-auto-flow: dense;
-    @include xl{
-        grid-template-columns: repeat(3, 1fr);
-      }
-      @include lg{
-        grid-template-columns: repeat(2, 1fr);
-      }
-      @include md {
-        grid-template-columns: repeat(1, 1fr);
-      }
-      @include sm {
-        grid-auto-rows: minmax(120px, auto);
-      }
-    .box{
-        padding: 20px;
-        border-radius: 10px;
-        &:hover{
-            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.5); // Add this line
-        }
-        border:1px solid $soft-bg;
-    }
+  }
+  .box7 {
+    grid-row: span 1;
+    grid-column: span 1;
+    background: linear-gradient(rgba(1, 1, 4, 0.812), rgba(49, 48, 65, 0.881)),
+      url("../../../public/totalcustomer.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 
-    .box1{
-        grid-row: span 1;
-        grid-column: span 1;
-    }
-    .box2{
-        grid-row: span 2;
-        grid-column: span 1;
-    }
-    .box3{
-        grid-row: span 2;
-        grid-column: span 2;
-    }
+  .box2 {
+    grid-row: span 2;
+    grid-column: span 1;
+    background: linear-gradient(rgba(1, 1, 4, 0.554), rgba(49, 48, 65, 0.881)),
+      url("../../../public/data.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .box3 {
+    grid-row: span 2;
+    grid-column: span 2;
+    background: linear-gradient(rgba(1, 1, 4, 0.896), rgba(86, 108, 170, 0.4)),
+      url("../../../public/mainPage.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 
-    .box4{
-        grid-row: span 2;
-        grid-column: span 2;
-    }
-    .box5{
-        grid-row: span 2;
-        grid-column: span 1;
-    }
-    .box6{
-        grid-row: span 2;
-        grid-column: span 1;
-    }
-    
+  .box4 {
+    grid-row: span 2;
+    grid-column: span 2;
+    background: linear-gradient(rgba(1, 1, 4, 0.456), rgba(47, 41, 54, 0.881));
+  }
+  .box5 {
+    grid-row: span 2;
+    grid-column: span 1;
+    background: linear-gradient(rgba(1, 1, 4, 0.59), rgba(47, 41, 54, 0.881)),
+      url("../../../public/data3.webp");
+
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .box6 {
+    grid-row: span 2;
+    grid-column: span 1;
+    background: linear-gradient(rgba(1, 1, 4, 0.59), rgba(47, 41, 54, 0.881)),
+      url("../../../public/gendergpt.webp");
+
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 }

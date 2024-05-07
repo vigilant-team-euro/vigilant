@@ -1,7 +1,7 @@
 import React from 'react'
 import { ResponsiveContainer, Treemap } from "recharts";
 import {  useNavigate } from 'react-router-dom';
-
+import "./treemap.scss";
 function TreeMapBox(props) {
     
     const navigate = useNavigate();
@@ -11,11 +11,12 @@ function TreeMapBox(props) {
       };
     
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%"  className="treemap">
           <Treemap
             data={props.storeRevenues}
             dataKey="size"
             stroke="#ddd"
+            
             fill="#4d5b77"
             onClick={handleClick}
           />

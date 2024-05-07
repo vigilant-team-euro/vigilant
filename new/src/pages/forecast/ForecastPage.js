@@ -77,7 +77,7 @@ function ForecastPage() {
     getData();
   }, []);
   console.log(forecast);
-  const [timePeriod, setTimePeriod] = useState("All");
+  const [timePeriod, setTimePeriod] = useState("Week");
   const [forecasttype, setForecastType] = useState("Gender");
   console.log("hello");
   function round(item) {

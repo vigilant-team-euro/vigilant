@@ -32,6 +32,11 @@
   .box1 {
     grid-row: span 2;
     grid-column: span 1;
+    background: linear-gradient(rgba(1, 1, 4, 0.59), rgba(47, 41, 54, 0.881)),
+      url("../../../public/data3.webp");
+
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   .box8 {
     grid-row: span 2;
@@ -40,22 +45,40 @@
   .box2 {
     grid-row: span 1;
     grid-column: span 1;
+    background: linear-gradient(rgba(1, 1, 4, 0.59), rgba(47, 41, 54, 0.881)),
+      url("../../../public/data3.webp");
+
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
   .box3 {
     grid-row: span 4;
     grid-column: span 2;
+    background: linear-gradient(rgba(1, 1, 4, 0.743), rgba(47, 41, 54, 0.881)),
+      url("../../../public/gendergpt.webp");
+
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
   .box4 {
     grid-row: span 5;
     grid-column: span 2;
+    background: linear-gradient(rgba(1, 1, 4, 0.896), rgba(86, 108, 170, 0.4)),
+      url("../../../public/mainPage.jpeg");
+    background-size: cover;
   }
   .box5 {
     grid-row: span 1;
     grid-column: span 1;
     display: flex;
     justify-content: space-between;
+    background: linear-gradient(rgba(1, 1, 4, 0.59), rgba(47, 41, 54, 0.881)),
+      url("../../../public/data3.webp");
+
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   .box5 button {
     width: 45%; // Adjusted to fit two buttons with space in between

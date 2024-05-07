@@ -193,7 +193,6 @@ ages.forEach((age) => {
 });
   const ageAnalysis = {
     title: "Customer Age",
-    color: "#FF8042",
     dataKey: "count",
     chartData: ageRanges,
   };
@@ -243,11 +242,11 @@ ages.forEach((age) => {
   return (
     <div className="client">
       <div className="box box1">
-        <div className="half">
+      <div className="button-container">
           <button
             style={
               timePeriod === "Week"
-                ? { backgroundColor: "#008CBA", color: "white" }
+                ? { backgroundColor: "#0088FE", color: "white" }
                 : {}
             }
             onClick={() => setTimePeriod("Week")}
@@ -257,7 +256,7 @@ ages.forEach((age) => {
           <button
             style={
               timePeriod === "Month"
-                ? { backgroundColor: "#008CBA", color: "white" }
+                ? { backgroundColor: "#0088FE", color: "white" }
                 : {}
             }
             onClick={() => setTimePeriod("Month")}
@@ -267,7 +266,7 @@ ages.forEach((age) => {
           <button
             style={
               timePeriod === "Year"
-                ? { backgroundColor: "#008CBA", color: "white" }
+                ? { backgroundColor: "#0088FE", color: "white" }
                 : {}
             }
             onClick={() => setTimePeriod("Year")}
@@ -277,19 +276,17 @@ ages.forEach((age) => {
           <button
             style={
               timePeriod === "All"
-                ? { backgroundColor: "#008CBA", color: "white" }
+                ? { backgroundColor: "#0088FE", color: "white" }
                 : {}
             }
             onClick={() => setTimePeriod("All")}
           >
-            All
+            All 
           </button>
                       
 
         </div>
-        <div className="half">
-          <GraphSettings id="general" />
-        </div>
+        
       </div>
       <div className="box box4">
         <TreeMapBox storeRevenues={storesData} />
